@@ -68,7 +68,7 @@ $conn==null;
   <div class="container py-3">
       <div class="row align-items-center" style="height: calc(100vh-2rem);">
         <div class="col-12 col-lg-5 ">
-          <img src="../images/menu/<?php echo $item['img'] ?>" class="img-edit" style="transform: scale(0.8);" alt="...">
+          <img src="images/menu/<?php echo $item['img'] ?>" class="img-edit" style="transform: scale(0.8);" alt="...">
         </div>
         <div class="col-12 col-lg-7">
           <form action="" method="post" class="row gy-4 mx-5">

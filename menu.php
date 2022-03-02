@@ -64,7 +64,7 @@ if(isset($_GET['id'])){
         <a href="includes/menu_new.php" class="card-link">
           <div class="card card-shadow">
             <img
-                src="../images/logo-only.png"
+                src="images/logo-only.png"
                 class="card-img-top"
                 alt=""
             />
@@ -94,7 +94,7 @@ if(isset($_GET['id'])){
                 <a href="menu.php?id='.$item['id'].'" class="card-link">
                   <div class="card card-shadow">
                     <img
-                        src="../images/menu/'.$item['img'].'"
+                        src="images/menu/'.$item['img'].'"
                         class="card-img-top"
                         alt="'.$item['name'].'"
                     />

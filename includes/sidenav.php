@@ -7,7 +7,7 @@
     <div class="l-navbar" id="nav-bar">
       <nav class="nav">
         <a href="/dinas/index.php" target="blank" class="nav_logo">
-          <i class="bx bx-layer nav_logo-icon"></i>
+          <i class="bx bx-home-alt nav_logo-icon"></i>
           <span class="nav_logo-name">Dina's Restaurant</span>
         </a>
         <div class="nav_list">
@@ -36,7 +36,7 @@
             <span class="nav_name">Reviews</span>
           </a>
         </div>
-        <a href="../includes/logout.php" class="nav_link">
+        <a href="includes/logout.php" class="nav_link">
           <i class="bx bx-log-out nav_icon" title="Sign Out"></i>
           <span class="nav_name">SignOut</span>
         </a>

@@ -90,3 +90,13 @@ input[type="file"] {
 .card-link:hover {
   color: var(--text);
 }
+
+.select {
+  color: var(--text);
+  height: 2rem;
+  opacity: 0.9;
+}
+
+.z-top {
+  z-index: 99999;
+}

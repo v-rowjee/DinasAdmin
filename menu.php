@@ -9,10 +9,7 @@ if(isset($_GET['id'])){
   <!--Container Main start-->
   <div class="container py-3">
     <div class="d-flex align-items-center align-middle">
-
-      <div class="me-auto">
-        <h2>Menu</h2>
-      </div>
+      <h2 class="me-auto">Menu</h2>
 
       <!-- SEARCH BAR -->
       <?php
@@ -33,8 +30,8 @@ if(isset($_GET['id'])){
         if($query->rowCount() == 0){
           $msg = '<p class="msg ms-0">No Search Result for: "'.$search.'"</p>';
         }
-      }
-      else{
+        
+      }else{
         // order by descending category (z-a) and descending id (most recent to oldest)
         $sql = "SELECT * FROM menu ORDER BY category DESC, name ASC"; 
         $query = $conn->prepare($sql);
@@ -50,9 +47,9 @@ if(isset($_GET['id'])){
           </button>
         </div>
 
-        <button type="submit" name="search-reset" class="input-group-text" title="Reset">
-          <i class='bx bx-refresh'></i>
-        </button>
+        <a href="includes/menu_new.php" class="input-group-text">
+          <i class="bx bx-plus"></i>
+        </a>
       </form>
               
     </div>
@@ -86,7 +83,7 @@ if(isset($_GET['id'])){
       </div>
       <!-- Edit selected item -->
     <?php  
-      echo $msg;
+      if($msg!='') echo $msg;
 
       while($item = $query->fetch(PDO::FETCH_ASSOC)){
           echo '

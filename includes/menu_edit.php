@@ -9,8 +9,9 @@ $item = $query->fetch(PDO::FETCH_ASSOC);
 if($query->rowCount() == 0)
   header('location: menu.php');
 
-// error message
-$msg = '';
+$msg = '';  // error message
+
+$conn->beginTransaction();  // begin transaction
 
 // UPDATE ITEM
 if(isset($_POST['save'])){
@@ -18,8 +19,6 @@ if(isset($_POST['save'])){
   // include 'includes/upload.php';
 
   // validation for all input
-
-  $conn->beginTransaction();
 
   $sql2 = "UPDATE menu SET name = :name , price = :price , caption = :desc , category = :category , img = :img WHERE id = :id";
   $query2 = $conn->prepare($sql2);
@@ -32,10 +31,12 @@ if(isset($_POST['save'])){
     ':img' => $_POST['img']
   ]);
 
-  $msg = "Record saved";
-  if($msg != ''){
-    $conn->commit();
+  $conn->commit();
 
+  $msg = "Record saved";
+
+  // to get saved values
+  if($msg != ''){
     $sql = "SELECT * FROM menu WHERE id = ?";
     $query = $conn->prepare($sql);
     $query -> execute([$_GET['id']]);
@@ -48,6 +49,8 @@ else if(isset($_POST['delete'])){
   $query3 = $conn->prepare($sql3);
   $query3->execute([$_GET['id']]);
 
+  $conn->commit();
+
   header('location: menu.php');
 }
 // CANCEL CHANGES
@@ -57,6 +60,8 @@ else if(isset($_POST['cancel'])){
     $query3 = $conn->prepare($sql3);
     $query3->execute([$_GET['id']]);
   }
+
+  $conn->commit();
 
   header('location: menu.php');
 }
@@ -106,7 +111,7 @@ $conn==null;
               <input type="text" name="img" class="form-control" value="<?php echo $item['img'] ?>">
             </div>
             <div class="col-3"><button type="submit" name="delete" class="btn btn-danger w-100"><i class='bx bx-trash'></i></button></div>
-            <div class="col-3"><button type="submit" name="cancel" class="btn btn-primary w-100">Cancel</button></div>
+            <div class="col-3"><button type="submit" name="cancel" class="btn btn-primary w-100">Back</button></div>
             <div class="col-6"><button type="submit" name="save" class="btn btn-primary w-100">Save</button></div>
       
           </form>

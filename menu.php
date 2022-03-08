@@ -3,7 +3,10 @@ $active= 'menu';
 include 'includes/header.php';
 
 if(isset($_GET['id'])){
-  include 'includes/menu_edit.php';
+  if($_GET['id'] == 'new')
+    include 'includes/menu_new.php';
+  else
+    include 'includes/menu_edit.php';
 }else{
 ?>
   <!--Container Main start-->
@@ -47,7 +50,7 @@ if(isset($_GET['id'])){
           </button>
         </div>
 
-        <a href="includes/menu_new.php" class="input-group-text">
+        <a href="menu.php?id=new" class="input-group-text">
           <i class="bx bx-plus"></i>
         </a>
       </form>
@@ -58,7 +61,7 @@ if(isset($_GET['id'])){
     <div class="row g-4 mt-3">
       <!-- Create new item -->
       <div class="col-sm-6 col-md-4 col-lg-3">
-        <a href="includes/menu_new.php" class="card-link">
+        <a href="menu.php?id=new" class="card-link">
           <div class="card card-shadow">
             <img
                 src="images/logo-only.png"
@@ -73,7 +76,7 @@ if(isset($_GET['id'])){
                 <p class="card-text">Add a new item to the menu now!</p>
                 <h6 class="price"></h6>
 
-                <a href="includes/menu_new.php" class="btn btn-primary float-none">
+                <a href="menu.php?id=new" class="btn btn-primary float-none">
                   Add <i class="bx bx-plus"></i>
                 </a>
 

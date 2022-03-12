@@ -130,5 +130,5 @@ if(isset($_GET['id'])){
   </div>
   <!--Container Main end-->
 <?php 
-}include 'includes/footer.php';
+}include 'includes/footer.php'; $conn == null;
 ?>

@@ -32,3 +32,15 @@ window.addEventListener("scroll", (e) => {
     nav.classList.remove("add-shadow");
   }
 });
+
+// Tooltip
+var tooltipTriggerList = [].slice.call(
+  document.querySelectorAll('[data-bs-toggle="tooltip"]')
+);
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl);
+});
+
+// Date picker
+let today = new Date().toISOString().substr(0, 10);
+document.querySelector("#datepicker").value = today;

@@ -91,12 +91,21 @@ input[type="file"] {
   color: var(--text);
 }
 
-.select {
+.form-select {
   color: var(--text);
-  height: 2rem;
   opacity: 0.9;
+  background-color: transparent;
+}
+.form-select option {
+  color: var(--text);
+  opacity: 0.9;
+  background-color: #222;
 }
 
 .z-top {
   z-index: 99;
+}
+
+.grey-filter {
+  filter: invert(1) grayscale(1);
 }

@@ -1,6 +1,6 @@
 <?php
 session_start();
 session_destroy();
-header("location: /dinasadmin/login.php");
+header("location: /dinasadmin/login.html");
 die();
 ?>

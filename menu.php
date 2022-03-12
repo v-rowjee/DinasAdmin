@@ -31,7 +31,7 @@ if(isset($_GET['id'])){
         $query->execute();
 
         if($query->rowCount() == 0){
-          $msg = '<p class="msg ms-0">No Search Result for: "'.$search.'"</p>';
+          $msg = '<div class="col align-self-center text-center"><p class="msg">No Search Result for: "'.$search.'"</p></div>';
         }
         
       }else{
@@ -64,14 +64,14 @@ if(isset($_GET['id'])){
         <a href="menu.php?id=new" class="card-link">
           <div class="card card-shadow">
             <img
-                src="images/logo-only.png"
+                src="images/menu/default.png"
                 class="card-img-top"
                 alt=""
             />
             <div class="card-img-overlay">
               <p class="item-cat">New</p>
             </div>
-            <div class="card-body text-center">
+            <div class="card-body">
                 <h5 class="card-title">New Item</h5>
                 <p class="card-text">Add a new item to the menu now!</p>
                 <h6 class="price"></h6>
@@ -88,33 +88,41 @@ if(isset($_GET['id'])){
     <?php  
       if($msg!='') echo $msg;
 
+      $filter = '';
+
       while($item = $query->fetch(PDO::FETCH_ASSOC)){
-          echo '
-              <div class="col-sm-6 col-md-4 col-lg-3">
-                <a href="menu.php?id='.$item['id'].'" class="card-link">
-                  <div class="card card-shadow">
-                    <img
-                        src="images/menu/'.$item['img'].'"
-                        class="card-img-top"
-                        alt="'.$item['name'].'"
-                    />
-                    <div class="card-img-overlay">
-                      <p class="item-cat">'.$item['category'].'</p>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">'.$item['name'].'</h5>
-                        <p class="card-text">'.$item['caption'].'</p>
-                        <h6 class="price">Rs '.$item['price'].'</h6>
 
-                        <a href="menu.php?id='.$item['id'].'" class="btn btn-primary">
-                          Edit <i class="bx bxs-edit-alt"></i>
-                        </a>
+        if($item['img'] == 'default.png')
+          $filter = 'grey-filter' ;
+        else
+          $filter = '';
 
-                    </div>
+        echo '
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <a href="menu.php?id='.$item['id'].'" class="card-link">
+                <div class="card card-shadow">
+                  <img
+                      src="images/menu/'.$item['img'].'"
+                      class="card-img-top '.$filter.'"
+                      alt="'.$item['name'].'"
+                  />
+                  <div class="card-img-overlay">
+                    <p class="item-cat">'.$item['category'].'</p>
                   </div>
-                </a>
-              </div>
-          ';
+                  <div class="card-body">
+                      <h5 class="card-title">'.$item['name'].'</h5>
+                      <p class="card-text">'.$item['caption'].'</p>
+                      <h6 class="price">Rs '.$item['price'].'</h6>
+
+                      <a href="menu.php?id='.$item['id'].'" class="btn btn-primary">
+                        Edit <i class="bx bxs-edit-alt"></i>
+                      </a>
+
+                  </div>
+                </div>
+              </a>
+            </div>
+        ';
       }
     ?>
     </div>

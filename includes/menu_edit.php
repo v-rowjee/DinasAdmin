@@ -19,6 +19,8 @@ if(isset($_POST['save'])){
   // include 'includes/upload.php';
 
   // validation for all input
+  if(!file_exists('images/menu/'.$_POST['img']))
+    $item['img'] = "default.jpg";
 
   $sql2 = "UPDATE menu SET name = :name , price = :price , caption = :desc , category = :category , img = :img WHERE id = :id";
   $query2 = $conn->prepare($sql2);

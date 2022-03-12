@@ -5,23 +5,33 @@ $name=''; $price='';$cat=''; $desc=''; $img='default.png'; $msg='';
 
 if(isset($_POST['create'])){
 
+    // INPUT VALIDATION
     // if user press save with no name as input
     if(empty($_POST['name'])){
         $msg = 'Enter item name!';
-    }
+    }else
+      $name = $_POST['name'];
+
     if(empty($_POST['category'])){ 
         $msg = 'Choose a category!';
-    }
-    if(empty($_POST['img'])){ 
-        $msg = 'Upload an image!';
-    }
+    }else 
+      $cat = $_POST['category'];
 
-    // validate input here
-    $name = $_POST['name'];
-    $price = $_POST['price'];
-    $cat = $_POST['category'];
-    $desc = $_POST['desc'];
-    $img = $_POST['img'];
+    if(empty($_POST['desc'])){ 
+        $desc = 'No description yet.';
+    }else 
+      $desc = $_POST['desc'];
+
+    if(empty($_POST['price'])){ 
+        $price = '0';
+    }else 
+      $price = $_POST['price'];
+
+    if(file_exists('images/menu/'.$_POST['img']))
+      $img = $_POST['img'];
+    else
+      $img = "default.png";
+
 
     if($msg==''){
         $sql = "INSERT INTO menu (name,price,caption,category,img) VALUES (:name,:price,:desc,:cat,:img) ";
@@ -72,7 +82,7 @@ else if(isset($_POST['discard']) || isset($_POST['delete'])){
             </div>
             <div class="col-12 col-lg-6">
               <label class="form-label" for="">Category</label>
-              <select class="form-select pt-1 bg-dark select" name="category">
+              <select class="form-select pt-1 select" name="category">
                 <option value="Starter">Starter</option>
                 <option value="Pasta" >Pasta</option>
                 <option value="Pizza" >Pizza</option>

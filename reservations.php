@@ -36,12 +36,12 @@ include 'includes/db_connect.php';
         <div class="row mb-5">
           <div class="col-12 col-md-2">
             <label class="form-label">Date</label>
-            <input type="date" class="form-control" name="date" id="datepicker">
+            <input type="date" class="form-control" name="date" value="<?php echo $date ?>">
           </div>
           <div class="col-12 col-md-2">
             <label class="form-label">Time</label>
             <select class="form-select" name="time">
-              <option <?php if($time == 'all') echo 'selected' ?>>View All</option>
+              <option value="all" <?php if($time == 'all') echo 'selected' ?>>View All</option>
               <option value="5" <?php if($time == '5') echo 'selected' ?>>5pm</option>
               <option value="6" <?php if($time == '6') echo 'selected' ?>>6pm</option>
               <option value="7" <?php if($time == '7') echo 'selected' ?>>7pm</option>
@@ -75,26 +75,38 @@ include 'includes/db_connect.php';
       </form>
       <div class="row g-5">
         <?php 
-          $whereDate =''; 
 
-          if($time != 'all')
-            $whereTime = ' AND time = '.$time;
-          else 
-            $whereTime = '';
-          
-          if($status != 'all')
-            $whereStatus = ' AND status = '.$status;
-          else 
-            $whereStatus = '';
+          if($time != 'all'){
+            $sql = "SELECT * FROM reservation r INNER JOIN users u ON u.id = r.uid WHERE date >= :date AND time = :time";
+            $query = $conn->prepare($sql);
+            $query->execute([
+              ':date' => $date,
+              ':time' => $time
+            ]);
+          }else if($status != 'all'){
+            $sql = "SELECT * FROM reservation r INNER JOIN users u ON u.id = r.uid WHERE date >= :date AND status = :status";
+            $query = $conn->prepare($sql);
+            $query->execute([
+              ':date' => $date,
+              ':status' => $status
+            ]);
+          }else if($status != 'all' && $time != 'all'){
+            $sql = "SELECT * FROM reservation r INNER JOIN users u ON u.id = r.uid WHERE date >= :date AND status = :status AND time = :time";
+            $query = $conn->prepare($sql);
+            $query->execute([
+              ':date' => $date,
+              ':status' => $status,
+              ':time' => $time
+            ]);
+          }else{
+            $sql = "SELECT * FROM reservation r INNER JOIN users u ON u.id = r.uid WHERE date = :date";
+            $query = $conn->prepare($sql);
+            $query->execute([
+              ':date' => $date
+            ]);
+          }
 
-          $sql1 = "SELECT * FROM reservation r INNER JOIN users u ON u.id = r.uid WHERE date = :date".$whereTime.$whereStatus;
-          $query1 = $conn->prepare($sql1);
-          $query1->execute([
-            ':status' => $status,
-            ':date' => $date
-          ]);
-
-          while($reservation = $query1->fetch(PDO::FETCH_ASSOC)){
+          while($reservation = $query->fetch(PDO::FETCH_ASSOC)){
         ?>
           <div class="card bg-dark shadow rounded">
             <div class="card-body">

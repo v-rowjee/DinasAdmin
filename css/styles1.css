@@ -23,18 +23,6 @@
   }
 }
 
-.form-control,
-.form-select {
-  height: 2rem;
-  border-color: #aaa;
-}
-.form-select::after {
-  color: white;
-}
-.form-select select {
-  background-color: transparent;
-  color: var(--text);
-}
 form {
   display: flex;
   flex-grow: 1;
@@ -108,4 +96,9 @@ input[type="file"] {
 
 .grey-filter {
   filter: invert(1) grayscale(1);
+}
+
+.form-select:disabled {
+  background-color: transparent;
+  opacity: 0.5;
 }

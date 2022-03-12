@@ -25,7 +25,7 @@ html {
   background: #000; /* color of the tracking area */
 }
 *::-webkit-scrollbar-thumb {
-  background-color: var(--text); /* color of the scroll thumb */
+  background-color: #888; /* color of the scroll thumb */
   opacity: 0.5;
 }
 
@@ -316,8 +316,25 @@ section:nth-of-type(odd) {
   outline: 0;
   box-shadow: 0 0 0 0.25rem var(--primary-dark);
 }
+.form-control,
+.form-select {
+  height: 2rem;
+  padding-top: 0.2rem;
+  vertical-align: middle;
+  border-color: #aaa;
+}
+.form-select::after {
+  color: white;
+}
+.form-select select {
+  background-color: transparent;
+  color: var(--text);
+}
 select.decorated option:hover {
   box-shadow: 0 0 10px 100px var(--primary-dark) inset;
+}
+option {
+  vertical-align: middle;
 }
 
 /* Navbar */
@@ -335,4 +352,34 @@ select.decorated option:hover {
 .scrolled-up {
   transform: translateY(0);
   transition: all 0.7s ease-in-out;
+}
+
+::-webkit-calendar-picker-indicator {
+  filter: invert(0.3);
+}
+
+/* Tables */
+td,
+th {
+  color: var(--text);
+  vertical-align: middle;
+}
+th {
+  opacity: 0.4;
+  font-weight: 500;
+}
+thead tr td {
+  color: var(--primary-light);
+  font-weight: 600;
+  font-style: italic;
+}
+table, .card-body{
+  overflow-x: scroll;
+}
+/* Scroll bar */
+.card-body::-webkit-scrollbar {
+  height: 5px; /* width of the entire scrollbar */
+}
+.card-body::-webkit-scrollbar-track {
+  background: #222; /* color of the tracking area */
 }

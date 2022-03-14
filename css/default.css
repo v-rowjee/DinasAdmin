@@ -373,7 +373,8 @@ thead tr td {
   font-weight: 600;
   font-style: italic;
 }
-table, .card-body{
+table,
+.card-body {
   overflow-x: scroll;
 }
 /* Scroll bar */
@@ -382,4 +383,18 @@ table, .card-body{
 }
 .card-body::-webkit-scrollbar-track {
   background: #222; /* color of the tracking area */
+}
+
+.bg-transparent {
+  background-color: transparent;
+}
+
+.h-2rem {
+  height: 2rem;
+}
+.vertical-align {
+  vertical-align: middle;
+}
+.btn-close{
+  filter: invert(1);
 }

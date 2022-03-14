@@ -1,7 +1,12 @@
 <?php 
+ob_start();
 $active= 'reservations';
 include 'includes/header.php';
 include 'includes/db_connect.php';
+
+if(isset($_GET['edit'])){
+  include 'includes/reservation-edit.php';
+}else{
 ?>
     <!--Container Main start-->
     <div class="container py-3">
@@ -35,7 +40,9 @@ include 'includes/db_connect.php';
       <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])?>" method="post" class="d-inline">
         <div class="row mb-5">
           <div class="col-12 col-md-2">
-            <label class="form-label">Date</label>
+            <div>
+              <label class="form-label">Date</label>
+            </div>
             <input type="date" class="form-control" name="date" value="<?php echo $date ?>">
           </div>
           <div class="col-12 col-md-2">
@@ -63,7 +70,7 @@ include 'includes/db_connect.php';
           </div>
           <div class="col-12 col-md-3"></div>
           <div class="col-12 col-md-3">
-            <label class="form-label">Search</label>
+            <label class="form-label">Search ID or Username</label>
             <div class="input-group mb-3 w-100">
               <input type="text" class="form-control d-inline" name="search">
               <button type="submit" name="search-reservation" class="input-group-text" title="Search">
@@ -75,38 +82,41 @@ include 'includes/db_connect.php';
       </form>
       <div class="row g-5">
         <?php 
-
-          if($time != 'all'){
-            $sql = "SELECT * FROM reservation r INNER JOIN users u ON u.id = r.uid WHERE date >= :date AND time = :time";
+          if($time == 'all' && $status == 'all'){
+            $sql = "SELECT * FROM reservation WHERE date >= :date ORDER BY date";
             $query = $conn->prepare($sql);
             $query->execute([
-              ':date' => $date,
-              ':time' => $time
+              ':date' => $date
             ]);
           }else if($status != 'all'){
-            $sql = "SELECT * FROM reservation r INNER JOIN users u ON u.id = r.uid WHERE date >= :date AND status = :status";
+            $sql = "SELECT * FROM reservation WHERE date = :date AND status = :status ORDER BY date";
             $query = $conn->prepare($sql);
             $query->execute([
               ':date' => $date,
               ':status' => $status
             ]);
-          }else if($status != 'all' && $time != 'all'){
-            $sql = "SELECT * FROM reservation r INNER JOIN users u ON u.id = r.uid WHERE date >= :date AND status = :status AND time = :time";
+          }else if($time != 'all'){
+            $sql = "SELECT * FROM reservation WHERE date = :date AND time = :time ORDER BY date";
+            $query = $conn->prepare($sql);
+            $query->execute([
+              ':date' => $date,
+              ':time' => $time
+            ]);
+          }else{
+            $sql = "SELECT * FROM reservation WHERE date = :date AND status = :status AND time = :time ORDER BY date";
             $query = $conn->prepare($sql);
             $query->execute([
               ':date' => $date,
               ':status' => $status,
               ':time' => $time
             ]);
-          }else{
-            $sql = "SELECT * FROM reservation r INNER JOIN users u ON u.id = r.uid WHERE date = :date";
-            $query = $conn->prepare($sql);
-            $query->execute([
-              ':date' => $date
-            ]);
           }
 
           while($reservation = $query->fetch(PDO::FETCH_ASSOC)){
+            $sql2 = "SELECT * FROM users WHERE id = ?";
+            $query2 = $conn->prepare($sql2);
+            $query2->execute([$reservation['uid']]);
+            $user = $query2->fetch(PDO::FETCH_ASSOC);
         ?>
           <div class="card bg-dark shadow rounded">
             <div class="card-body">
@@ -114,32 +124,27 @@ include 'includes/db_connect.php';
                   <thead class="card-header">
                     <tr>
                       <td scope="col">Reservation ID <?php echo $reservation['id'] ?></th>
-                      <td scope="col"></td>
                     </tr>
                   </thead>
                   <tbody>
                   <tr>
-                      <th scope="col" class="col-2">Date</th>
-                      <th scope="col" class="col-2">Time</th>
-                      <th scope="col" class="col-2">Booker</th>
-                      <th scope="col" class="col-2">Phone</th>
-                      <th scope="col" class="col-2">Guest</th>
-                      <th scope="col" class="col-2">Status</th>
-                    </tr>
-                  <tr> 
+                    <th scope="col" class="col-2">Date</th>
+                    <th scope="col" class="col-2">Time</th>
+                    <th scope="col" class="col-2">Booker</th>
+                    <th scope="col" class="col-2">Phone</th>
+                    <th scope="col" class="col-2">Guest</th>
+                    <th scope="col" class="col-2">Status</th>
+                    <th scope="col" class="col-2">Action</th>
+                  </tr>
+                  <tr>
                     <td><?php echo date("D, d M Y", strtotime($reservation['date'])) ?></td>
                     <td><?php echo $reservation['time'].'pm' ?></td>
-                    <td><?php echo $reservation['name'] ?></td>
-                    <td><?php echo $reservation['phone'] ?></td>
+                    <td><?php echo $user['name'] ?></td>
+                    <td><?php echo $user['phone'] ?></td>
                     <td><?php echo $reservation['party_size'] ?></td>
+                    <td class="text-capitalize"><?php echo $reservation['status'] ?></td>
                     <td>
-                    <select class="form-select" style="width: 10rem;" <?php if($reservation['status'] == 'cancelled') echo 'disabled' ?>>
-                      <option value="booked" <?php if($reservation['status'] == 'booked') echo 'selected' ?>>Booked</option>
-                      <option value="approved" <?php if($reservation['status'] == 'approved') echo 'selected' ?>>Approved</option>
-                      <option value="checked-in" <?php if($reservation['status'] == 'checked-in') echo 'selected' ?>>Checked In</option>
-                      <option value="checked-out" <?php if($reservation['status'] == 'checked-out') echo 'selected' ?>>Checked Out</option>
-                      <option value="cancelled" <?php if($reservation['status'] == 'cancelled') echo 'selected' ?>>Cancelled</option>
-                    </select>
+                      <a href="reservations.php?edit=<?php echo $reservation['id'] ?>" class="btn btn-primary">Edit</a>
                     </td>
                   </tr>
                 </tbody>
@@ -152,4 +157,4 @@ include 'includes/db_connect.php';
     </div>
     <!--Container Main end-->
     
-<?php include 'includes/footer.php' ?>
+<?php } include 'includes/footer.php'; $conn==null; ob_end_flush(); ?>

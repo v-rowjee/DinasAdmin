@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     if (toggle && nav && bodypd && headerpd) {
       toggle.addEventListener("click", () => {
         // show navbar
-        nav.classList.toggle("show");
+        nav.classList.toggle("show-nav");
         // change icon
         toggle.classList.toggle("bx-x");
         // add padding to body
@@ -44,3 +44,11 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 // Date picker
 let today = new Date().toISOString().substr(0, 10);
 document.querySelector("#datepicker").value = today;
+
+// Modal 
+var myModal = document.getElementById('myModal')
+var myInput = document.getElementById('myInput')
+
+myModal.addEventListener('shown.bs.modal', function () {
+  myInput.focus()
+})

@@ -1,6 +1,6 @@
 <?php 
 session_start();
-if($_SESSION['is_admin'] != 'yes'){ header('location: ../index.php'); die();}
+if($_SESSION['is_admin'] != 'yes'){ header('location: /dinas/index.php'); die();}
 ?>
 <!DOCTYPE html>
 <html lang="en">

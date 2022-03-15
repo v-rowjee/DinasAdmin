@@ -22,7 +22,7 @@ if(isset($_GET['edit'])){
       <hr>
       <?php
 
-        $date = date("Y-m-d"); $time = 'all'; $status = 'booked';
+        $date = date("Y-m-d"); $time = '%'; $status = '%';
 
         if(isset($_POST['search-reservation'])){
 
@@ -39,7 +39,7 @@ if(isset($_GET['edit'])){
       ?>
       <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])?>" method="post" class="d-inline">
         <div class="row mb-5">
-          <div class="col-12 col-md-2">
+          <div class="col-12 col-md-2 pe-1">
             <div>
               <label class="form-label">Date</label>
             </div>
@@ -48,7 +48,7 @@ if(isset($_GET['edit'])){
           <div class="col-12 col-md-2">
             <label class="form-label">Time</label>
             <select class="form-select" name="time">
-              <option value="all" <?php if($time == 'all') echo 'selected' ?>>View All</option>
+              <option value="%" <?php if($time == '%') echo 'selected' ?>>View All</option>
               <option value="5" <?php if($time == '5') echo 'selected' ?>>5pm</option>
               <option value="6" <?php if($time == '6') echo 'selected' ?>>6pm</option>
               <option value="7" <?php if($time == '7') echo 'selected' ?>>7pm</option>
@@ -60,12 +60,11 @@ if(isset($_GET['edit'])){
           <div class="col-12 col-md-2">
             <label class="form-label">Status</label>
             <select class="form-select" name="status">
-              <option value="all" <?php if($status == 'all') echo 'selected' ?>>&#x2630; View All</option>
+              <option value="%" <?php if($status == '%') echo 'selected' ?>>&#x2630; View All</option>
               <option value="booked" <?php if($status == 'booked') echo 'selected' ?>>&#x2691; Booked</option>
               <option value="approved" <?php if($status == 'approved') echo 'selected' ?>>&#x2714; Approved</option>
               <option value="check-in" <?php if($status == 'check-in') echo 'selected' ?>>&#x21e5; Check In</option>
               <option value="check-out" <?php if($status == 'check-out') echo 'selected' ?>>&#x21a4; Check Out</option>
-              <option value="cancelled" <?php if($status == 'cancelled') echo 'selected' ?>>&#x292B; Cancelled</option>
             </select>
           </div>
           <div class="col-12 col-md-3"></div>
@@ -82,35 +81,15 @@ if(isset($_GET['edit'])){
       </form>
       <div class="row g-5">
         <?php 
-          if($time == 'all' && $status == 'all'){
-            $sql = "SELECT * FROM reservation WHERE date >= :date ORDER BY date";
-            $query = $conn->prepare($sql);
-            $query->execute([
-              ':date' => $date
-            ]);
-          }else if($status != 'all'){
-            $sql = "SELECT * FROM reservation WHERE date = :date AND status = :status ORDER BY date";
-            $query = $conn->prepare($sql);
-            $query->execute([
-              ':date' => $date,
-              ':status' => $status
-            ]);
-          }else if($time != 'all'){
-            $sql = "SELECT * FROM reservation WHERE date = :date AND time = :time ORDER BY date";
-            $query = $conn->prepare($sql);
-            $query->execute([
-              ':date' => $date,
-              ':time' => $time
-            ]);
-          }else{
-            $sql = "SELECT * FROM reservation WHERE date = :date AND status = :status AND time = :time ORDER BY date";
+
+            $sql = "SELECT * FROM reservation WHERE date LIKE :date AND status LIKE :status AND time LIKE :time ORDER BY date,status";
             $query = $conn->prepare($sql);
             $query->execute([
               ':date' => $date,
               ':status' => $status,
               ':time' => $time
             ]);
-          }
+          
 
           while($reservation = $query->fetch(PDO::FETCH_ASSOC)){
             $sql2 = "SELECT * FROM users WHERE id = ?";

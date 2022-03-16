@@ -40,10 +40,6 @@ if(isset($_POST['save'])){
         ':id' => $_GET['edit']
     ]);
 
-    if($_POST['status'] == 'check-out'){
-        
-    }
-
     header('location: reservations.php');
 }
 

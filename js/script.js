@@ -45,10 +45,13 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 let today = new Date().toISOString().substr(0, 10);
 document.querySelector("#datepicker").value = today;
 
-// Modal 
-var myModal = document.getElementById('myModal')
-var myInput = document.getElementById('myInput')
+// Modal
+var myModal = document.getElementById("myModal");
+var myInput = document.getElementById("myInput");
 
-myModal.addEventListener('shown.bs.modal', function () {
-  myInput.focus()
-})
+myModal.addEventListener("shown.bs.modal", function () {
+  myInput.focus();
+});
+
+// Disable forms
+$("form").attr("autocomplete", "off");

@@ -5,7 +5,10 @@ include 'includes/header.php';
 include 'includes/db_connect.php';
 
 if(isset($_GET['edit'])){
-  include 'includes/reservation-edit.php';
+  if($_GET['edit'] == 'new')
+    include 'includes/reservation_new.php';
+  else
+    include 'includes/reservation_edit.php';
 }else{
 ?>
     <!--Container Main start-->
@@ -14,9 +17,9 @@ if(isset($_GET['edit'])){
           <div class="col-auto">
           <h2>Reservations</h2>
           </div>
-          <div class="col-auto col-md-3 text-end">
-            <a href="" class="btn btn-primary my-auto me-2" title="Export"><i class='bx bxs-download'></i></a>
-            <a href="/dinas/reservation.php" class="btn btn-primary my-auto">New Reservation</a>
+          <div class="col-auto col-md-4 text-end">
+            <a href="tables.php" class="btn btn-primary my-auto">View Table</a>
+            <a href="reservations.php?edit=new" class="btn btn-primary my-auto">New Reservation</a>
           </div>
       </div>
       <hr>
@@ -39,7 +42,7 @@ if(isset($_GET['edit'])){
 
 
       ?>
-      <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])?>" method="post" class="d-inline">
+      <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])?>" method="post" class="d-inline" >
         <div class="row mb-5">
           <div class="col-12 col-md-2 pe-1">
             <div>
@@ -69,22 +72,28 @@ if(isset($_GET['edit'])){
               <option value="check-out" <?php if($status == 'check-out') echo 'selected' ?>>&#x21a4; Check Out</option>
             </select>
           </div>
-          <div class="col-12 col-md-3"></div>
-          <div class="col-12 col-md-3">
-            <label class="form-label">Search ID or Username</label>
-            <div class="input-group mb-3 w-100">
+          <!-- <div class="col-12 col-md-3"></div> -->
+          <div class="col-12 col-md-2">
+            <label class="form-label">Search ID</label>
+            <input type="text" class="form-control d-inline" name="search" value="<?php echo $search ?>" placeholder="Search ID">
+            <!-- <div class="input-group mb-3 w-100">
               <input type="text" class="form-control d-inline" name="search" value="<?php echo $search ?>">
               <button type="submit" name="search-reservation" class="input-group-text" title="Search">
                 <i class='bx bx-search'></i>
               </button>
-            </div>
+            </div> -->
+          </div>
+          <div class="col-12 col-md-2"></div>
+          <div class="col-12 col-md-2">
+            <label class="form-label">Filter Search</label>
+            <button type="submit" name="search-reservation" class="btn btn-secondary h-2rem pt-1 w-100" ><i class='bx bx-search'></i></button>
           </div>
         </div>
       </form>
       <div class="row g-5">
         <?php 
 
-            $sql = "SELECT * FROM reservation WHERE uid LIKE :search AND date LIKE :date AND status LIKE :status AND time LIKE :time ORDER BY date,status";
+            $sql = "SELECT * FROM reservation WHERE uid LIKE :search AND date LIKE :date AND status LIKE :status AND time LIKE :time ORDER BY status";
             $query = $conn->prepare($sql);
             $query->execute([
               ':search' => $search.'%',

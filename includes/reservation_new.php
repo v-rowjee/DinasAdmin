@@ -1,49 +1,67 @@
 <?php
-$sql = "SELECT * FROM reservation WHERE id = ?";
-$query = $conn->prepare($sql);
-$query->execute([$_GET['edit']]);
-$reservation = $query->fetch(pdo::FETCH_ASSOC);
+    include 'db_connect.php';
 
-$sql = "SELECT * FROM users WHERE id = ?";
-$query = $conn->prepare($sql);
-$query->execute([$reservation['uid']]);
-$user = $query->fetch(pdo::FETCH_ASSOC);
+    $msg = ''; $uid = ''; $date = date("Y-m-d") ;$time = '5'; $guest = '2'; $status='booked';
 
-$uid =$user['id']; $date=$reservation['date'] ;$time=$reservation['time']; $guest=$reservation['party_size']; $status=$reservation['status'];
+    if(isset($_POST['create'])){
 
-if(isset($_POST['cancel'])){
-    header('location: reservations.php');
-}
-if(isset($_POST['delete'])){
-    $sql2 = "DELETE FROM reservation WHERE id = ?";
-    $query2 = $conn->prepare($sql2);
-    $query2->execute([$_GET['edit']]);
+        $uid =$_POST['uid']; $date=$_POST['date'] ;$time=$_POST['time']; $guest=$_POST['guest']; $status=$_POST['status'];
+        
+        $sql = "SELECT * FROM reservation WHERE uid = ?";
+        $query = $conn->prepare($sql);
+        $query->execute([$uid]);
+        if($query->rowCount() > 0)
+            $msg = 'User already has a reservation';
+        else{
+        
+        $tables_needed = ceil($guest/2);
+        // get num of reservation at input date and time
+        $sql1 = "SELECT * FROM res_tab WHERE rid = (SELECT id FROM reservation WHERE date = :date AND time = :time AND status <> :status)"; 
+        $result1 = $conn->prepare($sql1); 
+        $result1->execute([
+            ':date' => $date,
+            ':time' => $time,
+            ':status' => 'check-out'
+        ]); 
+        $num_of_reservations = $result1->rowCount();
+        // get num of tables 
+        $sql2 = "SELECT * FROM tables "; 
+        $result2 = $conn->prepare($sql2); 
+        $result2->execute(); 
+        $num_of_tables = $result2->rowCount();
+        if(($tables_needed+$num_of_reservations) > $num_of_tables) // if num of table not enough(restaurant full) when current reservation is added
+            $msg = "Restaurant full at this time";
+        else{
+            // if table available, add a new reservation
+            $sql5 = "INSERT INTO reservation (uid,party_size,date,time,status) VALUES (:uid,:size,:date,:time,:status)";
+            $result5 = $conn->prepare($sql5);
+            $result5->execute([
+                ':uid' => $uid,
+                ':size' => $guest,
+                ':date' => $date,
+                ':time' => $time,
+                ':status' => 'booked'
+            ]);
+            //  new rid
+            $newRID = $conn->lastInsertId();
+            // put n rows for n table needed
+            $sql3 = "INSERT INTO res_tab (rid, tid) VALUES (:rid,:tid)";
+            $result3 = $conn->prepare($sql3);
+            
+            for($i=0; $i < $tables_needed; $i++){
+                $result3->execute([
+                    ':rid' => $newRID,
+                    ':tid' => $num_of_reservations+1+$i
+                ]); 
+            }
+            header('location: reservations.php');
+        }
+    }
 
-    $sql3 = "DELETE FROM res_tab WHERE rid = ?";
-    $query3 = $conn->prepare($sql3);
-    $query3->execute([$_GET['edit']]);
-    
-    header('location: reservations.php');
-}
-if(isset($_POST['save'])){
-
-    $uid =$_POST['uid']; $date=$_POST['date'] ;$time=$_POST['time']; $guest=$_POST['guest']; $status=$_POST['status'];
-
-    $sql2 = "UPDATE reservation SET uid=:uid, date=:date, time=:time, party_size=:guest, status=:status WHERE id = :id";
-    $query2 = $conn->prepare($sql2);
-    $query2->execute([
-        ':uid' => $uid,
-        ':date'=> $date,
-        ':time'=> $time,
-        ':guest'=> $guest,
-        ':status'=> $status,
-        ':id' => $_GET['edit']
-    ]);
-
-    header('location: reservations.php');
-}
-
-
+    }
+    if(isset($_POST['discard'])){
+        header('location: reservations.php');
+    }
 ?>
 
 <div class="container pt-4">
@@ -81,15 +99,15 @@ if(isset($_POST['save'])){
                         </div>
                         <div class="col-12 col-md-4">
                             <label class="form-label">Phone</label>
-                            <input type="text" class="form-control bg-transparent" value="<?php echo $user['phone'] ?>" disabled>
+                            <input type="text" class="form-control bg-transparent" value="" disabled>
                         </div>
                         <div class="col-12 col-md-6">
                             <label class="form-label">Name</label>
-                            <input type="text" class="form-control bg-transparent" value="<?php echo $user['name'] ?>" disabled>
+                            <input type="text" class="form-control bg-transparent" value="" disabled>
                         </div>
                     </div>
 
-                    <div class="row mb-5">
+                    <div class="row">
                         <div class="col-12 col-md-6">
                             <label class="form-label">Guest</label>
                             <input type="number" name="guest" class="form-control" value="<?php echo $guest ?>" min=0>
@@ -104,15 +122,13 @@ if(isset($_POST['save'])){
                             </select>
                         </div>
                     </div>
+                    <div class="row gy-1 msg"><?php echo $msg ?></div>
                     <div class="row mb-3 gy-1">
-                        <div class="col-12 col-md-3">
-                            <button type="submit" name="cancel" class="btn btn-secondary w-100">Cancel</button>
-                        </div>
-                        <div class="col-12 col-md-3">
-                            <button type="submit" name="delete" class="btn btn-danger w-100">Delete</button>
+                        <div class="col-12 col-md-6">
+                            <button type="submit" name="discard" class="btn btn-danger w-100">Discard</button>
                         </div>
                         <div class="col-12 col-md-6">
-                            <button type="submit" name="save" class="btn btn-primary w-100">Save changes</button>
+                            <button type="submit" name="create" class="btn btn-primary w-100">Create New</button>
                         </div>
                     </div>
 

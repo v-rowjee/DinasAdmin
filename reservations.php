@@ -22,7 +22,7 @@ if(isset($_GET['edit'])){
       <hr>
       <?php
 
-        $date = date("Y-m-d"); $time = '%'; $status = '%';
+        $date = date("Y-m-d"); $time = '%'; $status = '%'; $search = '';
 
         if(isset($_POST['search-reservation'])){
 
@@ -32,6 +32,8 @@ if(isset($_GET['edit'])){
           $time = $_POST['time'];
 
           $status = $_POST['status'];
+
+          $search = $_POST['search'];
 
         }
 
@@ -71,7 +73,7 @@ if(isset($_GET['edit'])){
           <div class="col-12 col-md-3">
             <label class="form-label">Search ID or Username</label>
             <div class="input-group mb-3 w-100">
-              <input type="text" class="form-control d-inline" name="search">
+              <input type="text" class="form-control d-inline" name="search" value="<?php echo $search ?>">
               <button type="submit" name="search-reservation" class="input-group-text" title="Search">
                 <i class='bx bx-search'></i>
               </button>
@@ -82,9 +84,10 @@ if(isset($_GET['edit'])){
       <div class="row g-5">
         <?php 
 
-            $sql = "SELECT * FROM reservation WHERE date LIKE :date AND status LIKE :status AND time LIKE :time ORDER BY date,status";
+            $sql = "SELECT * FROM reservation WHERE uid LIKE :search AND date LIKE :date AND status LIKE :status AND time LIKE :time ORDER BY date,status";
             $query = $conn->prepare($sql);
             $query->execute([
+              ':search' => $search.'%',
               ':date' => $date,
               ':status' => $status,
               ':time' => $time

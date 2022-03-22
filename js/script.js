@@ -42,16 +42,17 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 });
 
 // Date picker
-let today = new Date().toISOString().substr(0, 10);
-document.querySelector("#datepicker").value = today;
+// let today = new Date().toISOString().substr(0, 10);
+// document.querySelector("#datepicker").value = today;
 
 // Modal
 var myModal = document.getElementById("myModal");
 var myInput = document.getElementById("myInput");
 
+// Disable forms
+$("form").attr("autocomplete", "off");
+
+// Bootstrap modal
 myModal.addEventListener("shown.bs.modal", function () {
   myInput.focus();
 });
-
-// Disable forms
-$("form").attr("autocomplete", "off");

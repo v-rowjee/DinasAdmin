@@ -26,7 +26,6 @@
 form {
   display: flex;
   flex-grow: 1;
-  justify-content: flex-end;
 }
 
 /* MENU */
@@ -103,3 +102,6 @@ input[type="file"] {
   opacity: 0.5;
 }
 
+.badges {
+  padding: 0.5rem;
+}

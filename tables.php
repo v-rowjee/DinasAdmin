@@ -8,13 +8,14 @@ include 'includes/db_connect.php';
     <div class="container py-3">
         <div class="row justify-content-between align-items-center mb-3">
             <div class="col">
-            <h2>Tables</h2>
+            <h2><a href="reservations.php" style="color: #888;">Reservations</a> / Tables</h2>
             </div>
-            <div class="col">
-                <!-- SEARCH BAR -->
+        </div>
+        <div class="row mb-3">
+            <!-- SEARCH RES_TAB -->
+            <div class="col-12 col-md-6">
                 <?php
-                include_once 'includes/db_connect.php';
-                $search = ''; $search2 = "";
+                $search = '';;
                 $msg = "";
 
                 if(isset($_POST['search-rid']) && isset($_POST['search-input-rid'])){
@@ -35,56 +36,17 @@ include 'includes/db_connect.php';
                     $query = $conn->prepare($sql);
                     $query->execute();
                 }
-
-                if(isset($_POST['search-tables']) && isset($_POST['search-input'])){
-                    $msg = "";
-
-                    $search2 = $_POST['search-input'];
-
-                    $sql2 = "SELECT * FROM tables WHERE tab_num LIKE :search_num OR placement = :search_pla ORDER BY tab_num, placement";
-                    $query2 = $conn->prepare($sql2);
-                    $query2->bindValue(':search_num', '%' . $search2 . '%');
-                    $query2->bindParam(':search_pla',$search2);
-                    $query2->execute();
-
-                    if($query2->rowCount() == 0){
-                     $msg = '<div class="col align-self-center text-center"><p class="msg">No Search Result for: "'.$search2.'"</p></div>';
-                    }
-                    
-                }else{
-                    $sql2 = "SELECT * FROM tables ORDER BY tab_num, placement"; 
-                    $query2 = $conn->prepare($sql2);
-                    $query2->execute();
-                }
                 ?>
-                <!-- SEARCH BAR -->
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])?>" method="post">
-                    
-                    <div class="input-group me-3 w-50">
+                    <div class="input-group ms-1 w-50">
                         <input type="text" name="search-input-rid" class="form-control" placeholder="Search res. id" value="<?php echo $search ?>">
                         <button type="submit" name="search-rid" class="input-group-text" title="Search">
                             <i class='bx bx-search'></i>
                         </button>
                     </div>
-
-                    <div class="input-group me-3 w-50">
-                        <input type="text" name="search-input" class="form-control" placeholder="Search table" value="<?php echo $search2 ?>">
-                        <button type="submit" name="search-tables" class="input-group-text" title="Search">
-                            <i class='bx bx-search'></i>
-                        </button>
-                    </div>
-
-                    <!-- <a href="tables.php?id=new" class="input-group-text">
-                    <i class="bx bx-plus"></i>
-                    </a> -->
                 </form>
-            </div>
-        </div>
-        
-        <!-- RES_TAB -->
-        <div class="row text-center">
-            <div class="col-12 col-md-6">
-                <div class="card bg-dark shadow">
+                <!-- RES_TAB -->
+                <div class="card bg-dark shadow mt-3 text-center">
                     <div class="card-body" style="overflow-x: hidden;">
                         <table class="table table-dark table-borderless table-hover">
                             <thead>
@@ -107,9 +69,49 @@ include 'includes/db_connect.php';
                     </div>
                 </div>
             </div>
-        <!-- TABLES -->
+            <!-- SEARCH TABLES -->
             <div class="col-12 col-md-6">
-                <div class="card bg-dark shadow">
+                <!-- SEARCH BAR -->
+                <?php
+                $search2 = "";
+                $msg = "";
+
+                if(isset($_POST['search-tables']) && isset($_POST['search-input'])){
+                    $msg = "";
+
+                    $search2 = $_POST['search-input'];
+
+                    $sql2 = "SELECT * FROM tables WHERE tab_num LIKE :search_num OR placement = :search_pla ORDER BY tab_num, placement";
+                    $query2 = $conn->prepare($sql2);
+                    $query2->bindValue(':search_num', '%' . $search2 . '%');
+                    $query2->bindParam(':search_pla',$search2);
+                    $query2->execute();
+
+                    if($query2->rowCount() == 0){
+                     $msg = '<div class="col align-self-center text-center"><p class="msg">No Search Result for: "'.$search2.'"</p></div>';
+                    }
+                    
+                }else{
+                    $sql2 = "SELECT * FROM tables ORDER BY tab_num, placement"; 
+                    $query2 = $conn->prepare($sql2);
+                    $query2->execute();
+                }
+                ?>
+
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])?>" method="post">
+                    <div class="input-group w-50 ms-auto me-3">
+                        <input type="text" name="search-input" class="form-control" placeholder="Search table" value="<?php echo $search2 ?>">
+                        <button type="submit" name="search-tables" class="input-group-text" title="Search">
+                            <i class='bx bx-search'></i>
+                        </button>
+                    </div>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-outline-secondary h-2rem" title="Add New Table" data-bs-toggle="modal" data-bs-target="#addTable">
+                        <i class="bx bx-plus"></i>
+                    </button>
+                </form>
+
+                <div class="card bg-dark shadow mt-3 text-center">
                     <div class="card-body" style="overflow-x: hidden;">
                         <table class="table table-dark table-borderless table-hover">
                             <thead>
@@ -133,6 +135,20 @@ include 'includes/db_connect.php';
                         </table>
                     </div>
                 </div>
+                
+            </div>
+        </div>
+    </div>
+    <!--Container Main end-->
+    <!-- Modal -->
+    <div class="modal fade" id="addTable" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New Table</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
                 <!-- Add new table -->
                 <?php
                     $tnum = ''; $place='inside'; $msg ='';
@@ -190,5 +206,4 @@ include 'includes/db_connect.php';
             </div>
         </div>
     </div>
-    <!--Container Main end-->
 <?php include 'includes/footer.php'; ob_end_flush(); ?>

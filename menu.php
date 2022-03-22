@@ -42,15 +42,15 @@ if(isset($_GET['id'])){
       }
       ?>
       <!-- SEARCH BAR -->
-      <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])?>" method="post">
-        <div class="input-group me-3">
+      <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])?>" method="post" class="flex-row-reverse">
+        <div class="input-group">
           <input type="text" name="search-input" class="form-control" placeholder="Search item" value="<?php echo $search ?>">
           <button type="submit" name="search-menu" class="input-group-text" title="Search">
             <i class='bx bx-search'></i>
           </button>
         </div>
 
-        <a href="menu.php?id=new" class="input-group-text">
+        <a href="menu.php?id=new" class="input-group-text me-3">
           <i class="bx bx-plus"></i>
         </a>
       </form>

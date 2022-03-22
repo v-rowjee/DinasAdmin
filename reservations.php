@@ -25,12 +25,17 @@ if(isset($_GET['edit'])){
       <hr>
       <?php
 
-        $date = date("Y-m-d"); $time = '%'; $status = '%'; $search = '';
+        $date = date("Y-m-d"); $time = '%'; $status = '%'; $search = ''; $search_res='';$allDates='checked';
 
         if(isset($_POST['search-reservation'])){
 
           $dateInput = $_POST['date'];
           $date = date("Y-m-d", strtotime($dateInput));
+
+          if(isset($_POST['allDates']))
+            $allDates = $_POST['allDates'];
+          else
+            unset($allDates);
 
           $time = $_POST['time'];
 
@@ -38,17 +43,19 @@ if(isset($_GET['edit'])){
 
           $search = $_POST['search'];
 
+          $search_res = $_POST['search-res'];
+
         }
-
-
       ?>
       <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])?>" method="post" class="d-inline" >
         <div class="row mb-5">
           <div class="col-12 col-md-2 pe-1">
-            <div>
-              <label class="form-label">Date</label>
-            </div>
+            <label class="form-label">Date</label>
             <input type="date" class="form-control" name="date" value="<?php echo $date ?>">
+            <div class="form-check form-switch mt-2">
+            <input class="form-check-input" type="checkbox" name="allDates" value="checked" <?php if(isset($allDates))echo 'checked' ?>>
+            <label class="form-check-label">Show all date</label>
+          </div>
           </div>
           <div class="col-12 col-md-2">
             <label class="form-label">Time</label>
@@ -72,16 +79,13 @@ if(isset($_GET['edit'])){
               <option value="check-out" <?php if($status == 'check-out') echo 'selected' ?>>&#x21a4; Check Out</option>
             </select>
           </div>
-          <!-- <div class="col-12 col-md-3"></div> -->
-          <div class="col-12 col-md-2">
-            <label class="form-label">Search ID</label>
-            <input type="text" class="form-control d-inline" name="search" value="<?php echo $search ?>" placeholder="Search ID">
-            <!-- <div class="input-group mb-3 w-100">
-              <input type="text" class="form-control d-inline" name="search" value="<?php echo $search ?>">
-              <button type="submit" name="search-reservation" class="input-group-text" title="Search">
-                <i class='bx bx-search'></i>
-              </button>
-            </div> -->
+          <div class="col-6 col-md-1">
+            <label class="form-label">Res. ID</label>
+            <input type="number" class="form-control d-inline" name="search-res" value="<?php echo $search_res ?>">
+          </div>
+          <div class="col-6 col-md-1">
+            <label class="form-label">User ID</label>
+            <input type="number" class="form-control d-inline" name="search" value="<?php echo $search ?>">
           </div>
           <div class="col-12 col-md-2"></div>
           <div class="col-12 col-md-2">
@@ -93,14 +97,19 @@ if(isset($_GET['edit'])){
       <div class="row g-5">
         <?php 
 
-            $sql = "SELECT * FROM reservation WHERE uid LIKE :search AND date LIKE :date AND status LIKE :status AND time LIKE :time ORDER BY status";
-            $query = $conn->prepare($sql);
-            $query->execute([
-              ':search' => $search.'%',
-              ':date' => $date,
-              ':status' => $status,
-              ':time' => $time
-            ]);
+          $tempDate = $date;
+          if(isset($allDates))
+            $tempDate = '%';
+
+          $sql = "SELECT * FROM reservation WHERE id LIKE :search_res AND uid LIKE :search AND date LIKE :date AND status LIKE :status AND time LIKE :time ORDER BY status";
+          $query = $conn->prepare($sql);
+          $query->execute([
+            ':search_res' => $search_res.'%',
+            ':search' => $search.'%',
+            ':date' => $tempDate,
+            ':status' => $status,
+            ':time' => $time
+          ]);
           
 
           while($reservation = $query->fetch(PDO::FETCH_ASSOC)){
@@ -133,7 +142,14 @@ if(isset($_GET['edit'])){
                     <td><?php echo $user['name'] ?></td>
                     <td><?php echo $user['phone'] ?></td>
                     <td><?php echo $reservation['party_size'] ?></td>
-                    <td class="text-capitalize"><?php echo $reservation['status'] ?></td>
+                    <td class="text-capitalize text-dark mt-2
+                    <?php 
+                      if($reservation['status'] == 'booked') echo 'badge bg-danger';
+                      if($reservation['status'] == 'approved') echo 'badge bg-success';
+                      if($reservation['status'] == 'check-in') echo 'badge bg-info';
+                      if($reservation['status'] == 'check-out') echo 'badge bg-secondary';
+
+                    ?>"><?php echo $reservation['status'] ?></td>
                     <td>
                       <a href="reservations.php?edit=<?php echo $reservation['id'] ?>" class="btn btn-primary">Edit</a>
                     </td>

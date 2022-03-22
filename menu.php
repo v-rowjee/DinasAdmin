@@ -64,7 +64,8 @@ if(isset($_GET['id'])){
         <a href="menu.php?id=new" class="card-link">
           <div class="card card-shadow">
             <img
-                src="images/menu/default.png"
+                src="images/menu/default.jpg"
+                style="filter: invert(1);"
                 class="card-img-top"
                 alt=""
             />
@@ -92,18 +93,13 @@ if(isset($_GET['id'])){
 
       while($item = $query->fetch(PDO::FETCH_ASSOC)){
 
-        if($item['img'] == 'default.png')
-          $filter = 'grey-filter' ;
-        else
-          $filter = '';
-
         echo '
             <div class="col-sm-6 col-md-4 col-lg-3">
               <a href="menu.php?id='.$item['id'].'" class="card-link">
                 <div class="card card-shadow">
                   <img
                       src="images/menu/'.$item['img'].'"
-                      class="card-img-top '.$filter.'"
+                      class="card-img-top"
                       alt="'.$item['name'].'"
                   />
                   <div class="card-img-overlay">

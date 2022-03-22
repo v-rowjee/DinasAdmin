@@ -1,7 +1,7 @@
 <?php 
 include 'db_connect.php';
 
-$name=''; $price='';$cat=''; $desc=''; $img='default.png'; $msg='';
+$name=''; $price='';$cat=''; $desc=''; $img='default.jpg'; $msg='';
 
 if(isset($_POST['create'])){
 
@@ -30,7 +30,7 @@ if(isset($_POST['create'])){
     if(file_exists('images/menu/'.$_POST['img']))
       $img = $_POST['img'];
     else
-      $img = "default.png";
+      $img = "default.jpg";
 
 
     if($msg==''){
@@ -49,7 +49,7 @@ if(isset($_POST['create'])){
         header('location: menu.php?id='.$newID);
     }
 }
-else if(isset($_POST['discard']) || isset($_POST['delete'])){
+else if(isset($_POST['discard'])){
     header('location: menu.php');
 }
 
@@ -78,7 +78,7 @@ else if(isset($_POST['discard']) || isset($_POST['delete'])){
             </div>
             <div class="col-12">
               <label class="form-label" for="">Description</label>
-              <textarea class="form-control" name="desc" style="height: 4rem;"><?php echo $desc ?></textarea>
+              <textarea class="form-control" name="desc" maxlength="100" style="height: 4rem;"><?php echo $desc ?></textarea>
             </div>
             <div class="col-12 col-lg-6">
               <label class="form-label" for="">Category</label>
@@ -92,10 +92,9 @@ else if(isset($_POST['discard']) || isset($_POST['delete'])){
             </div>
             <div class="col-12 col-lg-6 mb-5">
               <label class="form-label" for="">Image URL</label>
-              <input type="text" name="img" class="form-control" placeholder="default.png" value="<?php echo $img ?>">
+              <input type="text" name="img" class="form-control" placeholder="default.jpg" value="<?php echo $img ?>">
             </div>
-            <div class="col-3"><button type="submit" name="delete" class="btn btn-danger w-100"><i class='bx bx-trash'></i></button></div>
-            <div class="col-3"><button type="submit" name="discard" class="btn btn-primary w-100">Discard</button></div>
+            <div class="col-6"><button type="submit" name="discard" class="btn btn-danger w-100">Discard</button></div>
             <div class="col-6"><button type="submit" name="create" class="btn btn-primary w-100">Save</button></div>
       
           </form>

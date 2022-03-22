@@ -385,9 +385,9 @@ table,
   background: #222; /* color of the tracking area */
 }
 
-.bg-transparent {
+/* .bg-transparent {
   background-color: transparent;
-}
+} */
 
 .h-2rem {
   height: 2rem;

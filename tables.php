@@ -3,6 +3,15 @@ ob_start();
 $active= 'tables'; 
 include_once 'includes/header.php';
 include 'includes/db_connect.php';
+
+if(isset($_GET['dlt'])){
+
+    $sql = "DELETE FROM tables WHERE id = ?";
+    $query = $conn->prepare($sql);
+    $query->execute([$_GET['dlt']]);
+
+    header('location: tables.php');
+}else{
 ?>
     <!--Container Main start-->
     <div class="container py-3">
@@ -13,7 +22,7 @@ include 'includes/db_connect.php';
         </div>
         <div class="row mb-3">
             <!-- SEARCH RES_TAB -->
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-6 mt-3">
                 <?php
                 $search = '';;
                 $msg = "";
@@ -23,16 +32,20 @@ include 'includes/db_connect.php';
 
                     $search = $_POST['search-input-rid'];
 
-                    $sql = "SELECT * FROM res_tab WHERE rid LIKE ? ";
-                    $query = $conn->prepare($sql);
-                    $query->execute([$search]);
+                    $tempSearch = $search;
+                    if($tempSearch == '')
+                        $tempSearch = '%';
 
-                    if($query->rowCount() == 0){
+                    $sql = "SELECT * FROM res_tab WHERE rid LIKE ? ORDER BY rid";
+                    $query = $conn->prepare($sql);
+                    $query->execute([$tempSearch]);
+
+                    if($query->rowCount() == 0 && isset($search2)){
                      $msg = '<div class="col align-self-center text-center"><p class="msg">No Search Result for: "'.$search2.'"</p></div>';
                     }
 
                 }else{
-                    $sql = "SELECT * FROM res_tab"; 
+                    $sql = "SELECT * FROM res_tab ORDER BY rid"; 
                     $query = $conn->prepare($sql);
                     $query->execute();
                 }
@@ -53,7 +66,7 @@ include 'includes/db_connect.php';
                                 <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Res. ID</th>
-                                <th scope="col">Tab. ID(s)</th>
+                                <th scope="col">Tab. ID</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -70,7 +83,7 @@ include 'includes/db_connect.php';
                 </div>
             </div>
             <!-- SEARCH TABLES -->
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-6 mt-3">
                 <!-- SEARCH BAR -->
                 <?php
                 $search2 = "";
@@ -106,7 +119,7 @@ include 'includes/db_connect.php';
                         </button>
                     </div>
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-outline-secondary h-2rem" title="Add New Table" data-bs-toggle="modal" data-bs-target="#addTable">
+                    <button type="button" class="btn btn-secondary h-2rem" title="Add New Table" data-bs-toggle="modal" data-bs-target="#addTable">
                         <i class="bx bx-plus"></i>
                     </button>
                 </form>
@@ -128,7 +141,7 @@ include 'includes/db_connect.php';
                                 <th><?php echo $table['id'] ?></th>
                                 <td><?php echo $table['tab_num'] ?></td>
                                 <td class="text-capitalize"><?php echo $table['placement'] ?></td>
-                                <td><a href="includes/tables_delete.php?dlt=<?php echo $table['id'] ?>"><i class='bx bxs-trash-alt text-danger'></i></a></td>
+                                <td><a href="tables.php?dlt=<?php echo $table['id'] ?>"><i class='bx bxs-trash-alt text-danger'></i></a></td>
                                 </tr>
                                 <?php } ?>
                             </tbody>
@@ -161,17 +174,21 @@ include 'includes/db_connect.php';
 
                         if($query3->rowCount() > 0)
                             $msg = "Table number already exist";
-                        else{
+                        else if(!isset($_POST['tnum'])){
+                            $msg = "Insert a table number";
+                        }else{
                             $msg = '';
                             $tnum = $_POST['tnum'];
                             $place = $_POST['placement'];
 
-                            $sql = "INSERT INTO tables (tab_num,placement) VALUES (:num,:place)";
-                            $query = $conn->prepare($sql);
-                            $query->execute([
-                                ':num' => $tnum,
-                                ':place' => $place
-                            ]);
+                            if($tnum != ''){
+                                $sql = "INSERT INTO tables (tab_num,placement) VALUES (:num,:place)";
+                                $query = $conn->prepare($sql);
+                                $query->execute([
+                                    ':num' => $tnum,
+                                    ':place' => $place
+                                ]);
+                            }
 
                             header('location: tables.php');
                         }
@@ -181,11 +198,11 @@ include 'includes/db_connect.php';
                     <div class="card-body vertical-align" style="overflow-x: hidden;">
                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])?>" method="post">
                             <div class="row text-start justify-content-center">
-                                <div class="col-4">
+                                <div class="col-12 col-md-4">
                                     <label class="form-label">Table Number</label>
-                                    <input type="number" class="form-control" name="tnum" placeholder="Tab No.">
+                                    <input type="number" min=1 class="form-control" name="tnum" placeholder="Tab No.">
                                 </div>
-                                <div class="col-4">
+                                <div class="col-12 col-md-4">
                                     <label class="form-label">Placement</label>
                                     <select name="placement" class="form-select">
                                         <option value="inside" selected>inside</option>
@@ -194,7 +211,7 @@ include 'includes/db_connect.php';
                                         <option value="bar">bar</option>
                                     </select>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-12 col-md-4">
                                     <label class="form-label">Add Table</label>
                                     <button type="submit" name="add-table" class="btn btn-secondary h-2rem w-100"><i class="bx bx-plus"></i></button>
                                 </div>
@@ -206,4 +223,4 @@ include 'includes/db_connect.php';
             </div>
         </div>
     </div>
-<?php include 'includes/footer.php'; ob_end_flush(); ?>
+<?php } include 'includes/footer.php'; ob_end_flush(); ?>

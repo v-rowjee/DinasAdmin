@@ -104,4 +104,6 @@ input[type="file"] {
 
 .badges {
   padding: 0.5rem;
+  vertical-align: middle;
+  line-height: normal;
 }

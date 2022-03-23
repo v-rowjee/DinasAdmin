@@ -9,6 +9,19 @@ if(isset($_GET['edit'])){
     include 'includes/reservation_new.php';
   else
     include 'includes/reservation_edit.php';
+
+}else if(isset($_GET['dlt'])){
+
+  $sql2 = "DELETE FROM reservation WHERE id = ?";
+  $query2 = $conn->prepare($sql2);
+  $query2->execute([$_GET['dlt']]);
+
+  $sql3 = "DELETE FROM res_tab WHERE rid = ?";
+  $query3 = $conn->prepare($sql3);
+  $query3->execute([$_GET['dlt']]);
+  
+  header('location: reservations.php');
+
 }else{
 ?>
     <!--Container Main start-->
@@ -17,9 +30,9 @@ if(isset($_GET['edit'])){
           <div class="col-auto">
           <h2>Reservations</h2>
           </div>
-          <div class="col-auto col-md-4 text-end">
-            <a href="tables.php" class="btn btn-primary my-auto">View Table</a>
-            <a href="reservations.php?edit=new" class="btn btn-primary my-auto">New Reservation</a>
+          <div class="col-auto text-end">
+            <a href="tables.php" class="btn btn-outline-primary ms-auto me-3">View Table</a>
+            <a href="reservations.php?edit=new" class="btn btn-primary"><i class="bx bx-plus"></i></a>
           </div>
       </div>
       <hr>
@@ -79,22 +92,22 @@ if(isset($_GET['edit'])){
               <option value="check-out" <?php if($status == 'check-out') echo 'selected' ?>>&#x21a4; Check Out</option>
             </select>
           </div>
-          <div class="col-6 col-md-1">
+          <div class="col-6 col-md-2">
             <label class="form-label">Res. ID</label>
             <input type="number" class="form-control d-inline" name="search-res" value="<?php echo $search_res ?>">
           </div>
-          <div class="col-6 col-md-1">
+          <div class="col-6 col-md-2">
             <label class="form-label">User ID</label>
             <input type="number" class="form-control d-inline" name="search" value="<?php echo $search ?>">
           </div>
-          <div class="col-12 col-md-2"></div>
+          <!-- <div class="col-12 col-md-0"></div> -->
           <div class="col-12 col-md-2">
             <label class="form-label">Filter Search</label>
             <button type="submit" name="search-reservation" class="btn btn-secondary h-2rem pt-1 w-100" ><i class='bx bx-search'></i></button>
           </div>
         </div>
       </form>
-      <div class="row g-5">
+      <div class="row g-5 mx-1">
         <?php 
 
           $tempDate = $date;
@@ -118,9 +131,15 @@ if(isset($_GET['edit'])){
             $query2->execute([$reservation['uid']]);
             $user = $query2->fetch(PDO::FETCH_ASSOC);
         ?>
-          <div class="card bg-dark shadow rounded">
+          <div class="card bg-dark shadow rounded" style="border-left: 0.3rem solid 
+          <?php 
+          if($reservation['status'] == 'booked') echo 'var(--bs-info)';
+          if($reservation['status'] == 'approved') echo 'var(--bs-success)';
+          if($reservation['status'] == 'check-in') echo 'var(--bs-light)';
+          if($reservation['status'] == 'check-out') echo 'var(--bs-secondary)';
+          ?>;">
             <div class="card-body">
-                <table class="table table-borderless">
+                <table class="table table-borderless nowrap">
                   <thead class="card-header">
                     <tr>
                       <td scope="col">Reservation ID <?php echo $reservation['id'] ?></th>
@@ -128,13 +147,13 @@ if(isset($_GET['edit'])){
                   </thead>
                   <tbody>
                   <tr>
-                    <th scope="col" class="col-2">Date</th>
-                    <th scope="col" class="col-2">Time</th>
-                    <th scope="col" class="col-2">Booker</th>
-                    <th scope="col" class="col-2">Phone</th>
-                    <th scope="col" class="col-2">Guest</th>
-                    <th scope="col" class="col-2">Status</th>
-                    <th scope="col" class="col-2">Action</th>
+                    <th scope="col" class="col-3x">Date</th>
+                    <th scope="col" class="col-1x">Time</th>
+                    <th scope="col" class="col-2x">Booker</th>
+                    <th scope="col" class="col-2x">Phone</th>
+                    <th scope="col" class="col-1x">Guest</th>
+                    <th scope="col" class="col-2x">Status</th>
+                    <th scope="col" class="col-3x">Action</th>
                   </tr>
                   <tr>
                     <td><?php echo date("D, d M Y", strtotime($reservation['date'])) ?></td>
@@ -142,16 +161,20 @@ if(isset($_GET['edit'])){
                     <td><?php echo $user['name'] ?></td>
                     <td><?php echo $user['phone'] ?></td>
                     <td><?php echo $reservation['party_size'] ?></td>
-                    <td class="text-capitalize text-dark mt-2
-                    <?php 
-                      if($reservation['status'] == 'booked') echo 'badge bg-danger';
-                      if($reservation['status'] == 'approved') echo 'badge bg-success';
-                      if($reservation['status'] == 'check-in') echo 'badge bg-info';
-                      if($reservation['status'] == 'check-out') echo 'badge bg-secondary';
-
-                    ?>"><?php echo $reservation['status'] ?></td>
                     <td>
-                      <a href="reservations.php?edit=<?php echo $reservation['id'] ?>" class="btn btn-primary">Edit</a>
+                      <span class="text-capitalize text-dark
+                      <?php 
+                        if($reservation['status'] == 'booked') echo 'badge bg-info';
+                        if($reservation['status'] == 'approved') echo 'badge bg-success';
+                        if($reservation['status'] == 'check-in') echo 'badge bg-light';
+                        if($reservation['status'] == 'check-out') echo 'badge bg-secondary';
+                      ?>">
+                      <?php echo $reservation['status'] ?>
+                      </span>
+                    </td>
+                    <td>
+                      <a href="reservations.php?edit=<?php echo $reservation['id'] ?>"><i class='bx bxs-edit pe-2' style="font-size:larger"></i></a>
+                      <a href="reservations.php?dlt=<?php echo $reservation['id'] ?>"><i class='bx bxs-trash' style="font-size:larger; color: var(--bs-danger)"></i></a>
                     </td>
                   </tr>
                 </tbody>

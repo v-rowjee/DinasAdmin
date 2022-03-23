@@ -50,7 +50,12 @@ var myModal = document.getElementById("myModal");
 var myInput = document.getElementById("myInput");
 
 // Disable forms
-$("form").attr("autocomplete", "off");
+// $("form").attr("autocomplete", "off");
+
+// Datatable
+$(document).ready(function () {
+  $("#datatable").DataTable();
+});
 
 // Bootstrap modal
 myModal.addEventListener("shown.bs.modal", function () {

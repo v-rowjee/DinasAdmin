@@ -94,7 +94,7 @@ if(isset($_POST['save'])){
         <div class="col-12 col-lg-6 align-self-center">
             <div class="card bg-dark shadow p-4"> 
             <div class="card-header">
-                <h4 class="modal-title gold">Reservation ID <?php echo $_GET['edit'] ?></h4>
+                <h4 class="modal-title text-gold">Reservation ID <?php echo $_GET['edit'] ?></h4>
             </div>
 
             <form action="" method="post">

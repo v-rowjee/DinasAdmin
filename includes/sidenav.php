@@ -1,7 +1,7 @@
 <body id="body-pd">
     <header class="header bg-dark" id="header">
       <div class="header_toggle">
-        <i class="bx bx-menu gold" id="header-toggle"></i>
+        <i class="bx bx-menu text-gold" id="header-toggle"></i>
       </div>
     </header>
     <div class="l-navbar" id="nav-bar">

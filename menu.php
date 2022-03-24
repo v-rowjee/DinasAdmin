@@ -74,7 +74,7 @@ if(isset($_GET['id'])){
             </div>
             <div class="card-body">
                 <h5 class="card-title">New Item</h5>
-                <p class="card-text">Add a new item to the menu now!</p>
+                <p class="card-text mb-2">Add a new item to the menu now!</p>
                 <h6 class="price"></h6>
 
                 <a href="menu.php?id=new" class="btn btn-primary float-none">
@@ -107,11 +107,11 @@ if(isset($_GET['id'])){
                   </div>
                   <div class="card-body">
                       <h5 class="card-title">'.$item['name'].'</h5>
-                      <p class="card-text">'.$item['caption'].'</p>
+                      <p class="card-text mb-2">'.$item['caption'].'</p>
                       <h6 class="price">Rs '.$item['price'].'</h6>
 
                       <a href="menu.php?id='.$item['id'].'" class="btn btn-primary">
-                        Edit <i class="bx bxs-edit-alt"></i>
+                        Edit <i class="bx bxs-edit pt-2"></i>
                       </a>
 
                   </div>

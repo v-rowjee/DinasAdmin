@@ -96,9 +96,10 @@ if(isset($_GET['dlt'])){
 
                     $sql2 = "SELECT * FROM tables WHERE tab_num LIKE :search_num OR placement = :search_pla ORDER BY tab_num, placement";
                     $query2 = $conn->prepare($sql2);
-                    $query2->bindValue(':search_num', '%' . $search2 . '%');
-                    $query2->bindParam(':search_pla',$search2);
-                    $query2->execute();
+                    $query2->execute([
+                        ':search_num' => $search2.'%',
+                        ':search_pla' => $search2
+                    ]);
 
                     if($query2->rowCount() == 0){
                      $msg = '<div class="col align-self-center text-center"><p class="msg">No Search Result for: "'.$search2.'"</p></div>';
@@ -112,16 +113,16 @@ if(isset($_GET['dlt'])){
                 ?>
 
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])?>" method="post">
-                    <div class="input-group w-50 ms-auto me-3">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-outline-secondary h-2rem ms-auto me-3" title="Add New Table" data-bs-toggle="modal" data-bs-target="#addTable">
+                        <i class="bx bx-plus"></i>
+                    </button>
+                    <div class="input-group w-50">
                         <input type="text" name="search-input" class="form-control" placeholder="Search table" value="<?php echo $search2 ?>">
                         <button type="submit" name="search-tables" class="input-group-text" title="Search">
                             <i class='bx bx-search'></i>
                         </button>
                     </div>
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-secondary h-2rem" title="Add New Table" data-bs-toggle="modal" data-bs-target="#addTable">
-                        <i class="bx bx-plus"></i>
-                    </button>
                 </form>
 
                 <div class="card bg-dark shadow mt-3 text-center">

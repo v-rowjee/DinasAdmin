@@ -20,7 +20,7 @@
                     </button>
                 </div>
 
-                <a href="" class="input-group-text me-3">
+                <a href="" class="input-group-text me-3" data-bs-toggle="modal" data-bs-target="#addAdmin">
                     <i class="bx bx-plus"></i>
                 </a>
             </form>
@@ -94,7 +94,7 @@
                     </button>
                 </div>
 
-                <a href="" class="input-group-text me-3">
+                <a href="" class="input-group-text me-3" data-bs-toggle="modal" data-bs-target="#addUser">
                     <i class="bx bx-plus"></i>
                 </a>
             </form>
@@ -148,4 +148,129 @@
         </div>
     </div>
     <!--Container Main end-->
+
+    <!-- Modal for Admin -->
+    <?php
+    $username_a = '';
+    $password_a = '';
+    $name_a = '' ;
+    $email_a = '';
+    $phone_a = '';
+
+    if(isset($_POST['submit-admin'])){
+        $username_a = strtolower($_POST['username_a']);
+        $password_a = password_hash($_POST['password_a'],PASSWORD_DEFAULT);
+        $name_a = $_POST['name_a'];
+        $email_a = $_POST['email_a'];
+        $phone_a = $_POST['phone_a'];
+    }
+
+    ?>
+    <div class="modal fade" id="addAdmin" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title">New Admin Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="" method="post" class="row justify-content-center">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">Username</label>
+                            <input type="text" class="form-control mb-3" name="username_a" value="<?php echo $username_a ?>">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">Password</label>
+                            <input type="text" class="form-control mb-3" name="password_a" value="<?php echo $password_a ?>">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-control mb-3" name="name_a" value="<?php echo $name_a ?>">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">Phone</label>
+                            <input type="text" class="form-control mb-3" name="phone_a" value="<?php echo $phone_a ?>">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <label class="form-label">Email</label>
+                            <input type="mail" class="form-control mb-3" name="email_a" value="<?php echo $email_a ?>">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" name="submit-admin" class="btn btn-primary me-4">Create new</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for User -->
+    <?php
+    $username = '';
+    $password = '';
+    $name = '' ;
+    $email = '';
+    $phone = '';
+
+    if(isset($_POST['submit'])){
+        $username = strtolower($_POST['username']);
+        $password = password_hash($_POST['password'],PASSWORD_DEFAULT);
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $phone = $_POST['phone'];
+    }
+
+    ?>
+    <div class="modal fade" id="addUser" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title">New User Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="" method="post" class="row justify-content-center">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">Username</label>
+                            <input type="text" class="form-control mb-3" name="username" value="<?php echo $username_a ?>">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">Password</label>
+                            <input type="text" class="form-control mb-3" name="password" value="<?php echo $password_a ?>">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-control mb-3" name="name" value="<?php echo $name_a ?>">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">Phone</label>
+                            <input type="text" class="form-control mb-3" name="phone" value="<?php echo $phone_a ?>">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <label class="form-label">Email</label>
+                            <input type="mail" class="form-control mb-3" name="email" value="<?php echo $email_a ?>">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" name="submit-admin" class="btn btn-primary me-4">Create new</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
 <?php include 'includes/footer.php' ?>

@@ -38,25 +38,24 @@ if(isset($_GET['edit'])){
       <hr>
       <?php
 
-        $date = date("Y-m-d"); $time = '%'; $status = '%'; $search = ''; $search_res='';$allDates='checked';
+        $date = date("Y-m-d"); $time = '%'; $status = '%'; $search = ''; $allDates='checked';
 
         if(isset($_POST['search-reservation'])){
 
           $dateInput = $_POST['date'];
           $date = date("Y-m-d", strtotime($dateInput));
 
-          if(isset($_POST['allDates']))
+          if(isset($_POST['allDates'])) // if checked
             $allDates = $_POST['allDates'];
           else
-            unset($allDates);
+            unset($allDates);   // unset value if not checked
 
           $time = $_POST['time'];
 
           $status = $_POST['status'];
 
-          $search = $_POST['search'];
-
-          $search_res = $_POST['search-res'];
+          if(isset($_POST['search']))
+            $search = $_POST['search'];
 
         }
       ?>
@@ -93,14 +92,10 @@ if(isset($_GET['edit'])){
             </select>
           </div>
           <div class="col-6 col-md-2">
-            <label class="form-label">Res. ID</label>
-            <input type="number" class="form-control d-inline" name="search-res" value="<?php echo $search_res ?>">
+            <label class="form-label">Search</label>
+            <input type="text" class="form-control d-inline" name="search" placeholder="Search res." value="<?php echo $search ?>">
           </div>
-          <div class="col-6 col-md-2">
-            <label class="form-label">User ID</label>
-            <input type="number" class="form-control d-inline" name="search" value="<?php echo $search ?>">
-          </div>
-          <!-- <div class="col-12 col-md-0"></div> -->
+          <div class="col-6 col-md-2"></div>
           <div class="col-12 col-md-2">
             <label class="form-label">Filter Search</label>
             <button type="submit" name="search-reservation" class="btn btn-secondary h-2rem pt-1 w-100" ><i class='bx bx-search'></i></button>
@@ -113,12 +108,28 @@ if(isset($_GET['edit'])){
           $tempDate = $date;
           if(isset($allDates))
             $tempDate = '%';
+          
+          // if input search blank var search is % i.e search for all
+          $tempSearch = $search == '' ? '%' : $search; 
 
-          $sql = "SELECT * FROM reservation WHERE id LIKE :search_res AND uid LIKE :search AND date LIKE :date AND status LIKE :status AND time LIKE :time ORDER BY status";
+          $sql = "SELECT * FROM reservation 
+                  WHERE (id LIKE :search_exact 
+                      OR uid = (SELECT id FROM users 
+                                   WHERE id LIKE :search_exact 
+                                   OR name LIKE :search 
+                                   OR phone LIKE :search_exact))
+                  AND date LIKE :date 
+                  AND status LIKE :status 
+                  AND time LIKE :time 
+                  ORDER BY case when status = 'booked' then 1
+                                when status = 'approved' then 2
+                                when status = 'check-in' then 3
+                                when status = 'check-out' then 4
+                  else 5 end ASC, date, time";
           $query = $conn->prepare($sql);
           $query->execute([
-            ':search_res' => $search_res.'%',
             ':search' => $search.'%',
+            ':search_exact' => $tempSearch,
             ':date' => $tempDate,
             ':status' => $status,
             ':time' => $time
@@ -131,7 +142,7 @@ if(isset($_GET['edit'])){
             $query2->execute([$reservation['uid']]);
             $user = $query2->fetch(PDO::FETCH_ASSOC);
         ?>
-          <div class="card bg-dark shadow rounded" style="border-left: 0.3rem solid 
+          <div class="card bg-dark shadow rounded" style="border-left: 0.2rem solid 
           <?php 
           if($reservation['status'] == 'booked') echo 'var(--bs-info)';
           if($reservation['status'] == 'approved') echo 'var(--bs-success)';

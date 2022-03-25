@@ -28,4 +28,4 @@ if($_SESSION['is_admin'] != 'yes'){ header('location: /dinas/index.php'); die();
     
   </head>
 
-<?php include 'sidenav.php' ?>
+<?php if($active != 'login' || $active != 'register') include 'sidenav.php'; ?>

@@ -59,7 +59,7 @@ if(isset($_GET['dlt'])){
                     </div>
                 </form>
                 <!-- RES_TAB -->
-                <div class="card bg-dark shadow mt-3 text-center">
+                <div class="card bg-grey shadow mt-3 text-center">
                     <div class="card-body" style="overflow-x: hidden;">
                         <table class="table table-dark table-borderless table-hover">
                             <thead>
@@ -125,7 +125,7 @@ if(isset($_GET['dlt'])){
                     </div>
                 </form>
 
-                <div class="card bg-dark shadow mt-3 text-center">
+                <div class="card bg-grey shadow mt-3 text-center">
                     <div class="card-body" style="overflow-x: hidden;">
                         <table class="table table-dark table-borderless table-hover">
                             <thead>
@@ -157,7 +157,7 @@ if(isset($_GET['dlt'])){
     <!-- Modal -->
     <div class="modal fade" id="addTable" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content bg-dark">
+            <div class="modal-content bg-grey">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">New Table</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -195,7 +195,7 @@ if(isset($_GET['dlt'])){
                         }
                     }
                 ?>
-                <div class="card bg-dark shadow mt-4">
+                <div class="card bg-grey shadow mt-4">
                     <div class="card-body vertical-align" style="overflow-x: hidden;">
                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])?>" method="post">
                             <div class="row text-start justify-content-center">

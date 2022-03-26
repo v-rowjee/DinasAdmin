@@ -125,7 +125,7 @@ if(isset($_GET['edit'])){
                                 when status = 'approved' then 2
                                 when status = 'check-in' then 3
                                 when status = 'check-out' then 4
-                  else 5 end ASC, date, time";
+                  else 5 end ASC, date DESC, time";
           $query = $conn->prepare($sql);
           $query->execute([
             ':search' => $search.'%',
@@ -142,7 +142,7 @@ if(isset($_GET['edit'])){
             $query2->execute([$reservation['uid']]);
             $user = $query2->fetch(PDO::FETCH_ASSOC);
         ?>
-          <div class="card bg-dark shadow rounded" style="border-left: 0.2rem solid 
+          <div class="card bg-grey shadow rounded" style="border-left: 0.2rem solid 
           <?php 
           if($reservation['status'] == 'booked') echo 'var(--bs-info)';
           if($reservation['status'] == 'approved') echo 'var(--bs-success)';

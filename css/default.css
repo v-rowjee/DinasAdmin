@@ -404,3 +404,7 @@ table,
 .btn-close {
   filter: invert(1);
 }
+.bg-grey{
+  background-color: rgba(54, 54, 54, 0.4);
+  backdrop-filter: blur(10px);
+}

@@ -57,6 +57,7 @@ if(isset($_POST['save'])){
     if(($tables_needed+$num_of_reservations) > $num_of_tables) // if num of table not enough(restaurant full) when current reservation is added
         $msg = "Restaurant full at this time";
     else{
+        $msg='';
         // update reservation
         $sql2 = "UPDATE reservation SET uid=:uid, date=:date, time=:time, party_size=:guest, status=:status WHERE id = :id";
         $query2 = $conn->prepare($sql2);
@@ -92,7 +93,7 @@ if(isset($_POST['save'])){
 <div class="container pt-4">
     <div class="row justify-content-center">
         <div class="col-12 col-lg-6 align-self-center">
-            <div class="card bg-dark shadow p-4"> 
+            <div class="card bg-grey shadow p-4"> 
             <div class="card-header">
                 <h4 class="modal-title text-gold">Reservation ID <?php echo $_GET['edit'] ?></h4>
             </div>

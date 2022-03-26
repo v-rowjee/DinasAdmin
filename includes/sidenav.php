@@ -1,16 +1,16 @@
 <body id="body-pd">
-    <header class="header bg-dark" id="header">
-      <div class="header_toggle">
-        <i class="bx bx-menu text-gold" id="header-toggle"></i>
-      </div>
-    </header>
-    <div class="l-navbar" id="nav-bar">
+    <div class="l-navbar m-3 rounded" id="nav-bar">
       <nav class="nav">
-        <a href="/dinas/index.php" target="blank" class="nav_logo">
-          <i class='bx bx-home-alt-2 nav_logo-icon'></i>
-          <span class="nav_logo-name">Dina's Restaurant</span>
-        </a>
+        <div class="nav_link" id="header">
+          <div class="header_toggle">
+            <i class="bx bx-menu-alt-left nav_icon" id="header-toggle"></i>
+          </div>
+        </div>
         <div class="nav_list">
+          <!-- <a href="/dinas/index.php" target="blank" class="nav_logo">
+            <i class='bx bx-home-alt-2 nav_logo-icon'></i>
+            <span class="nav_logo-name">Dina's Restaurant</span>
+          </a> -->
           <a href="dashboard.php" class="nav_link <?php if($active == 'dashboard') echo 'active' ?>">
             <i class="bx bx-grid-alt nav_icon" title="Dashboard"></i>
             <span class="nav_name">Dashboard</span> 

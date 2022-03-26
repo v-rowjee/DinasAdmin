@@ -25,7 +25,7 @@
                 </a>
             </form>
         </div>
-        <div class="card bg-dark shadow rounded mb-4">
+        <div class="card bg-grey shadow rounded mb-4">
             <div class="card-body">
                 <table class="table table-borderless nowrap">
                 <thead>
@@ -99,7 +99,7 @@
                 </a>
             </form>
         </div>
-        <div class="card bg-dark shadow rounded mb-4">
+        <div class="card bg-grey shadow rounded mb-4">
             <div class="card-body">
                 <table class="table table-borderless nowrap">
                 <thead>
@@ -168,7 +168,7 @@
     ?>
     <div class="modal fade" id="addAdmin" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content bg-dark">
+            <div class="modal-content bg-grey">
             <div class="modal-header">
                 <h5 class="modal-title">New Admin Account</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -230,7 +230,7 @@
     ?>
     <div class="modal fade" id="addUser" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content bg-dark">
+            <div class="modal-content bg-grey">
             <div class="modal-header">
                 <h5 class="modal-title">New User Account</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

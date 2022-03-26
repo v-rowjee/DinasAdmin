@@ -59,7 +59,7 @@ if(isset($_GET['id'])){
 
     <!-- ITEMS -->
     <div class="row g-4 mt-3">
-      <!-- Create new item -->
+      <!-- Create new item
       <div class="col-sm-6 col-md-4 col-lg-3">
         <a href="menu.php?id=new" class="card-link">
           <div class="card card-shadow">
@@ -84,7 +84,7 @@ if(isset($_GET['id'])){
             </div>
           </div>
         </a>
-      </div>
+      </div> -->
       <!-- Edit selected item -->
     <?php  
       if($msg!='') echo $msg;

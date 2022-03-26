@@ -1,5 +1,5 @@
 <body id="body-pd">
-    <div class="l-navbar m-3 rounded" id="nav-bar">
+    <div class="l-navbar m-3 rounded shadow" id="nav-bar">
       <nav class="nav">
         <div class="nav_link" id="header">
           <div class="header_toggle">

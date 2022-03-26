@@ -131,6 +131,7 @@ a {
   width: 2px;
   height: 32px;
   background-color: var(--white-color);
+  border-radius: 0 2px 2px 0;
 }
 
 .height-100 {

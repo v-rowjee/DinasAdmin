@@ -99,7 +99,7 @@ $conn==null;
             </div>
             <div class="col-12 col-lg-6">
               <label class="form-label" for="">Category</label>
-              <select class="form-select pt-1 bg-grey select" name="category">
+              <select class="form-select pt-1 bg-transparent select" name="category">
                 <option value="" disabled <?php if($item['category'] == '') echo 'selected' ?>> Choose a Category</option>
                 <option value="Starter" <?php if(strcasecmp($item['category'],'starter')==0) echo 'selected' ?> >Starter</option>
                 <option value="Pasta" <?php if(strcasecmp($item['category'],'pasta')==0) echo 'selected' ?> >Pasta</option>

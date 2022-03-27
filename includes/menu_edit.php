@@ -91,7 +91,7 @@ $conn==null;
             </div>
             <div class="col-12 col-lg-6">
               <label class="form-label" for="">Price</label>
-              <input type="number" name="price" class="form-control" value="<?php echo $item['price'] ?>">
+              <input type="number" name="price" min=0 class="form-control" value="<?php echo $item['price'] ?>">
             </div>
             <div class="col-12">
               <label class="form-label" for="">Description</label>

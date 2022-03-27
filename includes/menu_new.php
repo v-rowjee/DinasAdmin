@@ -56,8 +56,13 @@ else if(isset($_POST['discard'])){
 ?>
 <div class="container py-3">
       <div class="row align-items-center" style="height: calc(100vh-2rem);">
-        <div class="col-12 col-xl-5 ">
-          <img src="images/menu/<?php echo $img ?>" class="img-edit" style="transform: scale(0.8);" alt="...">
+        <div class="col-12 col-xl-5">
+          <div class="position-relative">
+            <img src="images/menu/<?php echo $img ?>" class="img-edit" style="transform: scale(0.8);" alt="...">
+            <button type="button" class="btn btn-primary btn-upload shadow" data-bs-toggle="modal" data-bs-target="#upload-img-modal">
+              <i class="bx bx-plus"></i>
+            </button>
+          </div>
         </div>
         <div class="col-12 col-xl-7 z-top">
 
@@ -74,7 +79,7 @@ else if(isset($_POST['discard'])){
             </div>
             <div class="col-12 col-lg-6">
               <label class="form-label" for="">Price</label>
-              <input type="number" name="price" class="form-control" value="<?php echo $price ?>">
+              <input type="number" name="price" min=0 class="form-control" value="<?php echo $price ?>">
             </div>
             <div class="col-12">
               <label class="form-label" for="">Description</label>
@@ -91,16 +96,35 @@ else if(isset($_POST['discard'])){
               </select>
             </div>
             <div class="col-12 col-lg-6 mb-5">
-              <label class="form-label" for="">Image URL</label>
+              <div class="d-flex justify-content-between">
+                <label class="form-label" for="">Image URL</label>
+                <label class="form-label px-2"><i class="bx bx-plus" style="cursor:pointer" data-bs-toggle="modal" data-bs-target="#upload-img-modal"></i></label>
+              </div>
               <input type="text" name="img" class="form-control" placeholder="default.jpg" value="<?php echo $img ?>">
             </div>
             <div class="col-6"><button type="submit" name="discard" class="btn btn-danger w-100">Discard</button></div>
             <div class="col-6"><button type="submit" name="create" class="btn btn-primary w-100">Save</button></div>
-      
           </form>
           
         </div>
       </div>
   </div>
-<?php
+
+  <!-- modal -->
+  <div class="modal fade" id="upload-img-modal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-grey shadow">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Select image to upload</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body py-5 px-3">
+      <form action="includes/upload.php" method="post" enctype="multipart/form-data">
+        <input type="file" name="fileToUpload" id="fileToUpload">
+        <input type="submit" value="Upload Image" class="btn btn-primary" name="submit-upload">
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
 

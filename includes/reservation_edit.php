@@ -31,7 +31,7 @@ if(isset($_POST['save'])){
 
     $uid=$_POST['uid']; $date=$_POST['date'] ;$time=$_POST['time']; $guest=$_POST['guest']; $status=$_POST['status'];
 
-    ####    VALIDATION FOR STATUS CHECK OUT   #### NOT WORKING
+    ####    VALIDATION FOR STATUS CHECK OUT   #### 
     if($status == 'check-out'){
         $sql6 = "DELETE FROM res_tab WHERE rid = ? ";
         $result6 = $conn->prepare($sql6);

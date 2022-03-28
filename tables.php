@@ -1,6 +1,6 @@
 <?php
 ob_start();
-$active= 'tables'; 
+$active= 'reservations'; 
 include_once 'includes/header.php';
 include 'includes/db_connect.php';
 
@@ -20,7 +20,7 @@ if(isset($_GET['dlt'])){
             <h2><a href="reservations.php" style="color: #888;">Reservations</a> / Tables</h2>
             </div>
         </div>
-        <div class="row mb-3">
+        <div class="row my-3 gx-5">
             <!-- SEARCH RES_TAB -->
             <div class="col-12 col-md-6 mt-3">
                 <?php
@@ -59,8 +59,8 @@ if(isset($_GET['dlt'])){
                     </div>
                 </form>
                 <!-- RES_TAB -->
-                <div class="card bg-grey shadow mt-3 text-center">
-                    <div class="card-body" style="overflow-x: hidden;">
+                <div class="card bg-grey shadow mt-4 text-center">
+                    <div class="card-body overflow-x-hidden p-0 bg-dark">
                         <table class="table table-dark table-borderless table-hover">
                             <thead>
                                 <tr>
@@ -84,7 +84,6 @@ if(isset($_GET['dlt'])){
             </div>
             <!-- SEARCH TABLES -->
             <div class="col-12 col-md-6 mt-3">
-                <!-- SEARCH BAR -->
                 <?php
                 $search2 = "";
                 $msg = "";
@@ -113,20 +112,20 @@ if(isset($_GET['dlt'])){
                 ?>
 
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])?>" method="post">
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-outline-secondary h-2rem ms-auto me-3" title="Add New Table" data-bs-toggle="modal" data-bs-target="#addTable">
-                        <i class="bx bx-plus"></i>
-                    </button>
                     <div class="input-group w-50">
                         <input type="text" name="search-input" class="form-control" placeholder="Search table" value="<?php echo $search2 ?>">
                         <button type="submit" name="search-tables" class="input-group-text" title="Search">
                             <i class='bx bx-search'></i>
                         </button>
                     </div>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-outline-secondary h-2rem ms-3" title="Add New Table" data-bs-toggle="modal" data-bs-target="#addTable">
+                        <i class="bx bx-plus"></i>
+                    </button>
                 </form>
 
-                <div class="card bg-grey shadow mt-3 text-center">
-                    <div class="card-body" style="overflow-x: hidden;">
+                <div class="card bg-grey shadow mt-4 text-center">
+                    <div class="card-body overflow-x-hidden p-0 bg-dark">
                         <table class="table table-dark table-borderless table-hover">
                             <thead>
                                 <tr>

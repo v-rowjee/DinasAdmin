@@ -38,7 +38,7 @@ if(isset($_GET['edit'])){
       <hr>
       <?php
 
-        $date = date("Y-m-d"); $time = '%'; $status = '%'; $search = ''; $allDates='checked';
+        $date = date("Y-m-d", strtotime("+1 day")); $time = '%'; $status = '%'; $search = ''; $allDates='checked';
 
         if(isset($_POST['search-reservation'])){
 

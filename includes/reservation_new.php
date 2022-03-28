@@ -1,37 +1,59 @@
 <?php
     include 'db_connect.php';
 
-    $msg = ''; $uid = ''; $date = date("Y-m-d") ;$time = '5'; $guest = '2'; $status='booked';
+    $msg = ''; 
+    $uid = ''; 
+    $date = date("Y-m-d", strtotime("+1 day"));
+    $time = '5'; 
+    $guest = '2'; 
+    $status='booked';
 
     if(isset($_POST['create'])){
 
         $uid =$_POST['uid']; $date=$_POST['date'] ;$time=$_POST['time']; $guest=$_POST['guest']; $status=$_POST['status'];
         
-        $sql = "SELECT * FROM reservation WHERE uid = ?";
+        $sql = "SELECT * FROM reservation WHERE uid = :uid AND status <> :status";
         $query = $conn->prepare($sql);
-        $query->execute([$uid]);
+        $query->execute([
+            ':uid' => $uid,
+            ':status' => 'check-out'
+        ]);
         if($query->rowCount() > 0)
             $msg = 'User already has a reservation';
         else{
         
-        $tables_needed = ceil($guest/2);
+        ####    VALIDATION FOR STATUS CHECK OUT   #### NOT WORKING
+        if($status == 'check-out'){
+            $sql6 = "DELETE FROM res_tab WHERE rid = ? ";
+            $result6 = $conn->prepare($sql6);
+            $result6->execute([$_GET['edit']]);
+        }
+
+        ####    VALIDATION FOR GUEST   ####
+        // get num of tables 
+        $sql2 = "SELECT * FROM tables"; 
+        $result2 = $conn->prepare($sql2); 
+        $result2->execute(); 
+        $num_of_tables = $result2->rowCount();
+        $tot_res = $num_of_tables*2;
+        
         // get num of reservation at input date and time
-        $sql1 = "SELECT * FROM res_tab WHERE rid = (SELECT id FROM reservation WHERE date = :date AND time = :time AND status <> :status)"; 
+        $sql1 = "SELECT * FROM res_tab WHERE rid LIKE (SELECT id FROM reservation WHERE date = :date AND time = :time AND status <> :status AND uid <> :uid)"; 
         $result1 = $conn->prepare($sql1); 
         $result1->execute([
             ':date' => $date,
             ':time' => $time,
-            ':status' => 'check-out'
+            ':status' => 'check-out',
+            ':uid' => $uid
         ]); 
-        $num_of_reservations = $result1->rowCount();
-        // get num of tables 
-        $sql2 = "SELECT * FROM tables "; 
-        $result2 = $conn->prepare($sql2); 
-        $result2->execute(); 
-        $num_of_tables = $result2->rowCount();
-        if(($tables_needed+$num_of_reservations) > $num_of_tables) // if num of table not enough(restaurant full) when current reservation is added
+        $table_booked = $result1->rowCount(); // num of tables booked on same datetime
+        $tables_available = $num_of_tables - $table_booked; // num of tables available
+        $res_available = $tables_available*2;   // num of reservation available
+
+        if($guest > $res_available) // if num of table not enough(restaurant full) when current reservation is added
             $msg = "Restaurant full at this time";
         else{
+            $msg ='';
             // if table available, add a new reservation
             $sql5 = "INSERT INTO reservation (uid,party_size,date,time,status) VALUES (:uid,:size,:date,:time,:status)";
             $result5 = $conn->prepare($sql5);

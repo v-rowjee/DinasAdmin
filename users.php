@@ -163,6 +163,17 @@
         $name_a = $_POST['name_a'];
         $email_a = $_POST['email_a'];
         $phone_a = $_POST['phone_a'];
+
+        $sql_a = "INSERT INTO users(username,password,name,email,phone,is_admin) VALUES(:username,:password,:name,:email,:phone,:isAdmin)";
+        $query_a = $conn->prepare($sql_a);
+        $query_a->execute([
+            ':username' => $username_a,
+            ':password' => $password_a,
+            ':name' => $name_a,
+            ':email' => $email_a,
+            ':phone' => $phone_a,
+            ':isAdmin' => 'yes'
+        ]);
     }
 
     ?>
@@ -225,6 +236,17 @@
         $name = $_POST['name'];
         $email = $_POST['email'];
         $phone = $_POST['phone'];
+
+        $sql = "INSERT INTO users(username,password,name,email,phone,is_admin) VALUES(:username,:password,:name,:email,:phone,:isAdmin)";
+        $query = $conn->prepare($sql);
+        $query->execute([
+            ':username' => $username,
+            ':password' => $password,
+            ':name' => $name,
+            ':email' => $email,
+            ':phone' => $phone,
+            ':isAdmin' => 'no'
+        ]);
     }
 
     ?>

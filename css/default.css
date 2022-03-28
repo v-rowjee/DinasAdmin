@@ -414,3 +414,6 @@ table,
   background-color: rgba(54, 54, 54, 0.4);
   backdrop-filter: blur(10px);
 }
+.overflow-x-hidden{
+  overflow-x: hidden;
+}

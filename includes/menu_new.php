@@ -4,7 +4,6 @@ include 'db_connect.php';
 $name=''; $price='';$cat=''; $desc=''; $img='default.jpg'; $msg='';
 
 if(isset($_POST['create'])){
-
     // INPUT VALIDATION
     // if user press save with no name as input
     if(empty($_POST['name'])){
@@ -56,13 +55,11 @@ else if(isset($_POST['discard'])){
 ?>
 <div class="container py-3">
       <div class="row align-items-center" style="height: calc(100vh-2rem);">
-        <div class="col-12 col-xl-5">
-          <div class="position-relative">
+        <div class="col-12 col-xl-5 text-center">
             <img src="images/menu/<?php echo $img ?>" class="img-edit" style="transform: scale(0.8);" alt="...">
-            <button type="button" class="btn btn-primary btn-upload shadow" data-bs-toggle="modal" data-bs-target="#upload-img-modal">
-              <i class="bx bx-plus"></i>
+            <button type="button" class="btn btn-secondary px-5" data-bs-toggle="modal" data-bs-target="#upload-img-modal">
+              Upload Images
             </button>
-          </div>
         </div>
         <div class="col-12 col-xl-7 z-top">
 
@@ -98,7 +95,7 @@ else if(isset($_POST['discard'])){
             <div class="col-12 col-lg-6 mb-5">
               <div class="d-flex justify-content-between">
                 <label class="form-label" for="">Image URL</label>
-                <label class="form-label px-2"><i class="bx bx-plus" style="cursor:pointer" data-bs-toggle="modal" data-bs-target="#upload-img-modal"></i></label>
+                <label class="form-label px-2"><i class="bx bx-plus" title="Upload Image" style="cursor:pointer" data-bs-toggle="modal" data-bs-target="#upload-img-modal"></i></label>
               </div>
               <input type="text" name="img" class="form-control" placeholder="default.jpg" value="<?php echo $img ?>">
             </div>

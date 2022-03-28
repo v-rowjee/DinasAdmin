@@ -83,6 +83,7 @@ if(isset($_POST['save'])){
         $result3 = $conn->prepare($sql3);
         
         for($i=0; $i < $tables_needed; $i++){
+            // $sql5 = "SELECT COUNT * FROM res_tab WHERE ";
             $result3->execute([
                 ':rid' => $_GET['edit'],
                 ':tid' => $res_available+1+$i

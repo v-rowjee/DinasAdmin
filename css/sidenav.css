@@ -45,6 +45,10 @@ a {
   font-size: 1.5rem;
   opacity: 1;
   cursor: pointer;
+  color: var(--text);
+}
+.header_toggle:hover{
+  color: var(--primary-light);
 }
 
 .l-navbar {

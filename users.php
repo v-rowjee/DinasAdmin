@@ -89,7 +89,7 @@ if(isset($_GET['dlt'])){
                         <td><?php echo $admin['name'] ?></td>
                         <td><?php echo $admin['email'] ?></td>
                         <td><?php echo $admin['phone'] ?></td>
-                        <td class="text-end pe-4">
+                        <td class="text-end pe-3">
                             <a href="users.php?edit=<?php echo $admin['id'] ?>"><i class='bx bxs-edit px-1' style="font-size:larger"></i></a>
                             <a href="users.php?dlt=<?php echo $admin['id'] ?>"><i class='bx bxs-trash px-1' style="font-size:larger; color: var(--bs-danger)"></i></a>
                         </td>
@@ -165,7 +165,7 @@ if(isset($_GET['dlt'])){
                         <td><?php echo $user['name'] ?></td>
                         <td><?php echo $user['email'] ?></td>
                         <td><?php echo $user['phone'] ?></td>
-                        <td class="text-end pe-4">
+                        <td class="text-end pe-3">
                             <a href="users.php?edit=<?php echo $user['id'] ?>"><i class='bx bxs-edit px-1' style="font-size:larger"></i></a>
                             <a href="users.php?dlt=<?php echo $user['id'] ?>"><i class='bx bxs-trash px-1' style="font-size:larger; color: var(--bs-danger)"></i></a>
                         </td>
@@ -217,21 +217,21 @@ if(isset($_GET['dlt'])){
                     <div class="row">
                         <div class="col-12 col-md-6">
                             <label class="form-label">Username</label>
-                            <input type="text" class="form-control mb-3" name="username_a" value="<?php echo $username_a ?>">
+                            <input type="text" class="form-control mb-3" pattern="[a-zA-Z0-9\._-]+" maxlength="16" name="username_a" value="<?php echo $username_a ?>">
                         </div>
                         <div class="col-12 col-md-6">
                             <label class="form-label">Password</label>
-                            <input type="text" class="form-control mb-3" name="password_a" value="<?php echo $password_a ?>">
+                            <input type="text" class="form-control mb-3" name="password_a" maxlength="16" value="<?php echo $password_a ?>">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12 col-md-6">
                             <label class="form-label">Name</label>
-                            <input type="text" class="form-control mb-3" name="name_a" value="<?php echo $name_a ?>">
+                            <input type="text" class="form-control mb-3" name="name_a" maxlength="24" pattern="[a-zA-Z\.\s]+" value="<?php echo $name_a ?>">
                         </div>
                         <div class="col-12 col-md-6">
                             <label class="form-label">Phone</label>
-                            <input type="text" class="form-control mb-3" name="phone_a" value="<?php echo $phone_a ?>">
+                            <input type="text" class="form-control mb-3" name="phone_a" pattern="[0-9\s\+]+" maxlength="16" value="<?php echo $phone_a ?>">
                         </div>
                     </div>
                     <div class="row">
@@ -289,21 +289,21 @@ if(isset($_GET['dlt'])){
                     <div class="row">
                         <div class="col-12 col-md-6">
                             <label class="form-label">Username</label>
-                            <input type="text" class="form-control mb-3" name="username" value="<?php echo $username_a ?>">
+                            <input type="text" class="form-control mb-3" name="username" value="<?php echo $username_a ?>" maxlength="16" pattern="[a-zA-Z0-9\._-]+">
                         </div>
                         <div class="col-12 col-md-6">
                             <label class="form-label">Password</label>
-                            <input type="text" class="form-control mb-3" name="password" value="<?php echo $password_a ?>">
+                            <input type="text" class="form-control mb-3" name="password" value="<?php echo $password_a ?>" maxlength="16">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12 col-md-6">
                             <label class="form-label">Name</label>
-                            <input type="text" class="form-control mb-3" name="name" value="<?php echo $name_a ?>">
+                            <input type="text" class="form-control mb-3" name="name" value="<?php echo $name_a ?>" maxlength="24" pattern="[a-zA-Z\.\s]+">
                         </div>
                         <div class="col-12 col-md-6">
                             <label class="form-label">Phone</label>
-                            <input type="text" class="form-control mb-3" name="phone" value="<?php echo $phone_a ?>">
+                            <input type="text" class="form-control mb-3" name="phone" value="<?php echo $phone_a ?>" maxlength="16" pattern="[0-9\s\+]+">
                         </div>
                     </div>
                     <div class="row">

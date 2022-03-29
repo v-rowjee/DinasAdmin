@@ -94,27 +94,27 @@ if(isset($_POST['delete'])){
                         <div class="row">
                             <div class="col-12 col-md-6">
                                 <label class="form-label">Username</label>
-                                <input type="text" class="form-control mb-3" maxlength="16" name="username" value="<?php echo $username ?>" required>
+                                <input type="text" class="form-control mb-3" maxlength="16" name="username" value="<?php echo $username ?>" required pattern="[a-zA-Z0-9\._-]+">
                             </div>
                             <div class="col-12 col-md-6">
                                 <label class="form-label">New Password</label>
-                                <input type="text" class="form-control mb-3" name="password" value="<?php echo $password ?>">
+                                <input type="text" class="form-control mb-3" name="password" value="<?php echo $password ?>" maxlength="16">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12 col-md-6">
                                 <label class="form-label">Name</label>
-                                <input type="text" class="form-control mb-3" name="name" value="<?php echo $name ?>" required>
+                                <input type="text" class="form-control mb-3" name="name" value="<?php echo $name ?>" maxlength="24" pattern="[a-zA-Z\s]+" >
                             </div>
                             <div class="col-12 col-md-6">
                                 <label class="form-label">Phone</label>
-                                <input type="text" class="form-control mb-3" name="phone" value="<?php echo $phone ?>">
+                                <input type="text" class="form-control mb-3" name="phone" value="<?php echo $phone ?>" maxlength="16" pattern="[0-9\s\+]+">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-8">
                                 <label class="form-label">Email</label>
-                                <input type="mail" class="form-control mb-3" name="email" value="<?php echo $email ?>" required>
+                                <input type="mail" class="form-control mb-3" name="email" value="<?php echo $email ?>">
                             </div>
                             <div class="col-4">
                                 <label class="form-label">Acc Type</label>

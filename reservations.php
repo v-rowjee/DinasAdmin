@@ -22,6 +22,16 @@ if(isset($_GET['edit'])){
   
   header('location: reservations.php');
 
+}else if(isset($_GET['aprv'])){
+  $sql4 = "UPDATE reservation SET status = :status WHERE id = :rid";
+  $query = $conn->prepare($sql4);
+  $query->execute([
+    ':status' => 'approved',
+    ':rid' => $_GET['aprv']
+  ]);
+
+  header('location: reservations.php');
+
 }else{
 ?>
     <!--Container Main start-->
@@ -158,13 +168,13 @@ if(isset($_GET['edit'])){
                   </thead>
                   <tbody>
                   <tr>
-                    <th scope="col" class="col-3x">Date</th>
-                    <th scope="col" class="col-1x">Time</th>
-                    <th scope="col" class="col-2x">Booker</th>
-                    <th scope="col" class="col-2x">Phone</th>
-                    <th scope="col" class="col-1x">Guest</th>
-                    <th scope="col" class="col-2x">Status</th>
-                    <th scope="col" class="col-3x">Action</th>
+                    <th scope="col" >Date</th>
+                    <th scope="col" >Time</th>
+                    <th scope="col" >Booker</th>
+                    <th scope="col" >Phone</th>
+                    <th scope="col" >Guest</th>
+                    <th scope="col" >Status</th>
+                    <th scope="col" class="text-end pe-3">Action</th>
                   </tr>
                   <tr>
                     <td><?php echo date("D, d M Y", strtotime($reservation['date'])) ?></td>
@@ -183,9 +193,10 @@ if(isset($_GET['edit'])){
                       <?php echo $reservation['status'] ?>
                       </span>
                     </td>
-                    <td>
-                      <a href="reservations.php?edit=<?php echo $reservation['id'] ?>"><i class='bx bxs-edit pe-2' style="font-size:larger"></i></a>
-                      <a href="reservations.php?dlt=<?php echo $reservation['id'] ?>"><i class='bx bxs-trash' style="font-size:larger; color: var(--bs-danger)"></i></a>
+                    <td class="text-end">
+                      <a href="reservations.php?aprv=<?php echo $reservation['id'] ?>"><i class='bx bx-check-square px-1' style="font-size:larger; color: var(--bs-success)"></i></a>
+                      <a href="reservations.php?edit=<?php echo $reservation['id'] ?>"><i class='bx bxs-edit px-1' style="font-size:larger"></i></a>
+                      <a href="reservations.php?dlt=<?php echo $reservation['id'] ?>"><i class='bx bxs-trash px-1' style="font-size:large; color: var(--bs-danger)"></i></a>
                     </td>
                   </tr>
                 </tbody>

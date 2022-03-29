@@ -1,4 +1,23 @@
-<?php $active= 'users'; include 'includes/header.php'; include 'includes/db_connect.php' ?>
+<?php 
+$active= 'users'; 
+include 'includes/header.php'; 
+include 'includes/db_connect.php';
+
+if(isset($_GET['dlt'])){
+
+    $sql2 = "DELETE FROM users WHERE id = ?";
+    $query2 = $conn->prepare($sql2);
+    $query2->execute([$_GET['dlt']]);
+    
+    header('location: users.php');
+  
+}else if(isset($_GET['edit'])){
+
+    include 'includes/user_edit.php';
+
+}else{
+
+?>
     <!--Container Main start-->
     <div class="container py-3">
         <!-- ADMIN Search Bar -->
@@ -35,6 +54,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Phone</th>
+                    <th scope="col" class="text-end">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -69,6 +89,10 @@
                         <td><?php echo $admin['name'] ?></td>
                         <td><?php echo $admin['email'] ?></td>
                         <td><?php echo $admin['phone'] ?></td>
+                        <td class="text-end">
+                            <a href="users.php?edit=<?php echo $admin['id'] ?>"><i class='bx bxs-edit px-1' style="font-size:larger"></i></a>
+                            <a href="users.php?dlt=<?php echo $admin['id'] ?>"><i class='bx bxs-trash px-1' style="font-size:larger; color: var(--bs-danger)"></i></a>
+                        </td>
                         </tr>
                     <?php } ?>
                 </tbody>
@@ -109,6 +133,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Phone</th>
+                    <th scope="col" class="text-end">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -140,6 +165,10 @@
                         <td><?php echo $user['name'] ?></td>
                         <td><?php echo $user['email'] ?></td>
                         <td><?php echo $user['phone'] ?></td>
+                        <td class="text-end">
+                            <a href="users.php?edit=<?php echo $user['id'] ?>"><i class='bx bxs-edit px-1' style="font-size:larger"></i></a>
+                            <a href="users.php?dlt=<?php echo $user['id'] ?>"><i class='bx bxs-trash px-1' style="font-size:larger; color: var(--bs-danger)"></i></a>
+                        </td>
                         </tr>
                     <?php } ?>
                 </tbody>
@@ -156,7 +185,6 @@
     $name_a = '' ;
     $email_a = '';
     $phone_a = '';
-
     if(isset($_POST['submit-admin'])){
         $username_a = strtolower($_POST['username_a']);
         $password_a = password_hash($_POST['password_a'],PASSWORD_DEFAULT);
@@ -175,8 +203,8 @@
             ':isAdmin' => 'yes'
         ]);
     }
-
     ?>
+
     <div class="modal fade" id="addAdmin" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content bg-grey">
@@ -229,8 +257,7 @@
     $name = '' ;
     $email = '';
     $phone = '';
-
-    if(isset($_POST['submit'])){
+    if(isset($_POST['submit-admin'])){
         $username = strtolower($_POST['username']);
         $password = password_hash($_POST['password'],PASSWORD_DEFAULT);
         $name = $_POST['name'];
@@ -248,8 +275,8 @@
             ':isAdmin' => 'no'
         ]);
     }
-
     ?>
+
     <div class="modal fade" id="addUser" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content bg-grey">
@@ -295,4 +322,4 @@
         </div>
     </div>
 
-<?php include 'includes/footer.php' ?>
+<?php } include 'includes/footer.php' ?>

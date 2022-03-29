@@ -3,7 +3,7 @@
       <nav class="nav">
         <div class="nav_link" id="header">
           <div class="header_toggle">
-            <i class="bx bx-menu-alt-left nav_icon" id="header-toggle"></i>
+            <i class="bx bx-menu-alt-left nav_icon text-light" id="header-toggle"></i>
           </div>
         </div>
         <div class="nav_list">

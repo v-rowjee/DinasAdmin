@@ -54,7 +54,7 @@ if(isset($_GET['dlt'])){
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Phone</th>
-                    <th scope="col" class="text-end">Action</th>
+                    <th scope="col" class="text-end pe-4">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -89,7 +89,7 @@ if(isset($_GET['dlt'])){
                         <td><?php echo $admin['name'] ?></td>
                         <td><?php echo $admin['email'] ?></td>
                         <td><?php echo $admin['phone'] ?></td>
-                        <td class="text-end">
+                        <td class="text-end pe-4">
                             <a href="users.php?edit=<?php echo $admin['id'] ?>"><i class='bx bxs-edit px-1' style="font-size:larger"></i></a>
                             <a href="users.php?dlt=<?php echo $admin['id'] ?>"><i class='bx bxs-trash px-1' style="font-size:larger; color: var(--bs-danger)"></i></a>
                         </td>
@@ -133,7 +133,7 @@ if(isset($_GET['dlt'])){
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Phone</th>
-                    <th scope="col" class="text-end">Action</th>
+                    <th scope="col" class="text-end pe-4">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -165,7 +165,7 @@ if(isset($_GET['dlt'])){
                         <td><?php echo $user['name'] ?></td>
                         <td><?php echo $user['email'] ?></td>
                         <td><?php echo $user['phone'] ?></td>
-                        <td class="text-end">
+                        <td class="text-end pe-4">
                             <a href="users.php?edit=<?php echo $user['id'] ?>"><i class='bx bxs-edit px-1' style="font-size:larger"></i></a>
                             <a href="users.php?dlt=<?php echo $user['id'] ?>"><i class='bx bxs-trash px-1' style="font-size:larger; color: var(--bs-danger)"></i></a>
                         </td>

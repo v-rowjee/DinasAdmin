@@ -37,13 +37,6 @@ if(isset($_POST['save'])){
 
     $uid=$_POST['uid']; $date=$_POST['date'] ;$time=$_POST['time']; $guest=$_POST['guest']; $status=$_POST['status'];
 
-    ####    VALIDATION FOR STATUS CHECK OUT   #### 
-    if($status == 'check-out'){
-        $sql6 = "DELETE FROM res_tab WHERE rid = ? ";
-        $result6 = $conn->prepare($sql6);
-        $result6->execute([$_GET['edit']]);
-    }
-
     ####    VALIDATION FOR GUEST   ####
     // get num of tables 
     $sql2 = "SELECT * FROM tables"; 
@@ -53,7 +46,7 @@ if(isset($_POST['save'])){
     $tot_res = $num_of_tables*2;
     
     // get num of reservation at input date and time
-    $sql1 = "SELECT * FROM res_tab WHERE rid LIKE (SELECT id FROM reservation WHERE date = :date AND time = :time AND status <> :status AND uid <> :uid)"; 
+    $sql1 = "SELECT * FROM res_tab WHERE rid IN (SELECT id FROM reservation WHERE date = :date AND time = :time AND status <> :status AND uid <> :uid)"; 
     $result1 = $conn->prepare($sql1); 
     $result1->execute([
         ':date' => $date,
@@ -87,13 +80,23 @@ if(isset($_POST['save'])){
 
         $sql3 = "INSERT INTO res_tab (rid, tid) VALUES (:rid,:tid)";
         $result3 = $conn->prepare($sql3);
-        
-        for($i=0; $i < $tables_needed; $i++){
+
+        // get num of tables needed from party size
+        $tables_needed = ceil($guest);
+
+        for($i=1; $i<=$tables_needed; $i++){
             // $sql5 = "SELECT COUNT * FROM res_tab WHERE ";
             $result3->execute([
                 ':rid' => $_GET['edit'],
-                ':tid' => $res_available+1+$i
+                ':tid' => $res_available+$i
             ]); 
+        }
+
+         ####    VALIDATION FOR STATUS CHECK OUT   #### 
+        if($status == 'check-out'){
+            $sql6 = "DELETE FROM res_tab WHERE rid = ? ";
+            $result6 = $conn->prepare($sql6);
+            $result6->execute([$_GET['edit']]);
         }
 
         $conn->commit();

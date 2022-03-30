@@ -36,13 +36,12 @@
         $tot_res = $num_of_tables*2;
         
         // get num of reservation at input date and time
-        $sql1 = "SELECT * FROM res_tab WHERE rid LIKE (SELECT id FROM reservation WHERE date = :date AND time = :time AND status <> :status AND uid <> :uid)"; 
+        $sql1 = "SELECT * FROM res_tab WHERE rid IN(SELECT id FROM reservation WHERE date = :date AND time = :time AND status <> :status)"; 
         $result1 = $conn->prepare($sql1); 
         $result1->execute([
             ':date' => $date,
             ':time' => $time,
-            ':status' => 'check-out',
-            ':uid' => $uid
+            ':status' => 'check-out'
         ]); 
         $table_booked = $result1->rowCount(); // num of tables booked on same datetime
         $tables_available = $num_of_tables - $table_booked; // num of tables available
@@ -60,14 +59,14 @@
                 ':size' => $guest,
                 ':date' => $date,
                 ':time' => $time,
-                ':status' => 'booked'
+                ':status' => $status
             ]);
             //  new rid
             $newRID = $conn->lastInsertId();
             // get num of tables needed from party size
-            $tables_needed = ceil($guest/2);
+            $tables_needed = ceil($guest / 2);
             // get tables
-            // $sql6 = "SELECT id FROM tables WHERE id NOT IN(SELECT tid FROM res_tab WHERE rid LIKE IN(SELECT id FROM reservation WHERE date LIKE :date AND time LIKE :time)) LIMIT :limit";
+            // $sql6 = "SELECT id FROM tables WHERE id NOT IN(SELECT tid FROM res_tab WHERE rid IN(SELECT id FROM reservation WHERE date LIKE :date AND time LIKE :time)) LIMIT :limit";
             // $result6 = $conn->prepare($sql6);
             // $result6->execute([
             //     ':date' => $date,
@@ -91,10 +90,10 @@
             $sql3 = "INSERT INTO res_tab (rid, tid) VALUES (:rid,:tid)";
             $result3 = $conn->prepare($sql3);
             
-            for($i=0; $i < $tables_needed; $i++){
+            for($i=1; $i <= $tables_needed; $i++){
                 $result3->execute([
                     ':rid' => $newRID,
-                    ':tid' => $num_of_reservations+1+$i
+                    ':tid' => $table_booked+$i
                 ]); 
             }
 

@@ -33,6 +33,8 @@ if(isset($_POST['delete'])){
 }
 if(isset($_POST['save'])){
 
+    $conn->beginTransaction();
+
     $uid=$_POST['uid']; $date=$_POST['date'] ;$time=$_POST['time']; $guest=$_POST['guest']; $status=$_POST['status'];
 
     ####    VALIDATION FOR STATUS CHECK OUT   #### 
@@ -93,6 +95,9 @@ if(isset($_POST['save'])){
                 ':tid' => $res_available+1+$i
             ]); 
         }
+
+        $conn->commit();
+
         header('location: reservations.php');     
     }
 }

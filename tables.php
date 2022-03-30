@@ -100,11 +100,11 @@ if(isset($_GET['dlt'])){
 
                     $search2 = $_POST['search-input'];
 
-                    $sql2 = "SELECT * FROM tables WHERE tab_num LIKE :search_num OR placement = :search_pla ORDER BY tab_num, placement";
+                    $sql2 = "SELECT * FROM tables WHERE id LIKE :search_num OR placement = :search_pla ORDER BY id, placement";
                     $query2 = $conn->prepare($sql2);
                     $query2->execute([
-                        ':search_num' => $search2.'%',
-                        ':search_pla' => $search2
+                        ':search_num' => $search2,
+                        ':search_pla' => $search2.'%'
                     ]);
 
                     if($query2->rowCount() == 0){
@@ -112,7 +112,7 @@ if(isset($_GET['dlt'])){
                     }
                     
                 }else{
-                    $sql2 = "SELECT * FROM tables ORDER BY tab_num, placement"; 
+                    $sql2 = "SELECT * FROM tables ORDER BY id, placement"; 
                     $query2 = $conn->prepare($sql2);
                     $query2->execute();
                 }
@@ -137,7 +137,6 @@ if(isset($_GET['dlt'])){
                             <thead>
                                 <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">Table No.</th>
                                 <th scope="col">Placement</th>
                                 <th scope="col">Action</th>
                                 </tr>
@@ -146,7 +145,6 @@ if(isset($_GET['dlt'])){
                                 <?php while($table = $query2->fetch(PDO::FETCH_ASSOC)){ ?>
                                 <tr>
                                 <th><?php echo $table['id'] ?></th>
-                                <td><?php echo $table['tab_num'] ?></td>
                                 <td class="text-capitalize"><?php echo $table['placement'] ?></td>
                                 <td><a href="tables.php?dlt=<?php echo $table['id'] ?>"><i class='bx bxs-trash-alt text-danger'></i></a></td>
                                 </tr>
@@ -175,7 +173,7 @@ if(isset($_GET['dlt'])){
                     
                     if(isset($_POST['add-table'])){
 
-                        $sql3 = "SELECT * FROM tables WHERE tab_num = ?";
+                        $sql3 = "SELECT * FROM tables WHERE id = ?";
                         $query3 = $conn->prepare($sql3);
                         $query3->execute([$_POST['tnum']]);
 
@@ -189,7 +187,7 @@ if(isset($_GET['dlt'])){
                             $place = $_POST['placement'];
 
                             if($tnum != ''){
-                                $sql = "INSERT INTO tables (tab_num,placement) VALUES (:num,:place)";
+                                $sql = "INSERT INTO tables (id,placement) VALUES (:num,:place)";
                                 $query = $conn->prepare($sql);
                                 $query->execute([
                                     ':num' => $tnum,
@@ -206,8 +204,8 @@ if(isset($_GET['dlt'])){
                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])?>" method="post">
                             <div class="row text-start justify-content-center">
                                 <div class="col-12 col-md-4">
-                                    <label class="form-label">Table Number</label>
-                                    <input type="number" min=1 class="form-control" name="tnum" placeholder="Tab No.">
+                                    <label class="form-label">Table ID</label>
+                                    <input type="number" min=1 class="form-control" name="tnum" placeholder="Table ID">
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label class="form-label">Placement</label>

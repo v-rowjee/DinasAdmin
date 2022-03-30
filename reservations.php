@@ -1,28 +1,34 @@
 <?php 
-ob_start();
+ob_start();  //This function will turn output buffering on
 $active= 'reservations';
 include 'includes/header.php';
 include 'includes/db_connect.php';
 
-if(isset($_GET['edit'])){
+if(isset($_GET['edit'])){   // on edit icon click
+
   if($_GET['edit'] == 'new')
-    include 'includes/reservation_new.php';
+    include 'includes/reservation_new.php';   // create new reservation
   else
-    include 'includes/reservation_edit.php';
+    include 'includes/reservation_edit.php';  // edit existing reservation
 
-}else if(isset($_GET['dlt'])){
+}else if(isset($_GET['dlt'])){  // on delete icon click
 
+  // deleting from reservation table
   $sql2 = "DELETE FROM reservation WHERE id = ?";
   $query2 = $conn->prepare($sql2);
   $query2->execute([$_GET['dlt']]);
 
+  // deleting from res_tab table
   $sql3 = "DELETE FROM res_tab WHERE rid = ?";
   $query3 = $conn->prepare($sql3);
   $query3->execute([$_GET['dlt']]);
   
+  // redirect to all the reservations
   header('location: reservations.php');
 
-}else if(isset($_GET['aprv'])){
+}else if(isset($_GET['aprv'])){   // on approved icon click
+
+  // change the status of selected reservation to approved
   $sql4 = "UPDATE reservation SET status = :status WHERE id = :rid";
   $query = $conn->prepare($sql4);
   $query->execute([
@@ -30,6 +36,7 @@ if(isset($_GET['edit'])){
     ':rid' => $_GET['aprv']
   ]);
 
+  // redirect to all the reservations
   header('location: reservations.php');
 
 }else{
@@ -48,11 +55,13 @@ if(isset($_GET['edit'])){
       <hr>
       <?php
 
-        $date = date("Y-m-d", strtotime("+1 day")); $time = '%'; $status = '%'; $search = ''; $allDates='checked';
+        $date = date("Y-m-d", strtotime("+1 day")); // set time to tomorrow
+        $time = '%'; $status = '%'; $search = ''; $allDates='checked';
 
-        if(isset($_POST['search-reservation'])){
+        if(isset($_POST['search-reservation'])){  // on filter search button click
 
           $dateInput = $_POST['date'];
+          // convert to correct format for sql processing
           $date = date("Y-m-d", strtotime($dateInput));
 
           if(isset($_POST['allDates'])) // if checked
@@ -64,7 +73,7 @@ if(isset($_GET['edit'])){
 
           $status = $_POST['status'];
 
-          if(isset($_POST['search']))
+          if(isset($_POST['search'])) // if search textfield is filled
             $search = $_POST['search'];
 
         }
@@ -116,12 +125,15 @@ if(isset($_GET['edit'])){
         <?php 
 
           $tempDate = $date;
-          if(isset($allDates))
-            $tempDate = '%';
+          if(isset($allDates))  // if checkbox checked
+            $tempDate = '%';  // show all date
           
           // if input search blank var search is % i.e search for all
           $tempSearch = $search == '' ? '%' : $search; 
 
+          // sql statement to get all details about reservation with filters
+          // we want the exact phone number or id as in the textfield
+          // in the order of booked, approved, check-in and finally check-out
           $sql = "SELECT * FROM reservation 
                   WHERE (id LIKE :search_exact 
                       OR uid = (SELECT id FROM users 
@@ -147,6 +159,8 @@ if(isset($_GET['edit'])){
           
 
           while($reservation = $query->fetch(PDO::FETCH_ASSOC)){
+
+            // get user info for each reservation
             $sql2 = "SELECT * FROM users WHERE id = ?";
             $query2 = $conn->prepare($sql2);
             $query2->execute([$reservation['uid']]);
@@ -154,14 +168,14 @@ if(isset($_GET['edit'])){
         ?>
           <div class="card bg-grey shadow rounded" style="border-left: 0.2rem solid 
           <?php 
-          if($reservation['status'] == 'booked') echo 'var(--bs-info)';
-          if($reservation['status'] == 'approved') echo 'var(--bs-success)';
-          if($reservation['status'] == 'check-in') echo 'var(--bs-light)';
-          if($reservation['status'] == 'check-out') echo 'var(--bs-secondary)';
+          if($reservation['status'] == 'booked') echo 'var(--bs-info)';         // blue for booked
+          if($reservation['status'] == 'approved') echo 'var(--bs-success)';    // green for approved
+          if($reservation['status'] == 'check-in') echo 'var(--bs-light)';      // white for check-in
+          if($reservation['status'] == 'check-out') echo 'var(--bs-secondary)'; // grey for check-out
           ?>;">
             <div class="card-body">
                 <table class="table table-borderless nowrap">
-                  <thead class="card-header">
+                  <thead>
                     <tr>
                       <td scope="col">Reservation ID <?php echo $reservation['id'] ?></th>
                     </tr>
@@ -177,12 +191,18 @@ if(isset($_GET['edit'])){
                     <th scope="col" >Tables</th>
                     <th scope="col" class="text-center">Action</th>
                   </tr>
-                  <tr>
+                  <tr> 
+                    <!-- Date -->
                     <td><?php echo date("D, d M Y", strtotime($reservation['date'])) ?></td>
+                    <!-- Time -->
                     <td><?php echo $reservation['time'].'pm' ?></td>
+                    <!-- Name of booker -->
                     <td><?php echo $user['name'] ?></td>
+                    <!-- Phone number of booker -->
                     <td><?php echo $user['phone'] ?></td>
+                    <!-- Number of guest -->
                     <td class="ps-4"><?php echo $reservation['party_size'] ?></td>
+                    <!-- Status of reservation -->
                     <td>
                       <span class="text-capitalize text-dark
                       <?php 
@@ -194,9 +214,11 @@ if(isset($_GET['edit'])){
                       <?php echo $reservation['status'] ?>
                       </span>
                     </td>
+                    <!-- View table -->
                     <td class="ps-4">
-                      <a href="tables.php?rid=<?php echo $reservation['id'] ?>"><i class='bx bx-link-external'></i></a>
+                      <a href="tables.php?rid=<?php echo $reservation['id'] ?>" title='View table'><i class='bx bx-link-external'></i></a>
                     </td>
+                    <!-- Action (Approve, Edit, Delete) -->
                     <td class="text-center">
                       <a href="reservations.php?aprv=<?php echo $reservation['id'] ?>" title='Approve'><i class='bx bx-check-square px-1' style="font-size:larger; color: var(--bs-success)"></i></a>
                       <a href="reservations.php?edit=<?php echo $reservation['id'] ?>" title='Edit'><i class='bx bxs-edit px-1' style="font-size:larger"></i></a>
@@ -213,4 +235,8 @@ if(isset($_GET['edit'])){
     </div>
     <!--Container Main end-->
     
-<?php } include 'includes/footer.php'; $conn==null; ob_end_flush(); ?>
+<?php } 
+include 'includes/footer.php'; 
+$conn==null; 
+ob_end_flush(); // Flush (send) the output buffer and turn off output buffering
+?>

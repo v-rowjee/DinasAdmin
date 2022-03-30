@@ -3,13 +3,16 @@
 
     $msg = ''; 
     $uid = ''; 
-    $date = date("Y-m-d", strtotime("+1 day"));
-    $time = '5'; 
-    $guest = '2'; 
-    $status='booked';
+    $date = date("Y-m-d", strtotime("+1 day")); // set default date to tomorrow
+    $time = '5'; // set default time to 5
+    $guest = '2'; // set default party size to 2
+    $status='approved'; // set default status to approved
 
     if(isset($_POST['create'])){
 
+        $conn->beginTransaction();
+
+        // getting user input from textfields
         $uid =$_POST['uid']; $date=$_POST['date'] ;$time=$_POST['time']; $guest=$_POST['guest']; $status=$_POST['status'];
         
         $sql = "SELECT * FROM reservation WHERE uid = :uid AND status <> :status";
@@ -24,7 +27,6 @@
         
 
         ####    VALIDATION FOR GUEST   ####
-        $tables_needed = ceil($guest/2);
 
         // get num of tables 
         $sql2 = "SELECT * FROM tables"; 
@@ -62,26 +64,42 @@
             ]);
             //  new rid
             $newRID = $conn->lastInsertId();
+            // get num of tables needed from party size
+            $tables_needed = ceil($guest/2);
             // get tables
-            $sql4 = "SELECT tid FROM tables WHERE tid NOT IN (SELECT tid FROM res_tab WHERE rid LIKE (SELECT rid FROM reservation WHERE date LIKE :date AND time LIKE :time)) LIMIT :limit";
-            $result6 = $conn->prepare($sql4);
-            $result6->execute([
-                ':date' => $date,
-                ':time' => $time,
-                ':limit' => $tables_needed,
-            ]);
+            // $sql6 = "SELECT id FROM tables WHERE id NOT IN(SELECT tid FROM res_tab WHERE rid LIKE IN(SELECT id FROM reservation WHERE date LIKE :date AND time LIKE :time)) LIMIT :limit";
+            // $result6 = $conn->prepare($sql6);
+            // $result6->execute([
+            //     ':date' => $date,
+            //     ':time' => $time,
+            //     ':limit' => $tables_needed,
+            // ]);
 
+            // $sql3 = "INSERT INTO res_tab (rid, tid) VALUES (:rid,:tid)";
+            // $result3 = $conn->prepare($sql3);
+            
+            
+            // for($i=0; $i < $tables_needed; $i++){
+            //     $table = $result6->fetchColumn();
+            //     $result3->execute([
+            //         ':rid' => $newRID,
+            //         ':tid' => $table
+            //     ]); 
+            // }
+
+            // put n rows for n table needed
             $sql3 = "INSERT INTO res_tab (rid, tid) VALUES (:rid,:tid)";
             $result3 = $conn->prepare($sql3);
             
-            
-            for($i=0; $i < $tables_booked; $i++){
-                $table = $result6->fetchColumn();
+            for($i=0; $i < $tables_needed; $i++){
                 $result3->execute([
                     ':rid' => $newRID,
-                    ':tid' => $table
+                    ':tid' => $num_of_reservations+1+$i
                 ]); 
             }
+
+            $conn->commit();
+
             header('location: reservations.php');
         }
     }

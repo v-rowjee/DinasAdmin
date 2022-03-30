@@ -2,6 +2,10 @@
 $sql = "SELECT * FROM reservation WHERE id = ?";
 $query = $conn->prepare($sql);
 $query->execute([$_GET['edit']]);
+
+// return to reservation if rid do not exist
+if($query->rowCount() == 0) header('location: reservations.php');
+
 $reservation = $query->fetch(pdo::FETCH_ASSOC);
 
 $sql = "SELECT * FROM users WHERE id = ?";

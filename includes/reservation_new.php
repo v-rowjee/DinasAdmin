@@ -22,14 +22,10 @@
             $msg = 'User already has a reservation';
         else{
         
-        ####    VALIDATION FOR STATUS CHECK OUT   #### NOT WORKING
-        if($status == 'check-out'){
-            $sql6 = "DELETE FROM res_tab WHERE rid = ? ";
-            $result6 = $conn->prepare($sql6);
-            $result6->execute([$_GET['edit']]);
-        }
 
         ####    VALIDATION FOR GUEST   ####
+        $tables_needed = ceil($guest/2);
+
         // get num of tables 
         $sql2 = "SELECT * FROM tables"; 
         $result2 = $conn->prepare($sql2); 
@@ -66,14 +62,24 @@
             ]);
             //  new rid
             $newRID = $conn->lastInsertId();
-            // put n rows for n table needed
+            // get tables
+            $sql4 = "SELECT tid FROM tables WHERE tid NOT IN (SELECT tid FROM res_tab WHERE rid LIKE (SELECT rid FROM reservation WHERE date LIKE :date AND time LIKE :time)) LIMIT :limit";
+            $result6 = $conn->prepare($sql4);
+            $result6->execute([
+                ':date' => $date,
+                ':time' => $time,
+                ':limit' => $tables_needed,
+            ]);
+
             $sql3 = "INSERT INTO res_tab (rid, tid) VALUES (:rid,:tid)";
             $result3 = $conn->prepare($sql3);
             
-            for($i=0; $i < $tables_needed; $i++){
+            
+            for($i=0; $i < $tables_booked; $i++){
+                $table = $result6->fetchColumn();
                 $result3->execute([
                     ':rid' => $newRID,
-                    ':tid' => $num_of_reservations+1+$i
+                    ':tid' => $table
                 ]); 
             }
             header('location: reservations.php');

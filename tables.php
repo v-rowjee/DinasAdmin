@@ -21,10 +21,13 @@ if(isset($_GET['dlt'])){
             </div>
         </div>
         <div class="row my-3 gx-5">
-            <!-- SEARCH RES_TAB -->
+            <!-- RES_TAB -->
             <div class="col-12 col-md-6 mt-3">
                 <?php
-                $search = '';;
+                if(isset($_GET['rid']))
+                    $search = $_GET['rid'];
+                else
+                    $search = '';
                 $msg = "";
 
                 if(isset($_POST['search-rid']) && isset($_POST['search-input-rid'])){
@@ -44,6 +47,10 @@ if(isset($_GET['dlt'])){
                      $msg = '<div class="col align-self-center text-center"><p class="msg">No Search Result for: "'.$search2.'"</p></div>';
                     }
 
+                }else if(isset($_GET['rid'])){
+                    $sql = "SELECT * FROM res_tab WHERE rid = ? ORDER BY rid"; 
+                    $query = $conn->prepare($sql);
+                    $query->execute([$_GET['rid']]);
                 }else{
                     $sql = "SELECT * FROM res_tab ORDER BY rid"; 
                     $query = $conn->prepare($sql);
@@ -82,7 +89,7 @@ if(isset($_GET['dlt'])){
                     </div>
                 </div>
             </div>
-            <!-- SEARCH TABLES -->
+            <!-- TABLES -->
             <div class="col-12 col-md-6 mt-3">
                 <?php
                 $search2 = "";

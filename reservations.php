@@ -40,7 +40,7 @@ if(isset($_GET['edit'])){
           <div class="col-auto">
           <h2>Reservations</h2>
           </div>
-          <div class="col-auto text-end">
+          <div class="col-auto">
             <a href="tables.php" class="btn btn-outline-primary ms-auto me-3">View Table</a>
             <a href="reservations.php?edit=new" class="btn btn-primary"><i class="bx bx-plus"></i></a>
           </div>
@@ -174,14 +174,15 @@ if(isset($_GET['edit'])){
                     <th scope="col" >Phone</th>
                     <th scope="col" >Guest</th>
                     <th scope="col" >Status</th>
-                    <th scope="col" class="text-end pe-3">Action</th>
+                    <th scope="col" >Tables</th>
+                    <th scope="col" class="text-center">Action</th>
                   </tr>
                   <tr>
                     <td><?php echo date("D, d M Y", strtotime($reservation['date'])) ?></td>
                     <td><?php echo $reservation['time'].'pm' ?></td>
                     <td><?php echo $user['name'] ?></td>
                     <td><?php echo $user['phone'] ?></td>
-                    <td><?php echo $reservation['party_size'] ?></td>
+                    <td class="ps-4"><?php echo $reservation['party_size'] ?></td>
                     <td>
                       <span class="text-capitalize text-dark
                       <?php 
@@ -193,10 +194,13 @@ if(isset($_GET['edit'])){
                       <?php echo $reservation['status'] ?>
                       </span>
                     </td>
-                    <td class="text-end">
-                      <a href="reservations.php?aprv=<?php echo $reservation['id'] ?>"><i class='bx bx-check-square px-1' style="font-size:larger; color: var(--bs-success)"></i></a>
-                      <a href="reservations.php?edit=<?php echo $reservation['id'] ?>"><i class='bx bxs-edit px-1' style="font-size:larger"></i></a>
-                      <a href="reservations.php?dlt=<?php echo $reservation['id'] ?>"><i class='bx bxs-trash px-1' style="font-size:large; color: var(--bs-danger)"></i></a>
+                    <td class="ps-4">
+                      <a href="tables.php?rid=<?php echo $reservation['id'] ?>"><i class='bx bx-link-external'></i></a>
+                    </td>
+                    <td class="text-center">
+                      <a href="reservations.php?aprv=<?php echo $reservation['id'] ?>" title='Approve'><i class='bx bx-check-square px-1' style="font-size:larger; color: var(--bs-success)"></i></a>
+                      <a href="reservations.php?edit=<?php echo $reservation['id'] ?>" title='Edit'><i class='bx bxs-edit px-1' style="font-size:larger"></i></a>
+                      <a href="reservations.php?dlt=<?php echo $reservation['id'] ?>" title='Delete'><i class='bx bxs-trash px-1' style="font-size:large; color: var(--bs-danger)"></i></a>
                     </td>
                   </tr>
                 </tbody>

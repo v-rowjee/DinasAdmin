@@ -59,14 +59,14 @@ if(isset($_POST['delete'])){
             ]);
         }else{
             $hashed_password = password_hash($password,PASSWORD_DEFAULT);
-            $sql_u = "UPDATE users SET username = :username, name = :name, phone = :phone, email = : email, is_admin = :isAdmin, password = :password WHERE id = :id";
+            $sql_u = "UPDATE users SET username = :username, name = :name, phone = :phone, email = :email, is_admin = :isAdmin, password = :password WHERE id = :id";
             $query_u = $conn->prepare($sql_u);
             $query_u->execute([
                 ':username' => $username,
                 ':name' => $name,
                 ':email' => $email,
                 ':phone' => $phone,
-                '"is_admin' => $isAdmin,
+                ':isAdmin' => $isAdmin,
                 ':password' => $hashed_password,
                 ':id' => $id
             ]);

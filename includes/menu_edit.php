@@ -16,26 +16,35 @@ $conn->beginTransaction();  // begin transaction
 // UPDATE ITEM
 if(isset($_POST['save'])){
 
-  // include 'includes/upload.php';
+  if(empty($_POST['price']))
+    $msg = 'Price required';
+
+  if(empty($_POST['name']))
+    $msg = 'Name required';
+
+  if(empty($_POST['desc']))
+    $msg = 'Description required';
 
   // validation for all input
   if(!file_exists('images/menu/'.$_POST['img']))
     $item['img'] = "default.jpg";
 
-  $sql2 = "UPDATE menu SET name = :name , price = :price , caption = :desc , category = :category , img = :img WHERE id = :id";
-  $query2 = $conn->prepare($sql2);
-  $query2->execute([
-    ':id' => $item['id'],
-    ':name' => $_POST['name'],
-    ':price' => $_POST['price'],
-    ':desc' => $_POST['desc'],
-    ':category' => $_POST['category'],
-    ':img' => $_POST['img']
-  ]);
+  if($msg == ''){
+    $sql2 = "UPDATE menu SET name = :name , price = :price , caption = :desc , category = :category , img = :img WHERE id = :id";
+    $query2 = $conn->prepare($sql2);
+    $query2->execute([
+      ':id' => $item['id'],
+      ':name' => $_POST['name'],
+      ':price' => $_POST['price'],
+      ':desc' => $_POST['desc'],
+      ':category' => $_POST['category'],
+      ':img' => $_POST['img']
+    ]);
 
-  $conn->commit();
+    $conn->commit();
 
-  $msg = "Record saved";
+    $msg = "Record saved";
+  }
 
   // to get saved values
   if($msg != ''){

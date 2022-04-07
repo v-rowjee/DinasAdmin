@@ -20,13 +20,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
   showNavbar("header-toggle", "nav-bar", "body-pd");
 });
 
-// Toggle password
-// $('.toggle-password').click(function(){
-//   $(this).children().toggleClass('fa-eye fa-eye-slash');
-//   let input = $(this).prev();
-//   input.attr('type', input.attr('type') === 'password' ? 'text' : 'password');
-// });
-
 // Tooltip
 var tooltipTriggerList = [].slice.call(
   document.querySelectorAll('[data-bs-toggle="tooltip"]')
@@ -34,17 +27,6 @@ var tooltipTriggerList = [].slice.call(
 var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
   return new bootstrap.Tooltip(tooltipTriggerEl);
 });
-
-// Date picker
-// let today = new Date().toISOString().substr(0, 10);
-// document.querySelector("#datepicker").value = today;
-
-// Bootstrap Modal
-// var myModal = document.getElementById("myModal");
-// var myInput = document.getElementById("myInput");
-// myModal.addEventListener("shown.bs.modal", function () {
-//   myInput.focus();
-// });
 
 // Disable forms
 $("form").attr("autocomplete", "off");

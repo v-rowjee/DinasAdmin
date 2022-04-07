@@ -117,6 +117,10 @@ if(isset($_GET['dlt'])){
                     <i class='bx bx-search'></i>
                 </button>
             </div>
+            <a href="" class="input-group-text me-3" data-bs-toggle="modal" data-bs-target="#addUser">
+                <i class="bx bx-plus"></i>
+            </a>
+        </form>
     </div>
     <div class="card bg-grey shadow rounded mb-4">
         <div class="card-body">

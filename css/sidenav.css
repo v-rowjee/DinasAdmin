@@ -143,18 +143,9 @@ a {
 }
 
 /*  for larger screen */
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 512px) {
   body {
     padding-left: calc(var(--nav-width));
-  }
-
-  .header_img {
-    width: 40px;
-    height: 40px;
-  }
-
-  .header_img img {
-    width: 45px;
   }
 
   .l-navbar {
@@ -162,7 +153,7 @@ a {
     padding: 0 0.5rem 0 0;
   }
 
-.show-nav {
+  .show-nav {
     width: calc(var(--nav-width) + 136px);
   }
 

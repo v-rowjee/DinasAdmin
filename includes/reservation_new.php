@@ -66,34 +66,22 @@
             // get num of tables needed from party size
             $tables_needed = ceil($guest / 2);
             // get tables
-            // $sql6 = "SELECT id FROM tables WHERE id NOT IN(SELECT tid FROM res_tab WHERE rid IN(SELECT id FROM reservation WHERE date LIKE :date AND time LIKE :time)) LIMIT :limit";
-            // $result6 = $conn->prepare($sql6);
-            // $result6->execute([
-            //     ':date' => $date,
-            //     ':time' => $time,
-            //     ':limit' => $tables_needed,
-            // ]);
+            $sql6 = "SELECT id FROM tables WHERE id NOT IN(SELECT tid FROM res_tab WHERE rid IN(SELECT id FROM reservation WHERE date LIKE :date AND time LIKE :time))";
+            $result6 = $conn->prepare($sql6);
+            $result6->execute([
+                ':date' => $date,
+                ':time' => $time,
+            ]);
 
-            // $sql3 = "INSERT INTO res_tab (rid, tid) VALUES (:rid,:tid)";
-            // $result3 = $conn->prepare($sql3);
-            
-            
-            // for($i=0; $i < $tables_needed; $i++){
-            //     $table = $result6->fetchColumn();
-            //     $result3->execute([
-            //         ':rid' => $newRID,
-            //         ':tid' => $table
-            //     ]); 
-            // }
-
-            // put n rows for n table needed
             $sql3 = "INSERT INTO res_tab (rid, tid) VALUES (:rid,:tid)";
             $result3 = $conn->prepare($sql3);
             
-            for($i=1; $i <= $tables_needed; $i++){
+            
+            for($i=0; $i < $tables_needed; $i++){
+                $table = $result6->fetchColumn()%$num_of_tables;
                 $result3->execute([
                     ':rid' => $newRID,
-                    ':tid' => $table_booked+$i
+                    ':tid' => $table
                 ]); 
             }
 
@@ -155,7 +143,7 @@
                     <div class="row">
                         <div class="col-12 col-md-6">
                             <label class="form-label">Guest</label>
-                            <input type="number" name="guest" class="form-control" value="<?php echo $guest ?>" min=0>
+                            <input type="number" name="guest" class="form-control" value="<?php echo $guest ?>" min=1>
                         </div>
                         <div class="col-12 col-md-6">
                             <label class="form-label">Status</label>

@@ -31,4 +31,8 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 // Disable forms
 $("form").attr("autocomplete", "off");
 
+// Confirm Form Resubmission
+if ( window.history.replaceState ) {
+  window.history.replaceState( null, null, window.location.href );
+}
 

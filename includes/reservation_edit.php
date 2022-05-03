@@ -43,7 +43,6 @@ if(isset($_POST['save'])){
     $result2 = $conn->prepare($sql2); 
     $result2->execute(); 
     $num_of_tables = $result2->rowCount();
-    $tot_res = $num_of_tables*2;
     
     // get num of reservation at input date and time
     $sql1 = "SELECT * FROM res_tab WHERE rid IN (SELECT id FROM reservation WHERE date = :date AND time = :time AND status <> :status AND uid <> :uid)"; 
@@ -108,9 +107,9 @@ if(isset($_POST['save'])){
 
 ?>
 
-<div class="container pt-4">
-    <div class="row justify-content-around g-4">
-        <div class="col-12 col-lg-6">
+<div class="container" style="height: 100vh;">
+    <div class="row justify-content-around g-4 h-100">
+        <div class="col-12 col-lg-6 align-self-center">
             <div class="card bg-grey shadow p-4"> 
                 <div class="card-header">
                     <h4 class="text-gold">Reservation ID <?php echo $_GET['edit'] ?></h4>
@@ -171,7 +170,7 @@ if(isset($_POST['save'])){
                 </form>
             </div>
         </div>
-        <div class="col-12 col-lg-4">
+        <div class="col-12 col-lg-4 align-self-center">
             <div class="card bg-grey shadow p-4">
                 <div class="card-header pb-3">
                     <h4>User Details</h4>

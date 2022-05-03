@@ -147,7 +147,7 @@ if(isset($_GET['edit'])){   // on edit icon click
                                 when status = 'approved' then 2
                                 when status = 'check-in' then 3
                                 when status = 'check-out' then 4
-                  else 5 end ASC, date DESC, time";
+                  else 5 end ASC, id DESC";
           $query = $conn->prepare($sql);
           $query->execute([
             ':search' => $search.'%',

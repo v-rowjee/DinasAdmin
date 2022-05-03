@@ -7,10 +7,10 @@
           </div>
         </div>
         <div class="nav_list">
-          <!-- <a href="/dinas/index.php" target="blank" class="nav_logo">
-            <i class='bx bx-home-alt-2 nav_logo-icon'></i>
-            <span class="nav_logo-name">Dina's Restaurant</span>
-          </a> -->
+          <a href="/dinas/index.php" target="blank" class="nav_link">
+            <i class='bx bx-home-alt-2 nav_icon'></i>
+            <span class="nav_name">Homepage</span>
+          </a>
           <a href="dashboard.php" class="nav_link <?php if($active == 'dashboard') echo 'active' ?>">
             <i class="bx bx-grid-alt nav_icon" title="Dashboard"></i>
             <span class="nav_name">Dashboard</span> 

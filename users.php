@@ -179,17 +179,35 @@ if(isset($_GET['dlt'])){
 
 <!-- <script>
     $(document).ready(function(){
-        $("#search").keypress(function(){
-            $.ajax({
-            type:'POST',
-            url:'ajax/search-user.php',
-            data:{
-                name:$("#search").val(),
-            },
-            success:function(data){
-                $("#output").html(data);
+        $("#search").keyup(function(){
+            var value = $(this).val();
+
+            $("table tbody tr").each(function(records)
+            {
+                if(records !== 0)
+                {
+                    var id = $(this).find("td").text();
+                    if(id.indexOf(value) !==0 && id.toLocaleLowerCase().indexOf(value.toLocaleLowerCase() <0))
+                    {
+                        $(this).hide();
+                    }
+                    else{
+                        $(this).show();
+                    }
+                }
             }
-            });
+            )
+
+            // $.ajax({
+            // type:'POST',
+            // url:'ajax/search-user.php',
+            // data:{
+            //     name:$("#search").val(),
+            // },
+            // success:function(data){
+            //     $("#output").html(data);
+            // }
+            // });
         });
     });
 </script> -->

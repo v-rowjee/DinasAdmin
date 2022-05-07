@@ -3,7 +3,7 @@ include '../includes/db_connect.php';
 
 if(isset($_POST['search'])){
 	$sql = "SELECT * FROM users 
-			WHERE (is_admin = 'no') 
+			WHERE (is_admin = 'yes') 
 			AND (username LIKE :search OR name LIKE :search OR email LIKE :search  OR phone LIKE :search)
 			ORDER BY username";
 	$query = $conn->prepare($sql);
@@ -11,7 +11,7 @@ if(isset($_POST['search'])){
 		':search' => '%'.$_POST['search'].'%'
 	]);
 }else{
-	$sql = "SELECT * FROM users WHERE is_admin = 'no'";
+	$sql = "SELECT * FROM users WHERE is_admin = 'yes'";
 	$query = $conn->prepare($sql);
 	$query->execute();
 }

@@ -23,18 +23,10 @@ if(isset($_GET['dlt'])){
     <!-- ADMIN Search Bar -->
     <div class="d-flex align-items-center mb-4">
         <h2 class="me-auto">Admins</h2>
-        <?php
-            $search_a = '';
-
-            if(isset($_POST['search-admin'])){
-                $search_a = $_POST['search-input-admin'];
-
-            }
-        ?>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])?>" method="post" class="flex-row-reverse">
+        <form method="post" class="flex-row-reverse">
             <div class="input-group">
-                <input type="text" name="search-input-admin" class="form-control" placeholder="Search Admin" value="<?php echo $search_a ?>">
-                <button type="submit" name="search-admin" class="input-group-text" title="Search">
+                <input type="text" class="form-control" id="search_a" onkeyup="searchAdmin()" placeholder="Search Admin">
+                <button type="button" class="input-group-text">
                     <i class='bx bx-search'></i>
                 </button>
             </div>
@@ -57,67 +49,21 @@ if(isset($_GET['dlt'])){
                 <th scope="col" class="text-end pe-4">Action</th>
                 </tr>
             </thead>
-            <tbody>
-                <?php 
-                    // search for the exact keyword that user input
-                    $exactId_a = $search_a;
-                    if($exactId_a == '')    //if no user input search
-                        $exactId_a = '%'; //search all
-                    // search for keywords containing string from input
-                    $temp_a = '%'.$search_a.'%';
-                    if($temp_a == '')
-                        $temp_a = '%';  
-                        
-                    $sql_a = "SELECT * FROM users WHERE (is_admin = 'yes') AND (id LIKE :id OR username LIKE :username OR name LIKE :name OR email LIKE :email OR phone LIKE :phone)";
-                    $query_a = $conn->prepare($sql_a);
-                    $query_a->execute([
-                        ':id' => $exactId_a,
-                        ':username' => $temp_a,
-                        ':name' => $temp_a,
-                        ':email' => $temp_a,
-                        ':phone' => $temp_a,
-                    ]);
-                    // if no data found from input print error message
-                    if($query_a->rowCount() == 0){
-                        echo '<p class="msg">No Result</p>';
-                    }
-                    while($admin = $query_a->fetch(PDO::FETCH_ASSOC)){ 
-                ?>
-                    <tr>
-                    <th scope="row" class="px-4"><?php echo $admin['id'] ?></th>
-                    <td><?php echo $admin['username'] ?></td>
-                    <td><?php echo $admin['name'] ?></td>
-                    <td><?php echo $admin['email'] ?></td>
-                    <td><?php echo $admin['phone'] ?></td>
-                    <td class="text-end pe-3">
-                        <a href="users.php?edit=<?php echo $admin['id'] ?>"><i class='bx bxs-edit px-1' style="font-size:larger"></i></a>
-                        <a href="users.php?dlt=<?php echo $admin['id'] ?>"><i class='bx bxs-trash px-1' style="font-size:larger; color: var(--bs-danger)"></i></a>
-                    </td>
-                    </tr>
-                <?php } ?>
-            </tbody>
+            <tbody id="output_a"></tbody>
             </table>
         </div>
     </div>
     <!-- USER Search Bar -->
     <div class="d-flex align-items-center mb-4">
         <h2 class="me-auto">Users</h2>
-        <?php
-            $search = '';
-
-            if(isset($_POST['search'])){
-                $search = $_POST['search-input'];
-
-            }
-        ?>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])?>" method="post" class="flex-row-reverse">
+        <form class="flex-row-reverse">
             <div class="input-group">
-                <input type="text" class="form-control" name="search-input" placeholder="Search User" id="search">
-                <button type="submit" name="search" class="input-group-text" title="Search">
+                <input type="text" class="form-control" onkeyup="searchUser()" id="search" placeholder="Search User">
+                <button type="button" class="input-group-text">
                     <i class='bx bx-search'></i>
                 </button>
             </div>
-            <a href="" class="input-group-text me-3" data-bs-toggle="modal" data-bs-target="#addUser">
+            <a class="input-group-text me-3" data-bs-toggle="modal" data-bs-target="#addUser">
                 <i class="bx bx-plus"></i>
             </a>
         </form>
@@ -135,82 +81,42 @@ if(isset($_GET['dlt'])){
                 <th scope="col" class="text-end pe-4">Action</th>
                 </tr>
             </thead>
-            <tbody id="output">
-                <?php 
-                    $exactId = $search;
-                    if($exactId == '')
-                        $exactId = '%';
-                    $temp = '%'.$search.'%';
-                    if($temp == '')
-                        $temp = '%';
-                        
-                    $sql = "SELECT * FROM users WHERE (is_admin = 'no') AND (id LIKE :id OR username LIKE :username OR name LIKE :name OR email LIKE :email OR phone LIKE :phone)";
-                    $query = $conn->prepare($sql);
-                    $query->execute([
-                        ':id' => $exactId,
-                        ':username' => $temp,
-                        ':name' => $temp,
-                        ':email' => $temp,
-                        ':phone' => $temp,
-                    ]);
-                    if($query_a->rowCount() == 0){
-                        echo '<p class="msg">No Result</p>';
-                    }
-                    while($user = $query->fetch(PDO::FETCH_ASSOC)){ 
-                ?>
-                    <tr>
-                    <th scope="row" class="px-4"><?php echo $user['id'] ?></th>
-                    <td><?php echo $user['username'] ?></td>
-                    <td><?php echo $user['name'] ?></td>
-                    <td><?php echo $user['email'] ?></td>
-                    <td><?php echo $user['phone'] ?></td>
-                    <td class="text-end pe-3">
-                        <a href="users.php?edit=<?php echo $user['id'] ?>"><i class='bx bxs-edit px-1' style="font-size:larger"></i></a>
-                        <a href="users.php?dlt=<?php echo $user['id'] ?>"><i class='bx bxs-trash px-1' style="font-size:larger; color: var(--bs-danger)"></i></a>
-                    </td>
-                    </tr>
-                <?php } ?>
-            </tbody>
+            <tbody id="output"></tbody>
             </table>
         </div>
     </div>
 </div>
 <!--Container Main end-->
 
-<!-- <script>
-    $(document).ready(function(){
-        $("#search").keyup(function(){
-            var value = $(this).val();
+<script>    
+    searchUser();
+    searchAdmin();
 
-            $("table tbody tr").each(function(records)
-            {
-                if(records !== 0)
-                {
-                    var id = $(this).find("td").text();
-                    if(id.indexOf(value) !==0 && id.toLocaleLowerCase().indexOf(value.toLocaleLowerCase() <0))
-                    {
-                        $(this).hide();
-                    }
-                    else{
-                        $(this).show();
-                    }
-                }
+    function searchUser(){
+        $.ajax({
+            type:'POST',
+            url:'ajax/search-user.php',
+            data:{
+                search:$("#search").val(),
+            },
+            success:function(data){
+                $("#output").html(data);
             }
-            )
-
-            // $.ajax({
-            // type:'POST',
-            // url:'ajax/search-user.php',
-            // data:{
-            //     name:$("#search").val(),
-            // },
-            // success:function(data){
-            //     $("#output").html(data);
-            // }
-            // });
         });
-    });
-</script> -->
+    }
+    function searchAdmin(){
+        $.ajax({
+            type:'POST',
+            url:'ajax/search-admin.php',
+            data:{
+                search:$("#search_a").val(),
+            },
+            success:function(data){
+                $("#output_a").html(data);
+            }
+        });
+    }
+</script>
 
 <!-- Modal for Admin -->
 <?php

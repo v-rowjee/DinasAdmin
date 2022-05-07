@@ -100,7 +100,7 @@ a {
 .nav_link {
   position: relative;
   color: var(--first-color-light);
-  margin-bottom: 1rem;
+  margin-bottom: 1.3rem;
   transition: 0.3s;
 }
 

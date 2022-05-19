@@ -65,23 +65,15 @@
             $newRID = $conn->lastInsertId();
             // get num of tables needed from party size
             $tables_needed = ceil($guest / 2);
-            // get tables
-            $sql6 = "SELECT id FROM tables WHERE id NOT IN(SELECT tid FROM res_tab WHERE rid IN(SELECT id FROM reservation WHERE date LIKE :date AND time LIKE :time))";
-            $result6 = $conn->prepare($sql6);
-            $result6->execute([
-                ':date' => $date,
-                ':time' => $time,
-            ]);
 
             $sql3 = "INSERT INTO res_tab (rid, tid) VALUES (:rid,:tid)";
             $result3 = $conn->prepare($sql3);
             
             
-            for($i=0; $i < $tables_needed; $i++){
-                $table = $result6->fetchColumn()%$num_of_tables;
+            for($i=1; $i <= $tables_needed; $i++){
                 $result3->execute([
                     ':rid' => $newRID,
-                    ':tid' => $table
+                    ':tid' => $table_booked+$i
                 ]); 
             }
 

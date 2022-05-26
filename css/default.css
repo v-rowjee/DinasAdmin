@@ -417,3 +417,8 @@ table,
 .overflow-x-hidden{
   overflow-x: hidden;
 }
+
+.form-control:read-only{
+  background-color: var(--bg);
+  color: #aaa;
+}

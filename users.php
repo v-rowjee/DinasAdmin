@@ -73,7 +73,7 @@ if(isset($_GET['dlt'])){
             <table class="table table-borderless nowrap">
             <thead>
                 <tr>
-                <th scope="col" class="px-4">ID</th>
+                <th scope="col" class="ps-4">ID</th>
                 <th scope="col">Username</th>
                 <th scope="col">Name</th>
                 <th scope="col">Email</th>

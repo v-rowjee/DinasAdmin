@@ -16,6 +16,8 @@ $email = $user['email'];
 $phone = $user['phone'];
 $isAdmin = $user['is_admin'];
 
+$isGoogleAcc = $user['google_id'] == null ? false : true;
+
 if(isset($_POST['delete'])){
     $sql_d = "DELETE FROM users WHERE id = ?";
     $query_d = $conn->prepare($sql_d);
@@ -43,7 +45,6 @@ if(isset($_POST['delete'])){
     if($username == '') $msg="Username required";
     if($name == '') $msg="Name required";
     if($email == '') $msg="Email required";
-    if($phone == '') $msg="Phone required";
 
     if($msg == ''){
         if(empty($_POST['password'])){
@@ -87,7 +88,14 @@ if(isset($_POST['delete'])){
         <div class="col-12 col-md-6 align-self-center">
             <div class="card bg-grey shadow p-3">
                 <div class="card-header">
-                    <h4>User ID <?php echo $id ?></h4>
+                    <div class="flex">
+                        <div class="float-start">
+                            <h4>User ID <?php echo $id ?></h4>
+                        </div>
+                        <div class="float-end">
+                            <?php if($isGoogleAcc) echo '<i class="bx bxl-google me-4" style="font-size: larger"></i>' ?>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body overflow-x-hidden">
                     <form action="" method="post" class="row">
@@ -114,7 +122,7 @@ if(isset($_POST['delete'])){
                         <div class="row">
                             <div class="col-8">
                                 <label class="form-label">Email</label>
-                                <input type="mail" class="form-control mb-3" name="email" value="<?php echo $email ?>">
+                                <input type="mail" class="form-control mb-3" name="email" value="<?php echo $email ?>" <?php if($isGoogleAcc) echo 'readonly' ?>>
                             </div>
                             <div class="col-4">
                                 <label class="form-label">Acc Type</label>

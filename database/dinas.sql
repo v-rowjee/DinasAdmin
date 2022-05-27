@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 19, 2022 at 11:05 PM
+-- Generation Time: May 27, 2022 at 01:53 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -138,17 +138,21 @@ CREATE TABLE `users` (
   `name` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `phone` varchar(255) DEFAULT NULL,
-  `is_admin` varchar(3) NOT NULL DEFAULT 'no'
+  `is_admin` varchar(3) NOT NULL DEFAULT 'no',
+  `google_id` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `name`, `email`, `phone`, `is_admin`) VALUES
-(1001, 'admin', '$2y$10$35qZlmtHjdLfkmWOO8hpGekOpGoXsSnGmFTEwcaC7ZCo2/vaK5OU6', 'Admin Account', 'admin@dinas.restaurant.com', '59040040', 'yes'),
-(1002, 'user', '$2y$10$G/gzic1rWmUdVnHeAqaEjOZjQVLFrM6qTCjngk2tu43rJCVVAgr5K', 'User One', 'userone@gmail.com', '59382719', 'no'),
-(1003, 'ved', '$2y$10$AnKbazPFH8TG0uK463eYpeqK38TZ0XyVcunE1jODstic/udO9JZa6', 'Ved Rowjee', 'ved.rowjee@umail.uom.ac.mu', '59740029', 'no');
+INSERT INTO `users` (`id`, `username`, `password`, `name`, `email`, `phone`, `is_admin`, `google_id`) VALUES
+(1001, 'admin', '$2y$10$35qZlmtHjdLfkmWOO8hpGekOpGoXsSnGmFTEwcaC7ZCo2/vaK5OU6', 'Admin Account', 'admin@dinas.restaurant.com', '59040040', 'yes', NULL),
+(1002, 'user', '$2y$10$G/gzic1rWmUdVnHeAqaEjOZjQVLFrM6qTCjngk2tu43rJCVVAgr5K', 'User One', 'userone@gmail.com', '59382719', 'no', NULL),
+(1003, 'ved', '$2y$10$AnKbazPFH8TG0uK463eYpeqK38TZ0XyVcunE1jODstic/udO9JZa6', 'Ved Rowjee', 'ved.rowjee@umail.uom.ac.mu', '59740029', 'no', NULL),
+(1006, 'vedrowjee', '$2y$10$0Gsvekd7/zl908KmCRPth.9Yoes7grWkMT.qs2m7Nn1Dxm.R5cuDK', 'Ved Rowjee', 'vedrowjee@gmail.com', '', 'no', '100135122360841924426'),
+(1007, 'user2', '$2y$10$wHf/ED1/wkvSjV5MfyWfeuB2XDWTxhgGHOcuuPj17tpNgbBPc6ym2', 'User Two', 'usertwo@yahoo.com', '79200192', 'no', NULL),
+(1008, 'zakari', '$2y$10$RhAdubhSmyNN4.TL/xV1QeLqbO/iuWn7utUSHx2WEwzI8gtiPVgU2', 'Zakari', 'zakaaa13@hotmail.com', '59720019', 'no', NULL);
 
 --
 -- Indexes for dumped tables
@@ -218,7 +222,7 @@ ALTER TABLE `tables`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1004;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1009;
 
 --
 -- Constraints for dumped tables

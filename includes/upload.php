@@ -1,14 +1,12 @@
 <?php
 $target_dir = "../images/menu/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-$target_dir2 = "../../dinas/images/menu/";
-$target_file2 = $target_dir2 . basename($_FILES["fileToUpload"]["name"]);
 
 $uploadOk = 1; // true
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
 // Check if image file is a actual image or fake image
-if(isset($_POST["submit-upload"])) {
+// if(isset($_POST["submit-upload"])) {
   
   // TODO: check if file empty
   if (empty($_FILES['fileToUpload']['name'])) {
@@ -43,14 +41,11 @@ if(isset($_POST["submit-upload"])) {
     // upload image in backend
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
       $msg = "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded";
-      // upload image in frontend
-      copy($target_file, $target_file2); 
-
     } else {
       $msg = "Sorry, there was an error uploading your file.";
     }
   }
-}
+// }
 echo $msg;
-// header('location: ../menu.php?id=new');
+header('location: ../menu.php?id=new');
 ?>

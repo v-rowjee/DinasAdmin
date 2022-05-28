@@ -8,6 +8,7 @@ if(isset($_GET['id'])){
   else
     include 'includes/menu_edit.php';
 }else{
+  
 ?>
   <!--Container Main start-->
   <div class="container py-3">
@@ -59,33 +60,6 @@ if(isset($_GET['id'])){
 
     <!-- ITEMS -->
     <div class="row g-4 mt-3">
-      <!-- Create new item
-      <div class="col-sm-6 col-md-4 col-lg-3">
-        <a href="menu.php?id=new" class="card-link">
-          <div class="card card-shadow">
-            <img
-                src="images/menu/default.jpg"
-                style="filter: invert(1);"
-                class="card-img-top"
-                alt=""
-            />
-            <div class="card-img-overlay">
-              <p class="item-cat">New</p>
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">New Item</h5>
-                <p class="card-text mb-2">Add a new item to the menu now!</p>
-                <h6 class="price"></h6>
-
-                <a href="menu.php?id=new" class="btn btn-primary float-none">
-                  Add <i class="bx bx-plus"></i>
-                </a>
-
-            </div>
-          </div>
-        </a>
-      </div> -->
-      <!-- Edit selected item -->
     <?php  
       if($msg!='') echo $msg;
 
@@ -98,7 +72,7 @@ if(isset($_GET['id'])){
               <a href="menu.php?id='.$item['id'].'" class="card-link">
                 <div class="card card-shadow">
                   <img
-                      src="images/menu/'.$item['img'].'"
+                      src="images/menu/'.checkImage($item['img']).'"
                       class="card-img-top"
                       alt="'.$item['name'].'"
                   />
@@ -126,5 +100,13 @@ if(isset($_GET['id'])){
   </div>
   <!--Container Main end-->
 <?php 
-}include 'includes/footer.php'; $conn == null;
+}
+
+function checkImage($img){
+  if (file_exists('images/menu/'.$img)) {
+    return $img;
+  }else return 'default.jpg';
+}
+
+include 'includes/footer.php'; $conn == null;
 ?>

@@ -33,6 +33,9 @@ if(isset($_POST['create'])){
 
 
     if($msg==''){
+
+        include 'upload.php';
+
         $sql = "INSERT INTO menu (name,price,caption,category,img) VALUES (:name,:price,:desc,:cat,:img) ";
         $query = $conn->prepare($sql);
         $query->execute([
@@ -54,15 +57,23 @@ else if(isset($_POST['discard'])){
 
 ?>
 <div class="container py-3">
-      <div class="row align-items-center" style="height: calc(100vh-2rem);">
+      <div class="row align-items-center g-4" style="height: calc(100vh-2rem);">
         <div class="col-12 col-xl-5 text-center">
-            <img src="images/menu/<?php echo $img ?>" class="img-edit" style="transform: scale(0.8);" alt="...">
-            <button type="button" class="btn btn-secondary px-5" data-bs-toggle="modal" data-bs-target="#upload-img-modal">
-              Upload Images
-            </button>
+            
+          <img src="images/menu/default.jpg" id="img_preview" class="img-edit" style="transform: scale(0.8);" alt="">
+          
+          <form id="upload_image_form" action="includes/upload.php" method="post" enctype="multipart/form-data" class="row g-4">
+            <div class="col-12 col-md-6">
+              <input type="file" name="fileToUpload" id="fileToUpload" hidden>
+              <label for="fileToUpload" class="btn btn-primary opacity-100">Choose File</label>
+            </div>
+            <div class="col-12 col-md-6">
+              <input type="submit" value="Upload Image" class="btn btn-primary" name="submit-upload" id="upload_btn">
+            </div>
+          </form>
+          
         </div>
         <div class="col-12 col-xl-7 z-top">
-
           <form action="" method="post" class="row gy-3 mx-5">
             <div class="col-12 col-sm-6">
               <h1 class="d-inline sm-h1 p-0">New Item</h2>
@@ -97,10 +108,10 @@ else if(isset($_POST['discard'])){
                 <label class="form-label" for="">Image URL</label>
                 <label class="form-label px-2"><i class="bx bx-plus" title="Upload Image" style="cursor:pointer" data-bs-toggle="modal" data-bs-target="#upload-img-modal"></i></label>
               </div>
-              <input type="text" name="img" class="form-control" placeholder="default.jpg" value="<?php echo $img ?>">
+              <input type="text" id="img_url" name="img" class="form-control" placeholder="default.jpg" value="">
             </div>
             <div class="col-6"><button type="submit" name="discard" class="btn btn-danger w-100">Discard</button></div>
-            <div class="col-6"><button type="submit" name="create" class="btn btn-primary w-100">Save</button></div>
+            <div class="col-6"><button type="submit" name="create" class="btn btn-primary w-100">Create</button></div>
           </form>
           
         </div>
@@ -116,12 +127,50 @@ else if(isset($_POST['discard'])){
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body py-5 px-3">
-      <form action="includes/upload.php" method="post" enctype="multipart/form-data">
-        <input type="file" name="fileToUpload" id="fileToUpload">
-        <input type="submit" value="Upload Image" class="btn btn-primary" name="submit-upload">
-      </form>
+      
       </div>
     </div>
   </div>
 </div>
 
+<script>
+
+  fileToUpload.onchange = event => {
+    const [file] = fileToUpload.files;
+    if(file){
+
+      img_preview.src = URL.createObjectURL(file);
+
+      $('#img_url').val(file.name);
+
+    }
+  }
+
+  $(document).ready(function(){
+
+$("#upload_btn").click(function(){
+
+    var fd = new FormData();
+    var files = $('#fileToUpload')[0].files;
+    
+    // Check file selected or not
+    if(files.length > 0 ){
+       fd.append('file',files[0]);
+
+       $.ajax({
+          url: 'includes/upload.php',
+          type: 'post',
+          data: fd,
+          contentType: false,
+          processData: false,
+          success: function(response){
+             alert(response);
+          },
+       });
+    }else{
+       alert("Please select a file.");
+    }
+});
+});
+
+</script>

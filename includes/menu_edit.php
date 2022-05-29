@@ -56,13 +56,31 @@ if(isset($_POST['save'])){
 }
 // DELETE ITEM
 else if(isset($_POST['delete'])){
+
   $sql3 = "DELETE FROM menu WHERE id = ?";
   $query3 = $conn->prepare($sql3);
   $query3->execute([$_GET['id']]);
 
-  $conn->commit();
+  if($item['img'] != 'default.jpg'){
 
-  header('location: menu.php');
+    $filePath = 'images/menu/'.$item['img'];
+
+    if (file_exists($filePath)) 
+    {
+        unlink($filePath);
+        $conn->commit();
+        header('location: menu.php');
+        die();
+    }
+    else
+    {
+      $conn->commit();
+      header('location: menu.php');
+      die();
+    }
+  }
+
+  
 }
 // CANCEL CHANGES
 else if(isset($_POST['cancel'])){
@@ -75,6 +93,7 @@ else if(isset($_POST['cancel'])){
   $conn->commit();
 
   header('location: menu.php');
+  die();
 }
 
 $conn==null;

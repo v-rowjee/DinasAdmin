@@ -59,12 +59,12 @@ body {
 
 /* Preloader */
 #preloader{
-  background: #000 url(../images/preloader.gif) no-repeat center center;
+  background: rgba(0, 0, 0, 0.5) url(../images/preloader.gif) no-repeat center center;
   background-size: 15%;
   height: 100vh;
   width: 100%;
   position: fixed;
-  z-index: 10000;
+  z-index: 9999;
 }
 
 /* Anchor */

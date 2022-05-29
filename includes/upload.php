@@ -46,6 +46,7 @@ $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
     }
   }
 // }
-echo $msg;
-header('location: ../menu.php?id=new');
+// echo $msg;
+header('location: ../menu.php?id=new&upload='.$_FILES["fileToUpload"]["name"]);
+die();
 ?>

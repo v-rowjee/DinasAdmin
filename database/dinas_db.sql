@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 27, 2022 at 01:53 PM
+-- Generation Time: May 30, 2022 at 07:57 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -56,7 +56,8 @@ INSERT INTO `menu` (`id`, `name`, `caption`, `price`, `img`, `category`) VALUES
 (190, 'Gnocchi', 'Pasta with white sauce and some vegetables.', 375, 'gnocchi.jpg', 'Starter'),
 (191, 'Chicken Mayo', 'Pizza with chicken and mayonnaise. One of our favorite.', 400, 'pizza.jpg', 'Pizza'),
 (195, 'Four Cheese', 'Mozzarella, Gorgonzola, Fontina and Parmigiano.', 400, 'pizza-four-cheese.jpg', 'Pizza'),
-(197, 'Rasberry Beret', 'Juice to drink when you are very hungry.', 150, 'rasberry_beret.jpg', 'Drinks');
+(197, 'Rasberry Beret', 'Juice to drink when you are very hungry.', 150, 'rasberry_beret.jpg', 'Drinks'),
+(2012, 'Mozzarella Stick', 'A crusty mozzarella stick filled with cheese', 100, 'mozzarella-stick.jpg', 'Starter');
 
 -- --------------------------------------------------------
 
@@ -198,19 +199,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2001;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2013;
 
 --
 -- AUTO_INCREMENT for table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3003;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3004;
 
 --
 -- AUTO_INCREMENT for table `res_tab`
 --
 ALTER TABLE `res_tab`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `tables`

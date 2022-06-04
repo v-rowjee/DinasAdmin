@@ -1,60 +1,77 @@
 <?php
-session_start();
-?>
-<?php
+ob_start();
+$active = "login";
+include 'includes/header.php';
+
 if(isset($_SESSION['id'])){
-    header('location: index.php');
-    die();
-  }
-  $username = $password = "";
-  $usernameErr = $passwordErr = "";
-  if ($_SERVER['REQUEST_METHOD'] == "POST") {
-
-    require "includes/db_connect.php";
-     if(empty($_POST['username']))
-     $usernameErr = "* Required field";
- else{
-     $usernameErr = "";
-     $username = filter($_POST['username']);
- }
-}
-// validating password
-if(empty($_POST['password']))
-$passwordErr = "* Required field";
-else{
-$passwordErr = "";
-$password = filter($_POST['password']);
+  header('location: dashboard.php');
+  die();
 }
 
-if (isset($user['username'])) {    
+// include 'includes/g_auth.php';
 
-	$hashed_password = $user['password'];
+$username = $password = "";
+$usernameErr = $passwordErr = "";
 
-if (password_verify($password,$hashed_password)) { 
-		$_SESSION['id'] = $user['id'];
-		$_SESSION['username'] = $user['username'];
-		$_SESSION['name'] = $user['name'];
-		$_SESSION['email'] = $user['email'];
-		$_SESSION['phone'] = $user['phone'];
-		$_SESSION['is_admin'] = $user['is_admin'];
-		header('location: index.php');
-	} else
-		$passwordErr = "* Invalid password";
-} else{
-  $usernameErr = "* Username does not exists";
-  $passwordErr = "* Required field";
-}
-	
-// validating password strength
-$uppercase = preg_match('@[A-Z]@', $password);
-$lowercase = preg_match('@[a-z]@', $password);
-$number    = preg_match('@[0-9]@', $password);
-$specialChars = preg_match('@[^\w]@', $password);
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-if(!$uppercase || !$lowercase || !$number || !$specialChars || strlen($password) < 8) {
-    echo 'Password should be at least 8 characters in length and should include at least one upper case letter, one number, and one special character.';
-}else{
-    echo 'Strong password.';
+  require "includes/db_connect.php";
+
+    // validating username
+    if(empty($_POST['username']))
+        $usernameErr = "* Required field";
+    else{
+        $usernameErr = "";
+        $username = filter($_POST['username']);
+
+        if(!preg_match("/^[a-zA-Z0-9]+$/",$username)){
+            $usernameErr = "* Only letters and numbers allowed";
+            $passwordErr = "* Required field";
+        }
+    }
+        
+
+    // validating password
+    if(empty($_POST['password']))
+        $passwordErr = "* Required field";
+    else{
+      $passwordErr = "";
+      $password = filter($_POST['password']);
+    }
+    // MORE PASSWORD VALIDATION
+
+
+    if($usernameErr=="" && $passwordErr==""){ // if no error...
+
+        // USER MUST BE ADMIN
+        $sql = "SELECT * FROM users WHERE username = ? and is_admin = 'yes'";
+        $statement = $conn->prepare($sql);
+        $statement->execute([$username]);
+
+        $user = $statement->fetch(PDO::FETCH_ASSOC);
+
+        if (isset($user['username'])) {    // if username exist
+
+            $hashed_password = $user['password'];
+
+            if (password_verify($password,$hashed_password)) { // if password correct
+                $_SESSION['id'] = $user['id'];
+                $_SESSION['username'] = $user['username'];
+                $_SESSION['name'] = $user['name'];
+                $_SESSION['email'] = $user['email'];
+                $_SESSION['phone'] = $user['phone'];
+                $_SESSION['is_admin'] = $user['is_admin'];
+                header('location: dashboard.php');
+            } else
+                $passwordErr = "* Invalid password";
+        } else{
+          $usernameErr = "* Username does not exists";
+          $passwordErr = "* Required field";
+        }
+            
+    }
+
+    $conn == null;
 }
 
 function filter($data){
@@ -65,24 +82,11 @@ function filter($data){
 }
 
 ?>
-<!doctype html>
-<html lang="en">
-  <head>
-  	<title>Dina's loginn</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
-
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-	
-	<link rel="stylesheet" href="css/default.css">
-
-	</head>
-	<body class="img js-fullheight" style="background-image:linear-gradient(to left,transparent, black),url(../bg-spaghetti.png); background-size: cover;background-position: center;;">
-	
+<!-- HTML -->
+<body style="height:100vh" class="p-0 m-0">
 		<div class="container h-100">
-			<div class="row h-100">
+			<div class="row h-100 justify-content-center">
 				<div class="col-12 col-md-4 align-self-center">
 					<div class="login-wrap p-0">
 		      	<h3 class="mb-4 text-center"><img src="./images/logoo.png" class="avatar" style="filter: invert(68%) sepia(28%) saturate(559%) hue-rotate(7deg) brightness(90%) contrast(84%);"></h3>
@@ -119,16 +123,9 @@ function filter($data){
 				</div>
 			</div>
 		</div>
-	</section>
+</body>
 
-
-
-
-  <script src="js/jquery.min.js"></script>
-  <script src="js/popper.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/main.js"></script>
-  
-	</body>
-</html>
-
+<!-- include Footer -->
+<?php 
+include 'includes/footer.php';
+?>

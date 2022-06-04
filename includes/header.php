@@ -20,9 +20,6 @@ if(isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 'no'){ header('locat
 
     <!-- BoxIcons -->
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
-
-    <!-- Snackbar -->
-    <!-- <link ref="stylesheet" type="text/css" href="css/snackbar.min.css" /> -->
     
     <!-- My Styles -->
     <link rel="stylesheet" href="css/default.css" />

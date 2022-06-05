@@ -88,9 +88,8 @@ function filter($data){
 		<div class="container h-100">
 			<div class="row h-100 justify-content-center">
 				<div class="col-12 col-md-4 align-self-center">
-					<div class="login-wrap p-0">
+					<div class="p-0">
 		      	<h3 class="mb-4 text-center"><img src="./images/logoo.png" class="avatar" style="filter: invert(68%) sepia(28%) saturate(559%) hue-rotate(7deg) brightness(90%) contrast(84%);"></h3>
-		      	<form>
 					<div class="mb-3">
 						<label for="exampleInputEmail1" class="form-label">Email</label>
 						<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
@@ -116,9 +115,7 @@ function filter($data){
                             
 					  </div>
 					  <button type="login" class="btn btn-primary text-dark w-100">Log In</button>
-	          
-					</form>
-	          
+	          	          
 		      </div>
 				</div>
 			</div>

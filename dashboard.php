@@ -1,7 +1,7 @@
 <?php 
 $active= 'dashboard'; 
 include_once 'includes/header.php';
-include 'includes/db_connect.php';
+include 'config/db_connect.php';
 
 $sql = "SELECT * FROM users";
 $query = $conn->prepare($sql);

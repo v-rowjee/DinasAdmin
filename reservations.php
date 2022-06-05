@@ -2,7 +2,7 @@
 ob_start();  //This function will turn output buffering on
 $active= 'reservations';
 include 'includes/header.php';
-include 'includes/db_connect.php';
+include 'config/db_connect.php';
 
 if(isset($_GET['edit'])){   // on edit icon click
 

@@ -2,7 +2,7 @@
 ob_start();
 $active= 'reservations'; 
 include_once 'includes/header.php';
-include 'includes/db_connect.php';
+include 'config/db_connect.php';
 
 // $sql0 = "DELETE FROM res_tab WHERE rid";
 

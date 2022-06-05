@@ -48,7 +48,8 @@ if(isset($_POST['create'])){
 			':img' => $img
 		]);
 
-		$newID = $conn->lastInsertId();
+		include 'config/functions.php';
+    	setMenuJson();
 
 		header('location: menu.php');
 		die();
@@ -65,7 +66,7 @@ else if(isset($_POST['discard'])){
 		
 			<div class="col-12 col-xl-5 text-center">   
 				<img src="images/menu/<?php echo $img ?>" id="img_preview" class="img-edit" style="transform: scale(0.8);" alt="">
-				<form action="includes/upload.php" method="post" enctype="multipart/form-data" class="row g-4" <?php if(isset($_GET['upload'])) echo 'hidden' ?>>
+				<form action="config/upload.php" method="post" enctype="multipart/form-data" class="row g-4" <?php if(isset($_GET['upload'])) echo 'hidden' ?>>
 					<div class="col-12 col-md-6">
 					<input type="file" name="fileToUpload" id="fileToUpload" hidden>
 					<label for="fileToUpload" class="btn btn-primary opacity-100">Choose File</label>

@@ -17,7 +17,7 @@ if(isset($_GET['id'])){
 
       <!-- SEARCH BAR -->
       <?php
-      include_once 'includes/db_connect.php';
+      include_once 'config/db_connect.php';
       $search = "";
       $msg = "";
       if(isset($_POST['search-menu']) && isset($_POST['search-input'])){

@@ -44,6 +44,9 @@ if(isset($_POST['save'])){
     $conn->commit();
 
     $msg = "Record saved";
+
+    include 'config/functions.php';
+    setMenuJson();
   }
 
   // to get saved values

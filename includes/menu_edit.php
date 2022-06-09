@@ -1,5 +1,5 @@
 <?php 
-include 'db_connect.php';
+include 'config/db_connect.php';
 
 $sql = "SELECT * FROM menu WHERE id = ?";
 $query = $conn->prepare($sql);

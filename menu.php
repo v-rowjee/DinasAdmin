@@ -24,7 +24,7 @@ if(isset($_GET['id'])){
         </div>
 
         <select class="form-select me-3" style="width: 150px;" id="category" onchange="searchMenu()">
-          <option value="%" selected>Category</option>
+          <option value="%" selected>All Category</option>
           <option value="starter">Starter</option>
           <option value="pasta">Pasta</option>
           <option value="pizza">Pizza</option>

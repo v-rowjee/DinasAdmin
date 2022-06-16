@@ -336,7 +336,7 @@ section:nth-of-type(odd) {
 .form-select:focus {
   border-color: var(--primary-dark);
   outline: 0;
-  box-shadow: 0 0 0 0.25rem var(--primary-dark);
+  box-shadow: none;
 }
 .form-control,
 .form-select {
@@ -357,6 +357,7 @@ select.decorated option:hover {
 }
 option {
   vertical-align: middle;
+  color: var(--text);
 }
 
 /* Navbar */

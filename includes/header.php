@@ -1,7 +1,7 @@
 <?php 
 session_start();
-if(isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 'no'){ 
-  header('location: /dinas/index.php'); 
+if(!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] == 'no'){ 
+  header('location: /dinas/'); 
   die();
 }
 ?>

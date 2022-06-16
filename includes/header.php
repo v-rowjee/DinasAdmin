@@ -1,10 +1,6 @@
 <?php 
 session_start();
-if(!isset($_SESSION['is_admin'])){ 
-  header('location: /dinas/index.php'); 
-  die();
-}
-else if($_SESSION['is_admin'] == 'no'){ 
+if(isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 'no'){ 
   header('location: /dinas/index.php'); 
   die();
 }
@@ -37,4 +33,4 @@ else if($_SESSION['is_admin'] == 'no'){
     
   </head>
 
-<?php if(($active != 'login') && ($active != 'register')) include 'sidenav.php'; ?>
+<?php if($active != 'login') include 'sidenav.php'; ?>

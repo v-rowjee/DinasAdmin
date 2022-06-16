@@ -3,11 +3,6 @@ ob_start();
 $active = "login";
 include 'includes/header.php';
 
-if(isset($_SESSION['id'])){
-  header('location: dashboard.php');
-  die();
-}
-
 // include 'config/g_auth.php';
 
 $username = $password = "";

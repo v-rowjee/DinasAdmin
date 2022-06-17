@@ -15,35 +15,30 @@
       <canvas class="particles-js-canvas-el" style="width: 100%; height: 100%">
       </canvas>
     </div>
-    <div class="text">
-      <div class="container h-100">
-        <div class="row h-100 justify-content-center">
-          <div class="col-12 col-lg-4">
-            <div class="card shadow bg-grey">
-              <div class="card-title text-center border-b">
-                <img src="images/logo.png" class="w-50 my-4" style="filter: invert(1);">
-              </div>
-              <div class="card-body" style="padding: 1rem 2.5rem;">
-                <form>
-                  <div class="mb-4">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control"/>
-                  </div>
-                  <div class="mb-2">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control"/>
-                  </div>
-                  <div class="mb-4">
-                    <input type="checkbox" class="form-check-input"/>
-                    <label for="remember" class="form-label">Show password</label>
-                  </div>
-                  <div class="mb-4">
-                    <button class="btn btn-outline-secondary w-100">Login</button>
-                  </div>
-                </form>
-              </div>
+    
+    <div class="center-card">
+      <div class="card shadow bg-grey">
+        <div class="card-title text-center border-b">
+          <img src="images/logo.png" class="w-50 my-4" style="filter: invert(1);">
+        </div>
+        <div class="card-body" style="padding: 1rem 2.5rem;">
+          <form>
+            <div class="mb-4">
+              <label for="username" class="form-label">Username</label>
+              <input type="text" class="form-control"/>
             </div>
-          </div>
+            <div class="mb-2">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control"/>
+            </div>
+            <div class="mb-4">
+              <input type="checkbox" class="form-check-input"/>
+              <label for="remember" class="form-label">Show password</label>
+            </div>
+            <div class="mb-4">
+              <button class="btn btn-outline-secondary w-100">Login</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

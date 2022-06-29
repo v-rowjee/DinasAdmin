@@ -1,0 +1,23 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema",
+    "$id": "http://api.example.com/user.json",
+    "type": "array",
+    "minItems": 0,
+    "uniqueItems": true,
+    "items": {
+        "$ref": "#definition/users"
+    },
+    "additionalProperties": false,
+    "definition": {
+        "users" :{
+            "type": "object",
+            "properties": {
+                "username":{
+                    "type": "String",
+                    "minLength" : 1,
+                    "maxlength" : 200
+                }
+            }
+        }
+    }
+}

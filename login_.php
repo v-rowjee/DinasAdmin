@@ -25,18 +25,18 @@
           <form>
             <div class="mb-4">
               <label for="username" class="form-label">Username</label>
-              <input type="text" class="form-control"/>
+              <input type="text" class="form-control" id="username"/>
             </div>
             <div class="mb-2">
               <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control"/>
+              <input type="password" class="form-control" id="password"/>
             </div>
             <div class="mb-4">
               <input type="checkbox" class="form-check-input"/>
               <label for="remember" class="form-label">Show password</label>
             </div>
             <div class="mb-4">
-              <button class="btn btn-outline-secondary w-100">Login</button>
+              <button class="btn btn-outline-secondary w-100" id="login">Login</button>
             </div>
           </form>
         </div>

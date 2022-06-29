@@ -1,3 +1,38 @@
+$('login').click(() => {
+  var username = $('username')
+  var password = $('password')
+  var url = '../ajax/validation-login.php'
+
+  $.ajax({
+    url: url,
+    data: {
+      username: username,
+      password: password
+    },
+    accepts: 'application/json',
+    method: 'POST',
+    //error
+  })
+  .done((data)=>{
+    $.each(data, (index,item) => {
+      item.username = "vedrowjee"
+      alert('hi ved')
+    })
+  })
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
 /*inspired from : https://codepen.io/ArielBeninca/pen/yyKaPX
       Particle JS - Vincent Garreau
       */

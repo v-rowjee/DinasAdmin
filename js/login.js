@@ -22,7 +22,45 @@
 
 // })
 
+$('#login').click((e)=>{
+  e.preventDefault()
+  var username = $('#username').val()
+  var password = $('#password').val()
+  $.ajax({
+    url: "ajax/login.php",
+    type: "POST",
+    data: ({
+      username: username,
+      password: password
+    }),
+    dataType: 'text',
+    success: (data)=>{
+      if(data == "OK"){
+        window.location.href = "dashboard.php";
+      }
+      else if(data == "NOT-ADMIN"){
+        alert('User is not an admin')
+      }
+      else if(data == "WRONG-CREDENTIAL"){
+        alert('Username or password incorrect')
+      }
+      else{
+        alert('An error occurred')
+      }
+    }
+  })
+})
 
+
+// toggle visibility of passwords
+$("#checkbox").click(function () {
+  var x = document.querySelector("#password");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+});
 
 /*inspired from : https://codepen.io/ArielBeninca/pen/yyKaPX
       Particle JS - Vincent Garreau

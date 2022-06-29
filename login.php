@@ -25,14 +25,14 @@
           <form>
             <div class="mb-4">
               <label for="username" class="form-label">Username</label>
-              <input type="text" class="form-control" id="username"/>
+              <input type="text" class="form-control" id="username" required minlength="1" maxlength="36"/>
             </div>
             <div class="mb-2">
               <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" id="password"/>
+              <input type="password" class="form-control" id="password" required minlength="1" maxlength="36"/>
             </div>
             <div class="mb-4">
-              <input type="checkbox" class="form-check-input"/>
+              <input type="checkbox" class="form-check-input" id="checkbox"/>
               <label for="remember" class="form-label">Show password</label>
             </div>
             <div class="mb-4">
@@ -46,36 +46,5 @@
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script src="js/jquery-3.6.0.min.js"></script>
     <script src="js/login.js"></script>
-
-    <script>
-      $('#login').click((e)=>{
-        e.preventDefault()
-        var username = $('#username').val()
-        var password = $('#password').val()
-        $.ajax({
-          url: "ajax/login.php",
-          type: "POST",
-          data: ({
-            username: username,
-            password: password
-          }),
-          dataType: 'text',
-          success: (data)=>{
-            if(data == "OK"){
-              window.location.href = "dashboard.php";
-            }
-            else if(data == "NOT-ADMIN"){
-              alert('User is not an admin')
-            }
-            else if(data == "WRONG-CREDENTIAL"){
-              alert('Username or password incorrect')
-            }
-            else{
-              alert('An error occurred')
-            }
-          }
-        })
-      })
-    </script>
   </body>
 </html>

@@ -180,7 +180,7 @@ a:hover {
 
 /* Checkbox */
 .form-check-input{
-  background-color: #888;
+  background-color: #666;
 }
 .form-check-input:focus {
   border-color: var(--primary-light);

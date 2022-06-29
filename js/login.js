@@ -24,31 +24,37 @@
 
 $('#login').click((e)=>{
   e.preventDefault()
-  var username = $('#username').val()
-  var password = $('#password').val()
-  $.ajax({
-    url: "ajax/login.php",
-    type: "POST",
-    data: ({
-      username: username,
-      password: password
-    }),
-    dataType: 'text',
-    success: (data)=>{
-      if(data == "OK"){
-        window.location.href = "dashboard.php";
+  var username = $('#username').val().trim()
+  var password = $('#password').val().trim()
+
+  if(username === '' && password === '') alert('Username and Password required')
+  else if(username === '') alert('Username required')
+  else if(password === '') alert('Password required')
+  else{
+    $.ajax({
+      url: "ajax/login.php",
+      type: "POST",
+      data: ({
+        username: username,
+        password: password
+      }),
+      dataType: 'text',
+      success: (data)=>{
+        if(data == "OK"){
+          window.location.href = "dashboard.php";
+        }
+        else if(data == "NOT-ADMIN"){
+          alert('User is not an admin')
+        }
+        else if(data == "WRONG-CREDENTIAL"){
+          alert('Username or password incorrect')
+        }
+        else{
+          alert('An error occurred')
+        }
       }
-      else if(data == "NOT-ADMIN"){
-        alert('User is not an admin')
-      }
-      else if(data == "WRONG-CREDENTIAL"){
-        alert('Username or password incorrect')
-      }
-      else{
-        alert('An error occurred')
-      }
-    }
-  })
+    })
+  }
 })
 
 

@@ -43,8 +43,8 @@
       </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/particles.min.js"></script>
     <script src="js/login.js"></script>
   </body>
 </html>

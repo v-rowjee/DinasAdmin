@@ -1,123 +1,81 @@
-<?php
-ob_start();
-$active = "login";
-include 'includes/header.php';
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin | Login</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="css/default.css">
+  </head>
+  <body style="height: 100vh;">
+    <div id="particles-js">
+      <canvas class="particles-js-canvas-el" style="width: 100%; height: 100%">
+      </canvas>
+    </div>
+    
+    <div class="center-card">
+      <div class="card shadow bg-grey">
+        <div class="card-title text-center border-b">
+          <img src="images/logo.png" class="w-50 my-4" style="filter: invert(1);">
+        </div>
+        <div class="card-body" style="padding: 1rem 2.5rem;">
+          <form>
+            <div class="mb-4">
+              <label for="username" class="form-label">Username</label>
+              <input type="text" class="form-control" id="username"/>
+            </div>
+            <div class="mb-2">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password"/>
+            </div>
+            <div class="mb-4">
+              <input type="checkbox" class="form-check-input"/>
+              <label for="remember" class="form-label">Show password</label>
+            </div>
+            <div class="mb-4">
+              <button type="submit" class="btn btn-secondary w-100" id="login">Login</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
 
-// include 'config/g_auth.php';
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/login.js"></script>
 
-$username = $password = "";
-$usernameErr = $passwordErr = "";
-
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
-
-  require 'config/db_connect.php';
-
-    // validating username
-    if(empty($_POST['username']))
-        $usernameErr = "* Required field";
-    else{
-        $usernameErr = "";
-        $username = filter($_POST['username']);
-
-        if(!preg_match("/^[a-zA-Z0-9]+$/",$username)){
-            $usernameErr = "* Only letters and numbers allowed";
-            $passwordErr = "* Required field";
-        }
-    }
-        
-
-    // validating password
-    if(empty($_POST['password']))
-        $passwordErr = "* Required field";
-    else{
-      $passwordErr = "";
-      $password = filter($_POST['password']);
-    }
-    // MORE PASSWORD VALIDATION
-
-
-    if($usernameErr=="" && $passwordErr==""){ // if no error...
-
-        // USER MUST BE ADMIN
-        $sql = "SELECT * FROM users WHERE username = ? and is_admin = 'yes'";
-        $statement = $conn->prepare($sql);
-        $statement->execute([$username]);
-
-        $user = $statement->fetch(PDO::FETCH_ASSOC);
-
-        if (isset($user['username'])) {    // if username exist
-
-            $hashed_password = $user['password'];
-
-            if (password_verify($password,$hashed_password)) { // if password correct
-                $_SESSION['id'] = $user['id'];
-                $_SESSION['username'] = $user['username'];
-                $_SESSION['name'] = $user['name'];
-                $_SESSION['email'] = $user['email'];
-                $_SESSION['phone'] = $user['phone'];
-                $_SESSION['is_admin'] = $user['is_admin'];
-                header('location: dashboard.php');
-            } else
-                $passwordErr = "* Invalid password";
-        } else{
-          $usernameErr = "* Username does not exists";
-          $passwordErr = "* Required field";
-        }
-            
-    }
-
-    $conn == null;
-}
-
-function filter($data){
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
-?>
-
-<!-- HTML -->
-<body style="height:100vh" class="p-0 m-0">
-		<div class="container h-100">
-			<div class="row h-100 justify-content-center">
-				<div class="col-12 col-md-4 align-self-center">
-					<div class="p-0">
-		      	<h3 class="mb-4 text-center"><img src="./images/logoo.png" class="avatar" style="filter: invert(68%) sepia(28%) saturate(559%) hue-rotate(7deg) brightness(90%) contrast(84%);"></h3>
-					<div class="mb-3">
-						<label for="exampleInputEmail1" class="form-label">Email</label>
-						<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-						<div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-					  </div>
-					  <div class="mb-3">
-						<label for="exampleInputPassword1" class="form-label ">Password</label>
-						<input type="password" class="form-control" id="myInput">
-					  </div>
-					  <div class="mb-3 form-check">
-						<input type="checkbox" onclick="myFunction()" class="form-check-input" id="exampleCheck1">
-						<label class="form-check-label" for="exampleCheck1">Show Password </label>
-						<script>
-							function myFunction() {
-							  var x = document.getElementById("myInput");
-							  if (x.type === "password") {
-								x.type = "text";
-							  } else {
-								x.type = "password";
-							  }
-							}
-							</script>
-                            
-					  </div>
-					  <button type="login" class="btn btn-primary text-dark w-100">Log In</button>
-	          	          
-		      </div>
-				</div>
-			</div>
-		</div>
-</body>
-
-<!-- include Footer -->
-<?php 
-include 'includes/footer.php';
-?>
+    <script>
+      $('#login').click((e)=>{
+        e.preventDefault()
+        var username = $('#username').val()
+        var password = $('#password').val()
+        $.ajax({
+          url: "ajax/login.php",
+          type: "POST",
+          data: ({
+            username: username,
+            password: password
+          }),
+          dataType: 'text',
+          success: (data)=>{
+            if(data == "OK"){
+              window.location.href = "dashboard.php";
+            }
+            else if(data == "NOT-ADMIN"){
+              alert('User is not an admin')
+            }
+            else if(data == "WRONG-CREDENTIAL"){
+              alert('Username or password incorrect')
+            }
+            else{
+              alert('An error occurred')
+            }
+          }
+        })
+      })
+    </script>
+  </body>
+</html>

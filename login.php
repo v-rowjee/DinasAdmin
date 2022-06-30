@@ -1,3 +1,11 @@
+<?php
+session_start();
+if(isset($_SESSION['is_admin'])){
+  header('location: dashboard.php');
+  die;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>

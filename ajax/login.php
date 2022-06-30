@@ -28,6 +28,7 @@ if(isset($_POST['username']) && isset($_POST['password'])){
             $_SESSION['email'] = $user['email'];
             $_SESSION['phone'] = $user['phone'];
             $_SESSION['is_admin'] = $user['is_admin'];
+            $_SESSION['google_id'] = $user['google_id'];
             echo "OK";
             exit;
 

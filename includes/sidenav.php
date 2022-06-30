@@ -25,7 +25,7 @@
         </a>
         <a href="reservations.php" class="nav_link <?php if($active == 'reservations') echo 'active' ?>">
           <i class="bx bx-bookmark nav_icon" title="Reservations"></i>
-          <span class="nav_name">Reservation</span>
+          <span class="nav_name">Reservations</span>
         </a>
         <a href="orders.php" class="nav_link <?php if($active == 'orders') echo 'active' ?>">
           <i class="bx bx-cart nav_icon" title="Orders"></i>

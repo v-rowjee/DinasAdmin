@@ -64,7 +64,7 @@ $num_of_reservations = $query3->rowCount();
           </a>
         </div>
         <div class="col-12 col-sm-6 col-md-4">
-          <a href="https://www.tidio.com/panel/conversations" target="_blank" title="Reservations" class="text-reset card bg-grey shadow p-4">
+          <a href="https://www.tidio.com/panel/conversations" target="_blank" title="Tidio Chat Bot" class="text-reset card bg-grey shadow p-4">
             <div class="card-header">
               <h5>Tido <br> Panel Conversations</h5>
             </div>

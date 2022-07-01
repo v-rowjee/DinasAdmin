@@ -1,8 +1,13 @@
 <?php
 session_start();
 if(isset($_SESSION['is_admin'])){
-  header('location: dashboard.php');
-  die;
+  if($_SESSION['is_admin'] == 'yes'){
+    header('location: dashboard.php');
+    die;
+  }
+  else{
+    echo "<script>alert('Sign in as an Admin')</script>";
+  }
 }
 ?>
 

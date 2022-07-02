@@ -48,6 +48,7 @@ if(isset($_SESSION['is_admin'])){
               <input type="checkbox" class="form-check-input" id="checkbox"/>
               <label for="remember" class="form-label">Show password</label>
             </div>
+            <div class="msg text-center" id="msg"></div>
             <div class="mb-4">
               <button type="submit" class="btn btn-secondary w-100" id="login">Login</button>
             </div>

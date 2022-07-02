@@ -1,35 +1,11 @@
-// $('login').click(() => {
-//   var username = $('username')
-//   var password = $('password')
-//   var url = '../ajax/validation-login.php'
-
-//   $.ajax({
-//     url: url,
-//     data: {
-//       username: username,
-//       password: password
-//     },
-//     accepts: 'application/json',
-//     method: 'POST',
-//     //error
-//   })
-//   .done((data)=>{
-//     $.each(data, (index,item) => {
-//       item.username = "vedrowjee"
-//       alert('hi ved')
-//     })
-//   })
-
-// })
-
 $('#login').click((e)=>{
   e.preventDefault()
   var username = $('#username').val().trim()
   var password = $('#password').val().trim()
 
-  if(username === '' && password === '') alert('Username and Password required')
-  else if(username === '') alert('Username required')
-  else if(password === '') alert('Password required')
+  if(username === '' && password === '') $('#msg').html('Username and Password required')
+  else if(username === '') $('#msg').html('Username required')
+  else if(password === '') $('#msg').html('Password required')
   else{
     $.ajax({
       url: "ajax/login.php",
@@ -43,14 +19,8 @@ $('#login').click((e)=>{
         if(data == "OK"){
           window.location.href = "dashboard.php";
         }
-        else if(data == "NOT-ADMIN"){
-          alert('User is not an admin')
-        }
-        else if(data == "WRONG-CREDENTIAL"){
-          alert('Username or password incorrect')
-        }
         else{
-          alert('An error occurred')
+          $('#msg').html(data)
         }
       }
     })

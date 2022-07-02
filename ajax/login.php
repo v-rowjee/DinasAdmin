@@ -11,10 +11,17 @@ if(isset($_POST['username']) && isset($_POST['password'])){
     $statement = $conn->prepare($sql);
     $statement->execute([$username]);
 
+    $rowCount = $statement->rowCount();
+
+    if($rowCount == 0){
+        echo "Wrong credentials";
+        exit;
+    }
+
     $user = $statement->fetch(PDO::FETCH_ASSOC);
 
     if($user['is_admin'] == 'no'){
-        echo "NOT-ADMIN";
+        echo "User is not an admin";
         exit;
     }
 
@@ -33,13 +40,14 @@ if(isset($_POST['username']) && isset($_POST['password'])){
             exit;
 
         } else{
-            echo "WRONG-CREDENTIAL";    // invalid password
+            echo "Wrong Credential";    // invalid password
             exit;
         } 
     } else{
-        echo "WRONG-CREDENTIAL";    // username does not exist
+        echo "Wrong CredentialL";    // username does not exist
         exit;
     }
+
 }
 
 ?>

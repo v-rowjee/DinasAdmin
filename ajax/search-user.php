@@ -1,6 +1,7 @@
 <?php
 include '../config/db_connect.php';
 
+// if user writes in search input field search for users
 if(isset($_POST['search'])){
 	$sql = "SELECT * FROM users 
 			WHERE (is_admin = 'no') 
@@ -11,6 +12,7 @@ if(isset($_POST['search'])){
 		':search' => '%'.$_POST['search'].'%'
 	]);
 
+	// if results are found
 	if($query->rowCount() > 0){
 		while ($row=$query->fetch(PDO::FETCH_ASSOC)) {
 			echo "	<tr>
@@ -31,6 +33,7 @@ if(isset($_POST['search'])){
 	}
 }
 
+// function to add [G] to emails of google accounts
 function getEmail($row){
 	$result = $row['email'];
 

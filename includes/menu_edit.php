@@ -82,6 +82,11 @@ else if(isset($_POST['delete'])){
       die();
     }
   }
+  else{
+    $conn->commit();
+    header('location: menu.php');
+    die();
+  }
 
   
 }

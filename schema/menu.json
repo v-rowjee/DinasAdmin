@@ -1,0 +1,43 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/menu.json",
+    "type": "array",
+    "minItems": 0,
+    "uniqueItems": true,
+    "items": {
+        "$ref": "#definition/menu"
+    },
+    "additionalProperties": false,
+    "definition": {
+        "menu" :{
+            "type": "object",
+            "properties": {
+                "name":{
+                    "type": "string",
+                    "minLength" : 1,
+                    "maxlength" : 50
+                },
+                "price":{
+                    "type": "integer",
+                    "minLength" : 1,
+                    "maxlength" : 4
+                },
+                "desc":{
+                    "type": "string",
+                    "minLength" : 1,
+                    "maxlength" : 200
+                },
+                "category":{
+                    "type": "string",
+                    "minLength" : 1,
+                    "maxlength" : 32
+                },
+                "img":{
+                    "type": "string",
+                    "minLength" : 1,
+                    "maxlength" : 50
+                }
+            }
+        }
+    }
+}

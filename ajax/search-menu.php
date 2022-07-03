@@ -1,5 +1,12 @@
 <?php
-include '../config/db_connect.php';
+session_start();
+
+use Opis\JsonSchema\Schema;
+use Opis\JsonSchema\Validator;
+use Opis\JsonSchema\Errors\ErrorFormatter;
+
+require '../vendor/autoload.php';
+require '../config/db_connect.php';
 
 if(isset($_POST['search']) && isset($_POST['category'])){
   $search = $_POST['search'];
@@ -13,6 +20,9 @@ if(isset($_POST['search']) && isset($_POST['category'])){
   ]);
 
   if($query->rowCount() > 0){
+
+    // validateMenu($query);
+
     while ($item=$query->fetch(PDO::FETCH_ASSOC)) {
         echo '
             <div class="col-sm-6 col-md-4 col-lg-3">
@@ -60,4 +70,31 @@ function checkImage($img){
       return $img;
     }else return 'default.jpg';
 }
+
+function validateMenu($query){
+    $arrayResult = $query->fetchAll(PDO::FETCH_ASSOC);
+    $json = json_encode(array('menu'=>$arrayResult), JSON_NUMERIC_CHECK);
+    $data = json_decode($json);
+
+    $validator = new Validator();
+
+    $resolver = $validator->resolver();
+    $resolver->registerPrefix("http://example.com/","../schema");
+
+
+    $result = $validator->validate($data,"http://example.com/menu.json");
+
+    if($result->isValid()){
+      header('Content-Type: application/json');
+      echo $data;
+    }
+    else{
+      print_r((new ErrorFormatter())->format($result->error()));
+      header('HTTP/1.1 500 Internal Server Error \n'.$result->error());
+      // exit;
+    }
+
+
+}
+
 ?>

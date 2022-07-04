@@ -204,48 +204,9 @@ if(isset($_GET['dlt'])){
 </div>
 
 <!-- Modal for User -->
-<?php
-    $msg ='';
-    $username = '';
-    $password = '';
-    $name = '' ;
-    $email = '';
-    $phone = '';
-    if(isset($_POST['submit-user'])){
-        $username = strtolower($_POST['username']);
-        $password = password_hash($_POST['password'],PASSWORD_DEFAULT);
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $phone = $_POST['phone'];
-
-        // validations
-        if(empty($username)) $msg = 'Username required';
-        if(empty($password)) $msg = 'Password required';
-        if(empty($name)) $msg = 'Name required';
-        if(empty($email)) $msg = 'Email required';
-        if(empty($phone)) $msg = 'Phone required';
-
-        if($msg == ''){
-            $sql = "INSERT INTO users(username,password,name,email,phone,is_admin) VALUES(:username,:password,:name,:email,:phone,:isAdmin)";
-            $query = $conn->prepare($sql);
-            $query->execute([
-                ':username' => $username,
-                ':password' => $password,
-                ':name' => $name,
-                ':email' => $email,
-                ':phone' => $phone,
-                ':isAdmin' => 'no'
-            ]);
-        }else{
-            $password ='';
-            echo '<script>alert("'.$msg.'")</script>';
-        }
-    
-    }
-?>
 <div class="modal fade" id="addUser" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-    <form action="" method="post">
+    <form id="new-user-form" method="post">
         <div class="modal-content bg-grey">
             <div class="modal-header">
                 <h5 class="modal-title">New User Account</h5>
@@ -255,37 +216,68 @@ if(isset($_GET['dlt'])){
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <label class="form-label">Username</label>
-                        <input type="text" class="form-control mb-3" name="username" value="<?php echo $username_a ?>" maxlength="16" pattern="[a-zA-Z0-9\._-]+">
+                        <input type="text" class="form-control mb-3" name="username" maxlength="16" pattern="[a-zA-Z0-9\._-]+" required>
                     </div>
                     <div class="col-12 col-md-6">
                         <label class="form-label">Password</label>
-                        <input type="text" class="form-control mb-3" name="password" value="<?php echo $password_a ?>" maxlength="16">
+                        <input type="text" class="form-control mb-3" name="password" maxlength="16" required>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <label class="form-label">Name</label>
-                        <input type="text" class="form-control mb-3" name="name" value="<?php echo $name_a ?>" maxlength="24" pattern="[a-zA-Z\.\s]+">
+                        <input type="text" class="form-control mb-3" name="name" maxlength="24" pattern="[a-zA-Z\.\s]+" required>
                     </div>
                     <div class="col-12 col-md-6">
                         <label class="form-label">Phone</label>
-                        <input type="text" class="form-control mb-3" name="phone" value="<?php echo $phone_a ?>" maxlength="16" pattern="[0-9\s\+]+">
+                        <input type="text" class="form-control mb-3" name="phone" maxlength="16" pattern="[0-9\s\+]+">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12">
                         <label class="form-label">Email</label>
-                        <input type="mail" class="form-control mb-3" name="email" value="<?php echo $email_a ?>">
+                        <input type="email" class="form-control mb-3" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" name="submit-user" class="btn btn-primary me-4">Create new</button>
+                <p class="msg float-start m-0 me-5" id="msg"></p>
+                <button type="button" class="btn btn-secondary" id="close-user" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary me-4" id="create-user">Create new</button>
             </div>
         </div>
     </form>
     </div>
 </div>
+
+<script>
+    $('#create-user').click((e)=>{
+
+        e.preventDefault()
+
+        $.ajax({
+            method: "POST",
+            url: "ajax/new-user.php",
+            data: $('#new-user-form').serialize(),
+            success: (data)=>{
+                if(data == 0){
+                    location.reload();
+                }
+                else if(data == 1){
+                    $('#msg').html("Username already exist")
+                }
+                else{
+                    $('#msg').html("An Error occured")
+                }
+            }
+        })
+
+    })
+
+    $('#close-user').click(()=>{
+        $('#new-user-form')[0].reset();
+        $('#msg').html("");
+    })
+</script>
 
 <?php } include 'includes/footer.php' ?>

@@ -207,7 +207,7 @@ if(isset($_GET['dlt'])){
 <div class="modal fade" id="addUser" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
     <form id="new-user-form" method="post">
-        <div class="modal-content bg-grey">
+        <div class="modal-content bg-dark">
             <div class="modal-header">
                 <h5 class="modal-title">New User Account</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -251,27 +251,71 @@ if(isset($_GET['dlt'])){
 </div>
 
 <script>
-    $('#create-user').click((e)=>{
 
-        e.preventDefault()
+    $('#new-user-form').validate({
+        rules: {
+            username: {
+                required: true,
+                minlength: 1,
+                maxlength: 32
+            },
+            password: {
+                required: true,
+                minlength: 1,
+                maxlength: 32
+            },
+            name: {
+                required: true,
+                minlength: 1,
+                maxlength: 32
+            },
+            phone: {
+                required: false,
+                minlength: 0,
+                maxlength: 16
+            },
+            email: {
+                required: true,
+                email: true,
+                maxlength: 64
+            },
+        },
+        highlight: function (input) {
+            $(input).addClass('is-invalid');
+        },
+        unhighlight: function (input) {
+            $(input).removeClass('is-invalid');
+        },
+        errorPlacement: function (error, element) {
+            $(element).next().append(error);
+        },
+        messages: {
+            username: "Username required",
+            name: "Name required",
+            password: "Password required",
+            email: "Invalid email",
+            phone: "Invalid phone number"
+        },
+        submitHandler: function (form, e) {
+            e.preventDefault()
 
-        $.ajax({
-            method: "POST",
-            url: "ajax/new-user.php",
-            data: $('#new-user-form').serialize(),
-            success: (data)=>{
-                if(data == 0){
-                    location.reload();
+            $.ajax({
+                method: "POST",
+                url: "ajax/new-user.php",
+                data: $('#new-user-form').serialize(),
+                success: (data)=>{
+                    if(data == 0){
+                        location.reload();
+                    }
+                    else if(data == 1){
+                        $('#msg').html("Username already exist")
+                    }
+                    else{
+                        $('#msg').html("An Error occured")
+                    }
                 }
-                else if(data == 1){
-                    $('#msg').html("Username already exist")
-                }
-                else{
-                    $('#msg').html("An Error occured")
-                }
-            }
-        })
-
+            })
+        }
     })
 
     $('#close-user').click(()=>{

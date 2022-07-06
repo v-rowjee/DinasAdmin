@@ -3,9 +3,9 @@ $('#login').click((e)=>{
   var username = $('#username').val().trim()
   var password = $('#password').val().trim()
 
-  if(username === '' && password === '') $('#msg').html('Username and Password required')
-  else if(username === '') $('#msg').html('Username required')
-  else if(password === '') $('#msg').html('Password required')
+  if(username === '' && password === '') Snackbar.show({text: 'Username and Password Required',pos: 'top-right',actionTextColor:"#B4A064"})
+  else if(username === '') Snackbar.show({text: 'Username required',pos: 'top-right',actionTextColor:"#B4A064"})
+  else if(password === '') Snackbar.show({text: 'Password required',pos: 'top-right',actionTextColor:"#B4A064"})
   else{
     $.ajax({
       url: "ajax/login.php",
@@ -20,7 +20,8 @@ $('#login').click((e)=>{
           window.location.href = "dashboard.php";
         }
         else{
-          $('#msg').html(data)
+          // $('#msg').html(data)
+          Snackbar.show({text: data})
         }
       },
       error: (xhr) => alert("Error Occured: "+xhr.status+" "+xhr.statusText) 

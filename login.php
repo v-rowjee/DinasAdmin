@@ -59,6 +59,11 @@ if(isset($_SESSION['is_admin'])){
 
     <script src="js/jquery-3.6.0.min.js"></script>
     <script src="js/particles.min.js"></script>
+    
+    <!-- Snackbar -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/node-snackbar@latest/src/js/snackbar.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/node-snackbar@latest/dist/snackbar.min.css" />
+    
     <script src="js/login.js"></script>
   </body>
 </html>

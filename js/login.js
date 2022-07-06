@@ -20,11 +20,10 @@ $('#login').click((e)=>{
           window.location.href = "dashboard.php";
         }
         else{
-          // $('#msg').html(data)
-          Snackbar.show({text: data})
+          Snackbar.show({text: data,pos: 'top-right',actionTextColor:"#B4A064"})
         }
       },
-      error: (xhr) => alert("Error Occured: "+xhr.status+" "+xhr.statusText) 
+      error: (xhr) => Snackbar.show({text: "Error Occured: "+xhr.status+" "+xhr.statusText})
     })
   }
 })

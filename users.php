@@ -101,7 +101,8 @@ if(isset($_GET['dlt'])){
             },
             success:function(data){
                 $("#output").html(data);
-            }
+            },
+            error: (xhr) => alert("Error Occured: "+xhr.status+" "+xhr.statusText) 
         });
     }
     function searchAdmin(){
@@ -113,7 +114,8 @@ if(isset($_GET['dlt'])){
             },
             success:function(data){
                 $("#output_a").html(data);
-            }
+            },
+            error: (xhr) => alert("Error Occured: "+xhr.status+" "+xhr.statusText) 
         });
     }
 </script>
@@ -313,7 +315,8 @@ if(isset($_GET['dlt'])){
                     else{
                         $('#msg').html("An Error occured")
                     }
-                }
+                },
+                error: (xhr) => alert("Error Occured: "+xhr.status+" "+xhr.statusText) 
             })
         }
     })

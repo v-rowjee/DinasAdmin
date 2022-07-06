@@ -104,7 +104,8 @@ if(isset($_GET['id'])){
 
               `)
             }
-        }
+        },
+        error: (xhr) => alert("Error Occured: "+xhr.status+" "+xhr.statusText) 
     });
   }
 

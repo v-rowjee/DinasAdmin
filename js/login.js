@@ -22,7 +22,8 @@ $('#login').click((e)=>{
         else{
           $('#msg').html(data)
         }
-      }
+      },
+      error: (xhr) => alert("Error Occured: "+xhr.status+" "+xhr.statusText) 
     })
   }
 })

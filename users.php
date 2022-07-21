@@ -253,7 +253,7 @@ if(isset($_GET['dlt'])){
 </div>
 
 <script>
-
+    // used js library to validate
     $('#new-user-form').validate({
         rules: {
             username: {

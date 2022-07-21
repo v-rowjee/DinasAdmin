@@ -30,12 +30,12 @@ if(isset($_POST)){
 
     // Register our schema
     $validator->resolver()->registerFile(
-        'http://api.example.com/users.json', 
+        'http://localhost/schema/users.json', 
         __DIR__.'/schema/users.json'
     );
 
     /** @var ValidationResult $result */
-    $result = $validator->validate($json,'http://api.example.com/users.json');
+    $result = $validator->validate($json,'http://localhost/schema/users.json');
 
     if ($result->isValid()) {
         // echo "Valid", PHP_EOL;

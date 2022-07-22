@@ -1,6 +1,6 @@
 {
-    "$schema": "https://json-schema.org/draft-07/schema",
-    "$id": "http://api.example.com/user.json",
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "http://localhost/schema/user.json#",
     "type": "array",
     "minItems": 0,
     "uniqueItems": true,

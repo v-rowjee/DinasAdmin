@@ -27,10 +27,10 @@
           <i class="bx bx-bookmark nav_icon" data-bs-toggle="tooltip" data-bs-placement="right" title="Reservations"></i>
           <span class="nav_name">Reservations</span>
         </a>
-        <a href="orders.php" class="nav_link <?php if($active == 'orders') echo 'active' ?>">
+        <!-- <a href="orders.php" class="nav_link <?php if($active == 'orders') echo 'active' ?>">
           <i class="bx bx-cart nav_icon" data-bs-toggle="tooltip" data-bs-placement="right" title="Orders"></i>
           <span class="nav_name">Orders</span>
-        </a>
+        </a> -->
         <a href="reviews.php" class="nav_link <?php if($active == 'reviews') echo 'active' ?>">
           <i class="bx bx-message-detail nav_icon" data-bs-toggle="tooltip" data-bs-placement="right" title="Reviews"></i>
           <span class="nav_name">Reviews</span>

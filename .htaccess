@@ -16,3 +16,17 @@ RewriteRule ^ %1 [R=302,L,NE]
 RewriteCond %{REQUEST_FILENAME}.php -f [NC]
 RewriteRule ^ %{REQUEST_URI}.php [L]
 
+
+# REST
+# map neat URL to internal URL
+RewriteRule ^menu-rest/list/$   REST/RestController.php?resource=menu [nc,qsa]
+RewriteRule ^menu-rest/list$   REST/RestController.php?resource=menu [nc,qsa]
+
+RewriteRule ^menu-rest/create/$   REST/RestController.php?resource=menu [nc,qsa]
+RewriteRule ^menu-rest/create$   REST/RestController.php?resource=menu [nc,qsa]
+
+RewriteRule ^menu-rest/delete/([0-9]+)/$   REST/RestController.php?resource=menu&id=$1 [nc,qsa]
+RewriteRule ^menu-rest/delete/([0-9]+)$   REST/RestController.php?resource=menu&id=$1 [nc,qsa]
+
+RewriteRule ^menu-rest/update/([0-9]+)/$   REST/RestController.php?resource=menu&id=$1 [nc,qsa]
+RewriteRule ^menu-rest/update/([0-9]+)$   REST/RestController.php?resource=menu&id=$1 [nc,qsa]

@@ -7,7 +7,7 @@ include 'includes/header.php';
     $(document).ready(function(){
         $('#btnSearch').click(function(){
             var name = $("#search").val()
-            var url = "http:/localhost/dinas/menu-rest/list/"
+            var url = "http:/dinasadmin/menu-rest/list/"
 
             if(name != ""){
                 url = url + "?address=" + name;
@@ -18,10 +18,12 @@ include 'includes/header.php';
                 accepts: "application/json",
                 headers: {"Accept": "application/json"},
                 method: "GET",
-
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                },
             })
             .done(function(data){
-                $.each(data.output, function(i,obj) {
+                $.each(data.output, function(i,item) {
                     $('#output').append(`
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <a href="menu.php?id=${item.id}" class="card-link">

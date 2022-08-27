@@ -1,10 +1,6 @@
 <?php
 session_start();
 
-use Opis\JsonSchema\Schema;
-use Opis\JsonSchema\Validator;
-use Opis\JsonSchema\Errors\ErrorFormatter;
-
 require '../vendor/autoload.php';
 require '../config/db_connect.php';
 

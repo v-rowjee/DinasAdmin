@@ -10,7 +10,7 @@ include 'includes/header.php';
             var url = "http:/dinasadmin/menu-rest/list/"
 
             if(name != ""){
-                url = url + "?address=" + name;
+                url = url + "?name=" + name;
             }
 
             $.ajax({
